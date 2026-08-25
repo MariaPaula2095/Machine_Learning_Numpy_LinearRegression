@@ -11,11 +11,17 @@ app = Flask (__name__)
 
 @app.route("/")
 def home():
-    return "Hello World"
-
+    return '''
+        <h1>Hello World</h1>
+        <a href="/template" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Next →</a>
+    '''
 @app.route("/template")
 def template():
     return render_template("index.html")
+
+@app.route("/types")
+def types():
+    return render_template("types.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

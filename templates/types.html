@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Types of Machine Learning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Types of Machine Learning</h1>
+        <nav>
+            <a href="{{ url_for('template') }}" class="btn">← Back to ML Overview</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <ul>
+                <li>
+                    <strong>Supervised Learning</strong>
+                    <p><strong>Definition:</strong> The model is trained using a labeled dataset, where every input is explicitly mapped to a target output. It learns mathematical mapping functions to make accurate predictions or classifications on new, unseen data.</p>
+                    <p><strong>Example:</strong> Email spam filtering, where the system classifies emails as "Spam" or "Not Spam" based on previously labeled historical messages.</p>
+                </li>
+                
+                <li>
+                    <strong>Unsupervised Learning</strong>
+                    <p><strong>Definition:</strong> The model analyzes unlabeled data without human guidance or predefined targets. It discovers hidden structures, relationships, groupings, and underlying distributions within the dataset on its own.</p>
+                    <p><strong>Example:</strong> Customer segmentation in e-commerce, where the algorithm automatically groups users into distinct buyer personas based on purchasing behaviors.</p>
+                </li>
+                
+                <li>
+                    <strong>Semi-Supervised Learning</strong>
+                    <p><strong>Definition:</strong> A hybrid technique that combines a small amount of labeled data with a large volume of unlabeled data during training. It reduces manual labeling effort and costs while maintaining high predictive accuracy.</p>
+                    <p><strong>Example:</strong> Medical image diagnosis, training a diagnostic system using a few doctor-labeled X-rays alongside thousands of unannotated medical scans.</p>
+                </li>
+                
+                <li>
+                    <strong>Reinforcement Learning</strong>
+                    <p><strong>Definition:</strong> An autonomous agent learns to make optimal sequential decisions within an environment. It improves through continuous trial and error, earning positive rewards for correct actions and penalties for mistakes.</p>
+                    <p><strong>Example:</strong> Autonomous vehicle control, where self-driving software learns to steer, accelerate, and brake safely by maximizing safety rewards during simulations.</p>
+                </li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
