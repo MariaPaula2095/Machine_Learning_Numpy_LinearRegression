@@ -50,3 +50,79 @@ ul {
 strong {
     color: #2980b9;
 }
+
+/* ===== Botón reutilizable (lo usan las 3 páginas) ===== */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.portada {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    text-align: center;
+}
+
+.portada .materia {
+    color: #3498db;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.portada h1 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin: 6px 0 4px;
+}
+
+.portada .universidad {
+    color: #555;
+    margin: 0;
+}
+
+.portada hr {
+    width: 60px;
+    height: 2px;
+    background-color: #3498db;
+    border: none;
+    margin: 22px auto;
+}
+
+.portada h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.portada ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px;
+    line-height: 1.6;
+}
+
+.portada li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+.portada li:last-child {
+    border-bottom: none;
+}

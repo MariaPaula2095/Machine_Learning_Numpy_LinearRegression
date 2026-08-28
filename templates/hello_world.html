@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning - Portada</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="portada">
+        <p class="materia">Machine Learning</p>
+        <h1>Hello World</h1>
+        <p class="universidad">University of Cundinamarca </p>
+
+        <hr>
+
+        <h3>Members of the group</h3>
+        <ul>
+            <li>Tania Beltran</li>
+            <li>María Paula Ramírez</li>
+            <li>Guillermo Melendez</li>
+            <li>Sebastian Rodriguez</li>
+        </ul>
+
+        <a href="{{ url_for('template') }}" class="btn">Next &rarr;</a>
+    </div>
+</body>
+</html>
