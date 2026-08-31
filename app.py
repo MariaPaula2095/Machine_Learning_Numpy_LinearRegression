@@ -1,6 +1,7 @@
 
 #importa clase flask
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import LinearRegression
 
 # Crea una instancia de esa clase y la guarda en la variable app
 # Es una variable especial que Python asigna automáticamente a cada módulo 
@@ -21,5 +22,19 @@ def template():
 def types():
     return render_template("types.html")
 
+@app.route("/LinearRegression", methods=["GET", "POST"])
+def calculate():
+    calculateResult = None
+
+    if request.method == "POST":
+        hours = float(request.form["hours"])
+        calculateResult = LinearRegression.calculateGrade(hours)
+
+    return render_template(
+        "linearRegression.html",
+        result=calculateResult
+    )
+
 if __name__ == "__main__":
     app.run(debug=True)
+
