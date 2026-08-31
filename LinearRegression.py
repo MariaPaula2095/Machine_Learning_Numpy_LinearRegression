@@ -1,35 +1,37 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import base64
 from sklearn.linear_model import LinearRegression
-#scikit-learn
-#.\.venv\Scripts\python.exe -m pip install scikit-learn
 
-#archivo profesor en teams
-data = {
-    "Study Hours": [10, 15, 12, 8, 14, 5, 16, 7, 11, 13, 9, 4, 18, 3, 17, 6, 14, 2, 20, 1],
-    "Final Grade": [3.8, 4.2, 3.6, 3, 4.5, 2.5, 4.8, 2.8, 3.7, 4, 3.2, 2.2, 5, 1.8, 4.9, 2.7, 4.4, 1.5, 5, 1]
-}
+# scikit-learn
+# .\.venv\Scripts\python.exe -m pip install scikit-learn
 
-# variable   se le pasa para que procese
-datafrme = pd.DataFrame(data)
+# --- Dataset info (Point 3: Dataset) ---
+DATASET_PATH = "data/crop_yield_dataset.csv"
+INDEPENDENT_VAR_NAME = "Fertilizer Amount"
+DEPENDENT_VAR_NAME = "Crop Yield"
+INDEPENDENT_VAR_UNIT = "kg/hectare"
+DEPENDENT_VAR_UNIT = "tons/hectare"
+DATA_SOURCE = (
+    "Synthetic dataset generated for academic purposes, simulating a realistic "
+    "relationship between fertilizer application and crop yield based on typical "
+    "agronomic ranges."
+)
 
-#pdie varibale dependediente e independiente
+# Load the dataset
+dataframe = pd.read_csv(DATASET_PATH)
+NUM_RECORDS = len(dataframe)
 
-#variable independiente
-x = datafrme[["Study Hours"]]
+# Independent variable (X)
+x = dataframe[["fertilizer_kg_ha"]]
 
-#variable dependiente
-y = datafrme[["Final Grade"]]
+# Dependent variable (y)
+y = dataframe[["yield_ton_ha"]]
 
-#llamar regresion
+# Train the model
 model = LinearRegression()
+model.fit(x, y)
 
-#funcion entrenamiento
-model.fit(x,y)
 
-#utilizar modelo 
-#definir funcion y exponerla
-def calculateGrade(hours):
-    result = model.predict([[hours]])[0] #cuando no pasamos mas variables de retorno se pone 0
+def calculate_yield(fertilizer_amount):
+    """Predicts crop yield given a fertilizer amount, using the trained model."""
+    result = model.predict([[fertilizer_amount]])[0][0]
     return result

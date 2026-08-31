@@ -1,24 +1,76 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linear Regression Grades</title>
+    <title>Linear Regression - Application | Data with Roots</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-    <h1>Linear Regression: Caculate grades depends on study hours</h1>
+<header>
+    <h1>Linear Regression: Application</h1>
+</header>
 
-    <form method="post">
-        <label for = "hours">Study Hours:</label>
-        <input required type="number" name="hours">
-        <button type="submit"> Predict</button>
-    </form>
+<main>
 
-    {% if result is not none %}
-    <h2>Estimated Grade: {{ result }}</h2>
-    {% endif %}
-    
+    <section>
+        <h2>Problem Context</h2>
+        <p>
+            This application estimates <strong>crop yield</strong> based on the
+            <strong>amount of fertilizer applied</strong>. The goal is to understand
+            how fertilizer dosage affects agricultural productivity and to predict
+            the expected yield for a given fertilizer amount using a trained
+            Machine Learning model.
+        </p>
+    </section>
+
+    <section>
+        <h2>Variables</h2>
+        <ul class="data-list">
+            <li><strong>Independent Variable (X):</strong> {{ independent_var_name }} ({{ independent_var_unit }})</li>
+            <li><strong>Dependent Variable (Y):</strong> {{ dependent_var_name }} ({{ dependent_var_unit }})</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Dataset</h2>
+        <ul class="data-list">
+            <li><strong>Number of records:</strong> {{ num_records }}</li>
+            <li><strong>Independent variable:</strong> {{ independent_var_name }} ({{ independent_var_unit }})</li>
+            <li><strong>Dependent variable:</strong> {{ dependent_var_name }} ({{ dependent_var_unit }})</li>
+            <li><strong>Data source:</strong> {{ data_source }}</li>
+        </ul>
+    </section>
+
+    <!-- Data Visualization section goes here (teammate's part) -->
+
+    <section>
+        <h2>Prediction Form</h2>
+
+        <form method="post" class="prediction-form">
+            <div class="form-group">
+                <label for="fertilizer">Fertilizer Amount (kg/hectare):</label>
+                <input required type="number" step="any" id="fertilizer" name="fertilizer"
+                       value="{{ fertilizer_input if fertilizer_input is not none else '' }}">
+            </div>
+            <button type="submit" class="btn">Predict</button>
+        </form>
+
+        {% if error %}
+        <div class="message-box error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        {% if result is not none %}
+        <div class="message-box success">
+            Estimated Crop Yield: {{ "%.2f"|format(result) }} {{ dependent_var_unit }}
+        </div>
+        {% endif %}
+    </section>
+
+</main>
+
 </body>
 </html>
