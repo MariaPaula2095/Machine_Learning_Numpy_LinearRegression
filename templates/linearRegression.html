@@ -4,73 +4,183 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linear Regression - Application | Data with Roots</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts & Bootstrap Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Custom Project CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <style>
+        /* Minor specific adjustments for this page */
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+        .hero-section { background-color: #1a202c; border-bottom: 4px solid #20c997; }
+        .text-teal { color: #20c997; }
+        .bg-teal { background-color: #20c997; }
+        .btn-teal { background-color: #20c997; color: white; border: none; }
+        .btn-teal:hover { background-color: #1aa179; color: white; }
+        .card-custom { border: none; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
-<header>
-    <h1>Linear Regression: Application</h1>
-</header>
-
-<main>
-
-    <section>
-        <h2>Problem Context</h2>
-        <p>
-            This application estimates <strong>crop yield</strong> based on the
-            <strong>amount of fertilizer applied</strong>. The goal is to understand
-            how fertilizer dosage affects agricultural productivity and to predict
-            the expected yield for a given fertilizer amount using a trained
-            Machine Learning model.
-        </p>
-    </section>
-
-    <section>
-        <h2>Variables</h2>
-        <ul class="data-list">
-            <li><strong>Independent Variable (X):</strong> {{ independent_var_name }} ({{ independent_var_unit }})</li>
-            <li><strong>Dependent Variable (Y):</strong> {{ dependent_var_name }} ({{ dependent_var_unit }})</li>
-        </ul>
-    </section>
-
-    <section>
-        <h2>Dataset</h2>
-        <ul class="data-list">
-            <li><strong>Number of records:</strong> {{ num_records }}</li>
-            <li><strong>Independent variable:</strong> {{ independent_var_name }} ({{ independent_var_unit }})</li>
-            <li><strong>Dependent variable:</strong> {{ dependent_var_name }} ({{ dependent_var_unit }})</li>
-            <li><strong>Data source:</strong> {{ data_source }}</li>
-        </ul>
-    </section>
-
-    <!-- Data Visualization section goes here (teammate's part) -->
-
-    <section>
-        <h2>Prediction Form</h2>
-
-        <form method="post" class="prediction-form">
-            <div class="form-group">
-                <label for="fertilizer">Fertilizer Amount (kg/hectare):</label>
-                <input required type="number" step="any" id="fertilizer" name="fertilizer"
-                       value="{{ fertilizer_input if fertilizer_input is not none else '' }}">
+    <!-- Top Navbar (Same as Index) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
+                <i class="bi bi-graph-up-arrow text-info"></i>
+                <span>Data with Roots</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('template') }}">ML Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('types') }}">ML Types</a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- Marked as active -->
+                        <a class="nav-link active text-info" href="{{ url_for('calculate') }}">Linear Regression</a>
+                    </li>
+                </ul>
             </div>
-            <button type="submit" class="btn">Predict</button>
-        </form>
-
-        {% if error %}
-        <div class="message-box error">
-            {{ error }}
         </div>
-        {% endif %}
+    </nav>
 
-        {% if result is not none %}
-        <div class="message-box success">
-            Estimated Crop Yield: {{ "%.2f"|format(result) }} {{ dependent_var_unit }}
+    <!-- Header / Hero Section -->
+    <header class="hero-section text-white py-4">
+        <div class="container text-center">
+            <h1 class="display-6 fw-bold mb-2">Linear Regression Application</h1>
+            <p class="lead opacity-75 mb-0 fs-6">Interactive model for agricultural yield prediction</p>
         </div>
-        {% endif %}
-    </section>
+    </header>
 
-</main>
+    <!-- Main Content -->
+    <main class="container my-4 flex-grow-1">
 
+        <!-- Row 1: Information Cards (Horizontal) -->
+        <div class="row g-4 mb-4">
+            <!-- Context Card -->
+            <div class="col-md-4">
+                <div class="card card-custom h-100 p-4">
+                    <h5 class="fw-bold text-teal mb-3"><i class="bi bi-info-circle me-2"></i>Context</h5>
+                    <p class="text-muted small mb-0">
+                        This application estimates <strong>crop yield</strong> based on the <strong>amount of fertilizer applied</strong>. The goal is to predict the expected yield using a trained Machine Learning model.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Variables Card -->
+            <div class="col-md-4">
+                <div class="card card-custom h-100 p-4">
+                    <h5 class="fw-bold text-teal mb-3"><i class="bi bi-calculator me-2"></i>Variables</h5>
+                    <ul class="list-unstyled text-muted small mb-0">
+                        <li class="mb-2"><strong>(X) Independent:</strong><br>{{ independent_var_name }} ({{ independent_var_unit }})</li>
+                        <li><strong>(Y) Dependent:</strong><br>{{ dependent_var_name }} ({{ dependent_var_unit }})</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Dataset Card -->
+            <div class="col-md-4">
+                <div class="card card-custom h-100 p-4">
+                    <h5 class="fw-bold text-teal mb-3"><i class="bi bi-database me-2"></i>Dataset</h5>
+                    <ul class="list-unstyled text-muted small mb-0">
+                        <li class="mb-2"><strong>Records:</strong> {{ num_records }}</li>
+                        <li><strong>Source:</strong> <span title="{{ data_source }}">Academic Synthetic Data</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2: Form on the left, Plot on the right -->
+        <div class="row g-4" id="prediction-area">
+            
+            <!-- Left Column: Prediction Form -->
+            <div class="col-lg-4">
+                <div class="card card-custom h-100 p-4 border-top border-4 border-info">
+                    <h5 class="fw-bold mb-4">Prediction Form</h5>
+                    <form method="post" action="#prediction-area">
+                        <div class="mb-4">
+                            <label for="fertilizer" class="form-label fw-semibold text-secondary">
+                                Fertilizer Amount ({{ independent_var_unit }}):
+                            </label>
+                            <input required type="number" step="any" class="form-control form-control-lg bg-light" id="fertilizer" name="fertilizer"
+                                   value="{{ fertilizer_input if fertilizer_input is not none else '' }}" placeholder=" 150.5">
+                        </div>
+                        <button type="submit" class="btn btn-teal w-100 py-2 fw-bold shadow-sm">
+                            <i class="bi bi-cpu me-2"></i>Predict Yield
+                        </button>
+                    </form>
+
+                    <!-- Result Messages -->
+                    <div class="mt-4">
+                        {% if error %}
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <div>{{ error }}</div>
+                        </div>
+                        {% endif %}
+
+                        {% if result is not none %}
+                        <div class="alert alert-success border-success bg-success bg-opacity-10" role="alert">
+                            <h6 class="alert-heading fw-bold text-success mb-1">Estimated Yield:</h6>
+                            <p class="mb-0 fs-5">
+                                {{ "%.2f"|format(result) }} <small>{{ dependent_var_unit }}</small>
+                            </p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Data Visualization Plot -->
+            <div class="col-lg-8">
+                <div class="card card-custom h-100 p-4">
+                    <h5 class="fw-bold mb-4">Data Visualization</h5>
+                    
+                    <div class="d-flex justify-content-center align-items-center h-100 rounded bg-light p-2" style="min-height: 350px; border: 1px dashed #ccc;">
+                        {% if plot_url %}
+                            <img src="data:image/png;base64,{{ plot_url }}" alt="Linear Regression Plot" class="img-fluid rounded shadow-sm">
+                        {% else %}
+                            <div class="text-center text-muted">
+                                <i class="bi bi-bar-chart display-4 mb-2 d-block opacity-50"></i>
+                                <p>The plot is not available yet.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Minimalist Academic Footer (Same as Index) -->
+    <footer class="mt-auto py-4 bg-white border-top">
+        <div class="container text-center text-muted small">
+            <h6 class="fw-bold mb-2 text-dark">Data with Roots</h6>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <span>University of Cundinamarca</span>
+                <span>&bull;</span>
+                <span>Systems and Computer Engineering</span>
+                <span>&bull;</span>
+                <span>2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
