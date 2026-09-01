@@ -107,43 +107,107 @@
         <!-- Row 2: Form on the left, Plot on the right -->
         <div class="row g-4" id="prediction-area">
             
-            <!-- Left Column: Prediction Form -->
+            
+           <!-- Left Column: Prediction Form (Balanced Vertical Layout) -->
             <div class="col-lg-4">
-                <div class="card card-custom h-100 p-4 border-top border-4 border-info">
-                    <h5 class="fw-bold mb-4">Prediction Form</h5>
-                    <form method="post" action="#prediction-area">
-                        <div class="mb-4">
-                            <label for="fertilizer" class="form-label fw-semibold text-secondary">
-                                Fertilizer Amount ({{ independent_var_unit }}):
-                            </label>
-                            <input required type="number" step="any" class="form-control form-control-lg bg-light" id="fertilizer" name="fertilizer"
-                                   value="{{ fertilizer_input if fertilizer_input is not none else '' }}" placeholder=" 150.5">
+                <div class="card card-custom h-100 p-4 border-top border-4 border-teal shadow-sm d-flex flex-column justify-content-between">
+                    
+                    <!-- Top Section: Header -->
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <div class="bg-teal-subtle text-teal p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background-color: rgba(32, 201, 151, 0.15);">
+                                <i class="bi bi-calculator-fill fs-5" style="color: #20c997;"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-0">Prediction Form</h5>
+                                <small class="text-muted" style="font-size: 0.78rem;">Estimate crop yield in real time</small>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-teal w-100 py-2 fw-bold shadow-sm">
-                            <i class="bi bi-cpu me-2"></i>Predict Yield
+                        <hr class="my-3 text-muted opacity-25">
+                    </div>
+
+                    <!-- Middle Section: Interactive Form -->
+                    <form method="post" action="#prediction-area" id="yieldForm" class="my-auto py-2">
+                        
+                        <!-- Input Field -->
+                        <div class="mb-3">
+                            <label for="fertilizer" class="form-label fw-semibold text-secondary small d-flex justify-content-between mb-2">
+                                <span>Fertilizer Dosage</span>
+                                <span class="fw-bold" style="color: #20c997;">{{ independent_var_unit }}</span>
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-box-seam"></i></span>
+                                <input required type="number" step="any" min="0" max="400" 
+                                    class="form-control bg-light border-start-0 border-end-0 fw-bold text-dark" 
+                                    id="fertilizer" name="fertilizer"
+                                    value="{{ fertilizer_input if fertilizer_input is not none else '150.0' }}" 
+                                    placeholder="0.0">
+                                <span class="input-group-text bg-light text-muted border-start-0 small">kg/ha</span>
+                            </div>
+                        </div>
+
+                        <!-- Slider Range -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between text-muted extra-small mb-1" style="font-size: 0.75rem;">
+                                <span>Min: 0 kg</span>
+                                <span>Max: 300 kg</span>
+                            </div>
+                            <input type="range" class="form-range custom-teal-slider" id="fertilizerRange" min="0" max="300" step="0.5" 
+                                value="{{ fertilizer_input if fertilizer_input is not none else '150.0' }}">
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-teal w-100 py-2.5 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-cpu-fill"></i>
+                            <span>Predict Yield</span>
                         </button>
                     </form>
 
-                    <!-- Result Messages -->
-                    <div class="mt-4">
+                    <!-- Bottom Section: Results / Messages Area -->
+                    <div class="mt-auto pt-3">
                         {% if error %}
-                        <div class="alert alert-danger d-flex align-items-center" role="alert">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                            <div>{{ error }}</div>
+                        <div class="alert alert-danger d-flex align-items-center border-0 shadow-sm rounded-3 mb-0" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill fs-5 me-2"></i>
+                            <div class="small">{{ error }}</div>
                         </div>
                         {% endif %}
 
                         {% if result is not none %}
-                        <div class="alert alert-success border-success bg-success bg-opacity-10" role="alert">
-                            <h6 class="alert-heading fw-bold text-success mb-1">Estimated Yield:</h6>
-                            <p class="mb-0 fs-5">
-                                {{ "%.2f"|format(result) }} <small>{{ dependent_var_unit }}</small>
-                            </p>
+                        <div class="card border-0 p-3 rounded-3 shadow-sm border-start border-4 mb-0" style="background-color: rgba(32, 201, 151, 0.1); border-color: #20c997 !important;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px; background-color: #20c997;">
+                                    <i class="bi bi-check-lg fs-4"></i>
+                                </div>
+                                <div>
+                                    <span class="text-uppercase fw-bold d-block" style="font-size: 0.7rem; letter-spacing: 0.5px; color: #1aa179;">Predicted Yield</span>
+                                    <div class="fs-4 fw-bold text-dark lh-1 mt-1">
+                                        {{ "%.2f"|format(result) }}
+                                        <small class="fs-6 text-muted fw-normal">{{ dependent_var_unit }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <!-- Decorative State when no prediction has been made yet -->
+                        <div class="p-3 text-center border rounded-3 bg-light text-muted small">
+                            <i class="bi bi-info-circle me-1"></i> Enter a value and click predict to calculate the expected yield.
                         </div>
                         {% endif %}
                     </div>
+
                 </div>
             </div>
+
+            <!-- Sync Script -->
+            <script>
+                const numInput = document.getElementById('fertilizer');
+                const rangeInput = document.getElementById('fertilizerRange');
+
+                if (numInput && rangeInput) {
+                    rangeInput.addEventListener('input', (e) => { numInput.value = e.target.value; });
+                    numInput.addEventListener('input', (e) => { rangeInput.value = e.target.value; });
+                }
+            </script>
 
             <!-- Right Column: Data Visualization Plot -->
             <div class="col-lg-8">
@@ -166,16 +230,15 @@
         </div>
     </main>
 
-    <!-- Minimalist Academic Footer (Same as Index) -->
-    <footer class="mt-auto py-4 bg-white border-top">
-        <div class="container text-center text-muted small">
-            <h6 class="fw-bold mb-2 text-dark">Data with Roots</h6>
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
+    <!-- Footer -->
+    <footer class="custom-footer mt-auto py-4">
+        <div class="container text-center">
+            <h6 class="footer-title mb-3">Data with Roots</h6>
+            <div class="footer-info d-flex flex-column gap-1">
                 <span>University of Cundinamarca</span>
-                <span>&bull;</span>
                 <span>Systems and Computer Engineering</span>
-                <span>&bull;</span>
-                <span>2026</span>
+                <span>Machine Learning Group</span>
+                <span class="footer-year">2026</span>
             </div>
         </div>
     </footer>

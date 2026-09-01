@@ -1,6 +1,4 @@
-/* ==========================================================================
-   ESTILOS ORIGINALES ANTERIORES DEBEN CAMBIARSE ACORDE A LOS COLORES DEL INICIO
-   ========================================================================== */
+
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
     background-color: #f4f6f8;
@@ -54,7 +52,6 @@ strong {
     color: #2980b9;
 }
 
-/* ===== Botón reutilizable de la plantilla original ===== */
 .btn {
     display: inline-block;
     padding: 12px 28px;
@@ -157,7 +154,7 @@ button.btn {
 
 
 /* ==========================================================================
-   ESTILOS EXCLUSIVOS PARA LA PÁGINA DE INICIO (.home-page) MPRG
+   styles exclusive home page
    ========================================================================== */
 body.home-page {
     font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
@@ -234,7 +231,7 @@ body.home-page main {
     color: #0d9488;
 }
 
-/* Botones específicos de la Home */
+
 body.home-page .btn.btn-teal {
     background-color: #0d9488;
     color: #ffffff;
@@ -274,7 +271,7 @@ body.home-page .btn.btn-banner:hover {
 }
 
 /* ==========================================================================
-   FOOTER ACADÉMICO MINIMALISTA 
+   FOOTER
    ========================================================================== */
 footer.custom-footer {
     background-color: #0f172a;
@@ -301,3 +298,7 @@ footer.custom-footer .footer-year {
     opacity: 0.8;
     margin-top: 4px;
 }
+
+.custom-teal-slider::-webkit-slider-thumb { background: #20c997; }
+.custom-teal-slider::-moz-range-thumb { background: #20c997; }
+.border-teal { border-color: #20c997 !important; }

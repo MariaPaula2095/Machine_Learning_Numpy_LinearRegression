@@ -3,46 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Types of Machine Learning</title>
+    <title>Types of Machine Learning | Data with Roots</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts & Bootstrap Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body.types-page {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .types-hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-bottom: 4px solid #20c997;
+        }
+        .text-teal { color: #20c997; }
+        .bg-teal-subtle { background-color: rgba(32, 201, 151, 0.12); }
+        .card-custom {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: #ffffff;
+            transition: all 0.25s ease;
+        }
+        .card-custom:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+        }
+        .card-highlight {
+            border: 2px solid #20c997 !important;
+        }
+        .type-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        .btn-teal {
+            background-color: #20c997;
+            color: white;
+            font-weight: 600;
+            border: none;
+        }
+        .btn-teal:hover {
+            background-color: #1aa179;
+            color: white;
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <h1>Types of Machine Learning</h1>
-        <nav>
-            <a href="{{ url_for('template') }}" class="btn">← Back to ML Overview</a>
-        </nav>
+<body class="types-page d-flex flex-column min-vh-100">
+
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
+                <i class="bi bi-graph-up-arrow text-info"></i>
+                <span>Data with Roots</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('template') }}">ML Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active text-info" href="{{ url_for('types') }}">ML Types</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('calculate') }}">Linear Regression</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="types-hero text-white py-4 shadow-sm">
+        <div class="container text-center">
+            <span class="badge bg-teal-subtle text-teal mb-2 px-3 py-1 rounded-pill fw-semibold">Taxonomy</span>
+            <h1 class="display-6 fw-bold mb-2">Types of Machine Learning</h1>
+            <p class="lead opacity-75 mb-0 fs-6">Exploring the core paradigms and practical real-world applications</p>
+        </div>
     </header>
 
-    <main>
-        <section>
-            <ul>
-                <li>
-                    <strong>Supervised Learning</strong>
-                    <p><strong>Definition:</strong> The model is trained using a labeled dataset, where every input is explicitly mapped to a target output. It learns mathematical mapping functions to make accurate predictions or classifications on new, unseen data.</p>
-                    <p><strong>Example:</strong> Email spam filtering, where the system classifies emails as "Spam" or "Not Spam" based on previously labeled historical messages.</p>
-                </li>
-                
-                <li>
-                    <strong>Unsupervised Learning</strong>
-                    <p><strong>Definition:</strong> The model analyzes unlabeled data without human guidance or predefined targets. It discovers hidden structures, relationships, groupings, and underlying distributions within the dataset on its own.</p>
-                    <p><strong>Example:</strong> Customer segmentation in e-commerce, where the algorithm automatically groups users into distinct buyer personas based on purchasing behaviors.</p>
-                </li>
-                
-                <li>
-                    <strong>Semi-Supervised Learning</strong>
-                    <p><strong>Definition:</strong> A hybrid technique that combines a small amount of labeled data with a large volume of unlabeled data during training. It reduces manual labeling effort and costs while maintaining high predictive accuracy.</p>
-                    <p><strong>Example:</strong> Medical image diagnosis, training a diagnostic system using a few doctor-labeled X-rays alongside thousands of unannotated medical scans.</p>
-                </li>
-                
-                <li>
-                    <strong>Reinforcement Learning</strong>
-                    <p><strong>Definition:</strong> An autonomous agent learns to make optimal sequential decisions within an environment. It improves through continuous trial and error, earning positive rewards for correct actions and penalties for mistakes.</p>
-                    <p><strong>Example:</strong> Autonomous vehicle control, where self-driving software learns to steer, accelerate, and brake safely by maximizing safety rewards during simulations.</p>
-                </li>
-            </ul>
-        </section>
+    <!-- Main Grid -->
+    <main class="container my-5 flex-grow-1" style="max-width: 1050px;">
+        
+        <div class="row g-4">
+            
+            <!-- 1. Supervised Learning (Featured Card) -->
+            <div class="col-md-6">
+                <div class="card card-custom card-highlight h-100 p-4 shadow-sm position-relative">
+                    
+                    <!-- Badge Indicador de Proyecto -->
+                    <span class="position-absolute top-0 end-0 bg-success text-white px-3 py-1 rounded-bl-3 rounded-tr-3 extra-small fw-bold" style="font-size: 0.72rem; border-bottom-left-radius: 8px; border-top-right-radius: 10px;">
+                        <i class="bi bi-star-fill me-1"></i> USED IN THIS APP
+                    </span>
+
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="type-icon bg-success bg-opacity-10 text-success">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0">Supervised Learning</h5>
+                            <span class="badge bg-light text-muted border">Labeled Data ($X \rightarrow Y$)</span>
+                        </div>
+                    </div>
+
+                    <p class="text-muted small mb-3">
+                        The model is trained using a labeled dataset where every input is explicitly mapped to a target output. It learns mapping functions to make accurate predictions or classifications.
+                    </p>
+
+                    <div class="p-2.5 rounded bg-light border mb-3">
+                        <strong class="d-block text-dark extra-small mb-1" style="font-size: 0.8rem;"><i class="bi bi-lightbulb me-1 text-warning"></i> Real Example:</strong>
+                        <p class="text-muted extra-small mb-0" style="font-size: 0.8rem;">
+                            Email spam filtering or predicting <strong>crop yield</strong> based on fertilizer input.
+                        </p>
+                    </div>
+
+                    <!-- Botón directo a la regresión -->
+                    <div class="mt-auto pt-2">
+                        <a href="{{ url_for('calculate') }}" class="btn btn-teal w-100 btn-sm py-2 d-flex align-items-center justify-content-center gap-2">
+                            <span>Try Supervised Model Demo</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Unsupervised Learning -->
+            <div class="col-md-6">
+                <div class="card card-custom h-100 p-4 shadow-sm">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="type-icon bg-info bg-opacity-10 text-info">
+                            <i class="bi bi-diagram-3"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0">Unsupervised Learning</h5>
+                            <span class="badge bg-light text-muted border">Unlabeled Data</span>
+                        </div>
+                    </div>
+
+                    <p class="text-muted small mb-3">
+                        The model analyzes unlabeled data without predefined targets. It discovers hidden patterns, clusters, structural relationships, and underlying distributions within the dataset.
+                    </p>
+
+                    <div class="p-2.5 rounded bg-light border mt-auto">
+                        <strong class="d-block text-dark extra-small mb-1" style="font-size: 0.8rem;"><i class="bi bi-lightbulb me-1 text-warning"></i> Real Example:</strong>
+                        <p class="text-muted extra-small mb-0" style="font-size: 0.8rem;">
+                            E-commerce customer segmentation grouping users by purchasing behaviors.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Semi-Supervised Learning -->
+            <div class="col-md-6">
+                <div class="card card-custom h-100 p-4 shadow-sm">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="type-icon bg-warning bg-opacity-10 text-warning">
+                            <i class="bi bi-layers"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0">Semi-Supervised Learning</h5>
+                            <span class="badge bg-light text-muted border">Hybrid Dataset</span>
+                        </div>
+                    </div>
+
+                    <p class="text-muted small mb-3">
+                        Combines a small volume of labeled data with a large amount of unlabeled data during training, reducing manual annotation costs while preserving high accuracy.
+                    </p>
+
+                    <div class="p-2.5 rounded bg-light border mt-auto">
+                        <strong class="d-block text-dark extra-small mb-1" style="font-size: 0.8rem;"><i class="bi bi-lightbulb me-1 text-warning"></i> Real Example:</strong>
+                        <p class="text-muted extra-small mb-0" style="font-size: 0.8rem;">
+                            Medical image diagnosis using a few doctor-annotated scans alongside thousands of unannotated scans.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Reinforcement Learning -->
+            <div class="col-md-6">
+                <div class="card card-custom h-100 p-4 shadow-sm">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="type-icon bg-danger bg-opacity-10 text-danger">
+                            <i class="bi bi-controller"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0">Reinforcement Learning</h5>
+                            <span class="badge bg-light text-muted border">Rewards & Penalties</span>
+                        </div>
+                    </div>
+
+                    <p class="text-muted small mb-3">
+                        An autonomous agent learns optimal sequential actions by interacting with an environment through continuous trial and error, earning positive rewards or penalties.
+                    </p>
+
+                    <div class="p-2.5 rounded bg-light border mt-auto">
+                        <strong class="d-block text-dark extra-small mb-1" style="font-size: 0.8rem;"><i class="bi bi-lightbulb me-1 text-warning"></i> Real Example:</strong>
+                        <p class="text-muted extra-small mb-0" style="font-size: 0.8rem;">
+                            Autonomous vehicle steering software maximizing safety rewards in driving simulations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </main>
+
+    <!-- Minimalist Academic Footer -->
+    <footer class="custom-footer mt-auto py-4">
+        <div class="container text-center">
+            <h6 class="footer-title mb-3">Data with Roots</h6>
+            <div class="footer-info d-flex flex-column gap-1">
+                <span>University of Cundinamarca</span>
+                <span>Systems and Computer Engineering</span>
+                <span>Machine Learning Group</span>
+                <span class="footer-year">2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-<!-- Checked, this fragment works correctly. -->

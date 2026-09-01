@@ -3,48 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machine Learning</title>
+    <title>What is Machine Learning? | Data with Roots</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts & Bootstrap Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body.overview-page {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .overview-hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-bottom: 4px solid #20c997;
+        }
+        .text-teal { color: #20c997; }
+        .bg-teal-subtle { background-color: rgba(32, 201, 151, 0.12); }
+        .card-custom {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: #ffffff;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        /* Step Timeline Styling */
+        .step-icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(32, 201, 151, 0.15);
+            color: #20c997;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin: 0 auto 12px auto;
+        }
+        /* Custom Nav Tabs */
+        .nav-tabs-custom .nav-link {
+            color: #64748b;
+            font-weight: 600;
+            border: none;
+            border-bottom: 3px solid transparent;
+            padding: 10px 18px;
+        }
+        .nav-tabs-custom .nav-link.active {
+            color: #20c997;
+            background: transparent;
+            border-bottom-color: #20c997;
+        }
+        .btn-teal {
+            background-color: #20c997;
+            color: white;
+            font-weight: 600;
+            border: none;
+        }
+        .btn-teal:hover {
+            background-color: #1aa179;
+            color: white;
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <h1>Machine Learning</h1>
+<body class="overview-page d-flex flex-column min-vh-100">
+
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
+                <i class="bi bi-graph-up-arrow text-info"></i>
+                <span>Data with Roots</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active text-info" href="{{ url_for('template') }}">ML Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('types') }}">ML Types</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('calculate') }}">Linear Regression</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header / Hero Section -->
+    <header class="overview-hero text-white py-4 shadow-sm">
+        <div class="container text-center">
+            <span class="badge bg-teal-subtle text-teal mb-2 px-3 py-1 rounded-pill fw-semibold">Fundamental Concept</span>
+            <h1 class="display-6 fw-bold mb-2">What is Machine Learning?</h1>
+            <p class="lead opacity-75 mb-0 fs-6">Understanding how modern computers learn from data without explicit programming</p>
+        </div>
     </header>
 
-    <main>
-        <section>
-            <h2>What is Machine Learning?</h2>
-            <p>
-                Machine Learning (ML) is a branch of Artificial Intelligence that allows
-                computers to learn from data and improve their performance on a task
-                without being explicitly programmed for it.
+    <!-- Main Content -->
+    <main class="container my-5 flex-grow-1" style="max-width: 950px;">
+
+        <!-- 1. Definition Card -->
+        <section class="card card-custom p-4 mb-4 shadow-sm border-start border-4 border-teal">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <i class="bi bi-cpu fs-3 text-teal"></i>
+                <h2 class="h5 fw-bold mb-0">Core Definition</h2>
+            </div>
+            <p class="text-muted mb-0 lh-base">
+                <strong>Machine Learning (ML)</strong> is a branch of Artificial Intelligence (AI) focused on building applications that learn from data and improve their performance over time without being explicitly programmed for every scenario.
             </p>
         </section>
 
-        <section>
-            <h2>How does it work?</h2>
-            <p>
-                Instead of following fixed rules, a machine learning model is trained
-                using large amounts of data. During this process, it identifies patterns
-                and relationships, and uses them to make predictions or decisions on new,
-                unseen data.
-            </p>
+        <!-- 2. Interactive Process Pipeline (How It Works) -->
+        <section class="card card-custom p-4 mb-4 shadow-sm">
+            <h2 class="h5 fw-bold mb-1">How Does Machine Learning Work?</h2>
+            <p class="text-muted small mb-4">Instead of hardcoded rules, ML builds models by identifying patterns in three continuous steps:</p>
+
+            <div class="row g-4 text-center">
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded-3 h-100 border">
+                        <div class="step-icon-box">
+                            <i class="bi bi-database-fill-gear"></i>
+                        </div>
+                        <h6 class="fw-bold mb-1">1. Data Ingestion</h6>
+                        <p class="text-muted extra-small mb-0" style="font-size: 0.82rem;">Historical data is collected and formatted as training input ($X, Y$).</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded-3 h-100 border">
+                        <div class="step-icon-box">
+                            <i class="bi bi-diagram-3-fill"></i>
+                        </div>
+                        <h6 class="fw-bold mb-1">2. Pattern Recognition</h6>
+                        <p class="text-muted extra-small mb-0" style="font-size: 0.82rem;">Algorithms find mathematical relationships and adjust internal weights.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded-3 h-100 border">
+                        <div class="step-icon-box">
+                            <i class="bi bi-magic"></i>
+                        </div>
+                        <h6 class="fw-bold mb-1">3. Real-Time Prediction</h6>
+                        <p class="text-muted extra-small mb-0" style="font-size: 0.82rem;">The trained model evaluates unseen data to return instant predictions.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section>
-            <h2>Types of Machine Learning</h2>
-            <p>Learn more about the different categories and practical applications of ML.</p>
-            <a href="{{ url_for('types') }}" class="btn">View Types & Examples →</a>
+        <!-- 3. Interactive Comparison Tabs -->
+        <section class="card card-custom p-4 mb-4 shadow-sm">
+            <h2 class="h5 fw-bold mb-3">Paradigm Shift: Traditional vs ML</h2>
+            
+            <ul class="nav nav-tabs nav-tabs-custom mb-3" id="paradigmTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="ml-tab" data-bs-toggle="tab" data-bs-target="#ml-panel" type="button" role="tab">
+                        <i class="bi bi-robot me-1"></i> Machine Learning
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="traditional-tab" data-bs-toggle="tab" data-bs-target="#traditional-panel" type="button" role="tab">
+                        <i class="bi bi-code-slash me-1"></i> Traditional Programming
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content bg-light p-3 rounded-3 border" id="paradigmTabContent">
+                <!-- ML Panel -->
+                <div class="tab-pane fade show active" id="ml-panel" role="tabpanel">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="badge bg-success text-white">Dynamic Approach</span>
+                        <strong class="text-dark small">Data + Answers $\rightarrow$ Rules</strong>
+                    </div>
+                    <p class="text-muted small mb-0">
+                        You feed the computer historical observations (e.g., fertilizer dosage and crop yields). The model automatically discovers the underlying mathematical rule/equation to predict future yields.
+                    </p>
+                </div>
+                <!-- Traditional Panel -->
+                <div class="tab-pane fade" id="traditional-panel" role="tabpanel">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="badge bg-secondary text-white">Static Approach</span>
+                        <strong class="text-dark small">Data + Explicit Rules $\rightarrow$ Answers</strong>
+                    </div>
+                    <p class="text-muted small mb-0">
+                        A developer must manually write nested <code>if/else</code> statements for every possible scenario. If new factors appear, the software breaks or becomes unmaintainable.
+                    </p>
+                </div>
+            </div>
         </section>
 
-        <section>
-            <h2>Real-world applications</h2>
-            <p>
-                Machine Learning is used in recommendation systems, spam filters,
-                voice assistants, fraud detection, medical diagnosis, and much more.
-            </p>
+        <!-- 4. Next Step Call-To-Action Banner -->
+        <section class="card card-custom p-4 bg-dark text-white border-0 shadow-sm d-flex flex-row align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <h5 class="fw-bold mb-1 text-teal">Ready to explore ML Categories?</h5>
+                <p class="text-muted small mb-0">Discover Supervised, Unsupervised, and Reinforcement Learning with real examples.</p>
+            </div>
+            <a href="{{ url_for('types') }}" class="btn btn-teal py-2 px-4 shadow-sm">
+                View Types & Examples <i class="bi bi-arrow-right ms-1"></i>
+            </a>
         </section>
+
     </main>
+
+    <!-- Minimalist Academic Footer -->
+    <footer class="custom-footer mt-auto py-4">
+        <div class="container text-center">
+            <h6 class="footer-title mb-3">Data with Roots</h6>
+            <div class="footer-info d-flex flex-column gap-1">
+                <span>University of Cundinamarca</span>
+                <span>Systems and Computer Engineering</span>
+                <span>Machine Learning Group</span>
+                <span class="footer-year">2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-<!-- This code snippet works correctly. -->
