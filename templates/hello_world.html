@@ -1,28 +1,208 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machine Learning - Portada</title>
+    <title>Data with Roots - Machine Learning Platform</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts & Bootstrap Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Custom Project CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <div class="portada">
-        <p class="materia">Machine Learning</p>
-        <h1>Hello World</h1>
-        <p class="universidad">University of Cundinamarca </p>
+<body class="home-page d-flex flex-column min-vh-100">
 
-        <hr>
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
+                <i class="bi bi-graph-up-arrow text-info"></i>
+                <span>Data with Roots</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('template') }}">ML Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('types') }}">ML Types</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('calculate') }}">Linear Regression</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-        <h3>Members of the group</h3>
-        <ul>
-            <li>Tania Beltran</li>
-            <li>María Paula Ramírez</li>
-            <li>Fabian Melendez</li>
-            <li>Sebastian Rodriguez</li>
-        </ul>
+    <!-- Main Hero Banner -->
+    <header class="hero-section text-white py-5">
+        <div class="container py-4">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <span class="badge badge-academic px-3 py-2 rounded-pill text-uppercase mb-3">
+                        University of Cundinamarca &bull; Machine Learning
+                    </span>
+                    <h1 class="display-4 fw-bold mb-3">Data with Roots</h1>
+                    <p class="lead text-light opacity-75 mb-4">
+                        An interactive academic platform designed to explore core Machine Learning principles and analyze crop yield optimization using predictive linear regression models.
+                    </p>
+                    
+                        
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-        <a href="{{ url_for('template') }}" class="btn">Next &rarr;</a>
-    </div>
+    <!-- Main Content Container -->
+    <main class="container my-5 flex-grow-1">
+
+        <!-- Section: Modules Overview -->
+        <section class="home-section mb-5">
+            <div class="mb-4">
+                <h2 class="h4 fw-bold mb-0">Platform Overview</h2>
+                <p class="text-muted small">Structured content aligned with course requirements</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Module 1 -->
+                <div class="col-md-4">
+                    <div class="card card-custom h-100 p-4">
+                        <div class="icon-square mb-3">
+                            <i class="bi bi-book"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">1. ML Concepts</h5>
+                        <p class="text-muted small mb-4">
+                            Learn what Machine Learning is, how models infer patterns from datasets, and why quality data is fundamental.
+                        </p>
+                        <a href="{{ url_for('template') }}" class="btn btn-outline-teal btn-sm mt-auto">Access Section</a>
+                    </div>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="col-md-4">
+                    <div class="card card-custom h-100 p-4">
+                        <div class="icon-square mb-3">
+                            <i class="bi bi-diagram-3"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">2. ML Categories</h5>
+                        <p class="text-muted small mb-4">
+                            Explore Supervised, Unsupervised, Semi-Supervised, and Reinforcement Learning paradigms with practical scenarios.
+                        </p>
+                        <a href="{{ url_for('types') }}" class="btn btn-outline-teal btn-sm mt-auto">Access Section</a>
+                    </div>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="col-md-4">
+                    <div class="card card-custom h-100 p-4">
+                        <div class="icon-square mb-3">
+                            <i class="bi bi-cpu"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">3. Linear Regression</h5>
+                        <p class="text-muted small mb-4">
+                            Test a trained model predicting crop yield (tons/ha) based on fertilizer application inputs (kg/ha).
+                        </p>
+                        <a href="{{ url_for('calculate') }}" class="btn btn-outline-teal btn-sm mt-auto">Access Section</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Model Dataset Highlight -->
+        <section class="dataset-highlight text-white p-4 p-md-5 mb-4 shadow-sm">
+            <div class="row align-items-center">
+                <div class="col-md-8 mb-3 mb-md-0">
+                    <span class="badge bg-white text-dark mb-2">Trained Dataset</span>
+                    <h3 class="fw-bold mb-2">Linear Regression Application</h3>
+                    
+                    <p class="mb-0 opacity-90">
+                        The application incorporates a dataset with <strong class="text-warning">500+ records</strong> simulating agronomic relationships to generate accurate, real-time predictions via <strong class="text-warning">scikit-learn</strong>.
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <a href="{{ url_for('calculate') }}" class="btn btn-banner px-4 py-2">
+                        Try Prediction Form
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Development Team -->
+        <section class="home-section mb-5">
+            <div class="d-flex align-items-center justify-content-between mb-4 border-bottom pb-2">
+                <div>
+                    <h2 class="h4 fw-bold mb-0 text-slate-800">Development Team</h2>
+                    <small class="text-muted">Academic project authors and developers</small>
+                </div>
+                <span class="badge bg-light text-dark border">Group Members</span>
+            </div>
+            
+            <div class="row g-3">
+                <!-- Tania -->
+                <div class="col-6 col-md-3">
+                    <div class="card card-custom h-100 p-3 text-center">
+                        <div class="avatar-box mx-auto mb-2 d-flex align-items-center justify-content-center">TB</div>
+                        <h6 class="fw-bold mb-1">Tania Beltrán</h6>
+                        <span class="text-muted small">Developer</span>
+                    </div>
+                </div>
+                <!-- María Paula -->
+                <div class="col-6 col-md-3">
+                    <div class="card card-custom h-100 p-3 text-center">
+                        <div class="avatar-box mx-auto mb-2 d-flex align-items-center justify-content-center">MP</div>
+                        <h6 class="fw-bold mb-1">María Paula Ramírez</h6>
+                        <span class="text-muted small">Developer</span>
+                    </div>
+                </div>
+                <!-- Fabián -->
+                <div class="col-6 col-md-3">
+                    <div class="card card-custom h-100 p-3 text-center">
+                        <div class="avatar-box mx-auto mb-2 d-flex align-items-center justify-content-center">FM</div>
+                        <h6 class="fw-bold mb-1">Fabián Meléndez</h6>
+                        <span class="text-muted small">Developer</span>
+                    </div>
+                </div>
+                <!-- Sebastián -->
+                <div class="col-6 col-md-3">
+                    <div class="card card-custom h-100 p-3 text-center">
+                        <div class="avatar-box mx-auto mb-2 d-flex align-items-center justify-content-center">SR</div>
+                        <h6 class="fw-bold mb-1">Sebastián Rodríguez</h6>
+                        <span class="text-muted small">Developer</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Académico Minimalista -->
+    <footer class="custom-footer mt-auto py-4">
+        <div class="container text-center">
+            <h6 class="footer-title mb-3">Data with Roots</h6>
+            <div class="footer-info d-flex flex-column gap-1">
+                <span>University of Cundinamarca</span>
+                <span>Systems and Computer Engineering</span>
+                <span>Machine Learning Group</span>
+                <span class="footer-year">2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,3 +1,6 @@
+/* ==========================================================================
+   ESTILOS ORIGINALES ANTERIORES DEBEN CAMBIARSE ACORDE A LOS COLORES DEL INICIO
+   ========================================================================== */
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
     background-color: #f4f6f8;
@@ -51,7 +54,7 @@ strong {
     color: #2980b9;
 }
 
-/* ===== Botón reutilizable (lo usan las 3 páginas) ===== */
+/* ===== Botón reutilizable de la plantilla original ===== */
 .btn {
     display: inline-block;
     padding: 12px 28px;
@@ -67,68 +70,7 @@ strong {
     background-color: #0056b3;
 }
 
-.portada {
-    max-width: 600px;
-    margin: 60px auto;
-    padding: 40px;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    text-align: center;
-}
-
-.portada .materia {
-    color: #3498db;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.9rem;
-    margin: 0;
-}
-
-.portada h1 {
-    color: #2c3e50;
-    font-size: 2rem;
-    margin: 6px 0 4px;
-}
-
-.portada .universidad {
-    color: #555;
-    margin: 0;
-}
-
-.portada hr {
-    width: 60px;
-    height: 2px;
-    background-color: #3498db;
-    border: none;
-    margin: 22px auto;
-}
-
-.portada h3 {
-    color: #2c3e50;
-    margin-bottom: 10px;
-}
-
-.portada ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 30px;
-    line-height: 1.6;
-}
-
-.portada li {
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-    color: #333;
-}
-
-.portada li:last-child {
-    border-bottom: none;
-}
-
 /* ===== Linear Regression - Application page ===== */
-
 .data-list {
     list-style: none;
     padding: 0;
@@ -211,4 +153,151 @@ button.btn {
     background-color: #fdedec;
     color: #c0392b;
     border: 1px solid #f5b7b1;
+}
+
+
+/* ==========================================================================
+   ESTILOS EXCLUSIVOS PARA LA PÁGINA DE INICIO (.home-page) MPRG
+   ========================================================================== */
+body.home-page {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    background-color: #f8fafc;
+    color: #1e293b;
+}
+
+body.home-page main {
+    max-width: 1100px;
+}
+
+.home-section {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 0;
+    box-shadow: none;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-bottom: 3px solid #0d9488;
+}
+
+.badge-academic {
+    background-color: rgba(13, 148, 136, 0.15);
+    color: #2dd4bf;
+    border: 1px solid rgba(45, 212, 191, 0.3);
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.card-custom {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+}
+
+.card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px -10px rgba(15, 23, 42, 0.1);
+    border-color: #cbd5e1;
+}
+
+.avatar-box {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background-color: #f1f5f9;
+    color: #0d9488;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: 2px solid #e2e8f0;
+}
+
+.dataset-highlight {
+    background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+    border-radius: 16px;
+}
+
+.icon-square {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background-color: rgba(13, 148, 136, 0.1);
+    color: #0d9488;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.text-teal {
+    color: #0d9488;
+}
+
+/* Botones específicos de la Home */
+body.home-page .btn.btn-teal {
+    background-color: #0d9488;
+    color: #ffffff;
+    font-weight: 600;
+    border: 1px solid #0d9488;
+}
+
+body.home-page .btn.btn-teal:hover {
+    background-color: #0f766e;
+    color: #ffffff;
+    border-color: #0f766e;
+}
+
+body.home-page .btn.btn-outline-teal {
+    background-color: transparent;
+    border: 1.5px solid #0d9488;
+    color: #0d9488;
+    font-weight: 600;
+}
+
+body.home-page .btn.btn-outline-teal:hover {
+    background-color: #0d9488;
+    color: #ffffff;
+}
+
+body.home-page .btn.btn-banner {
+    background-color: #ffffff;
+    color: #0d9488;
+    border: 1px solid #ffffff;
+    font-weight: 700;
+}
+
+body.home-page .btn.btn-banner:hover {
+    background-color: #f1f5f9;
+    color: #0f766e;
+    border-color: #f1f5f9;
+}
+
+/* ==========================================================================
+   FOOTER ACADÉMICO MINIMALISTA 
+   ========================================================================== */
+footer.custom-footer {
+    background-color: #0f172a;
+    border-top: 3px solid #0d9488;
+    color: #ffffff;
+}
+
+footer.custom-footer .footer-title {
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-size: 1.1rem;
+}
+
+footer.custom-footer .footer-info {
+    font-size: 0.9rem;
+    color: #ffffff;
+    font-weight: 400;
+}
+
+footer.custom-footer .footer-year {
+    color: #ffffff;
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-top: 4px;
 }
