@@ -80,6 +80,19 @@
                     </p>
                 </div>
             </div>
+              <!-- Problem Card -->
+            <div class="col-md-4">
+                <div class="card card-custom h-100 p-4 d-flex flex-column">
+                    <h5 class="fw-bold text-teal mb-3"><i class="bi bi-question-circle me-2"></i>Problem</h5>
+                    <p class="text-muted small mb-3">
+                        This section defines the problem to solve, what data represent, and what the model aims to predict.
+                    </p>
+                    <button type="button" class="btn btn-outline-teal btn-sm mt-auto" style="border-color:#20c997; color:#20c997;" data-bs-toggle="modal" data-bs-target="#problemModal">
+                        <i class="bi bi-eye me-1"></i> View Questions & Answers
+                    </button>
+                </div>
+            </div>
+            
             
             <!-- Variables Card -->
             <div class="col-md-4">
@@ -242,6 +255,36 @@
             </div>
         </div>
     </footer>
+   <!-- Problem Details Modal -->
+    <div class="modal fade" id="problemModal" tabindex="-1" aria-labelledby="problemModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold text-teal" id="problemModalLabel"><i class="bi bi-question-circle me-2"></i>Problem</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-3"><strong>What is the problem?</strong><br>
+                        <span class="text-muted">Farmers need to know, before applying fertilizer, how much it will actually improve their harvest. Without a data-driven estimate, amounts are often chosen by intuition, wasting resources or under-fertilizing.</span>
+                    </p>
+                    <p class="mb-3"><strong>What phenomenon is being analyzed?</strong><br>
+                        <span class="text-muted">The relationship between the amount of fertilizer applied to a crop and the resulting crop yield, assuming a linear trend between the two.</span>
+                    </p>
+                    <p class="mb-3"><strong>What do the data represent?</strong><br>
+                        <span class="text-muted">Each record represents one crop/field observation: the fertilizer amount applied ({{ independent_var_unit }}) and the yield obtained ({{ dependent_var_unit }}) for that observation.</span>
+                    </p>
+                    <p class="mb-3"><strong>Why apply linear regression?</strong><br>
+                        <span class="text-muted">To model the trend between fertilizer and yield from historical data, so it can be used to estimate yield for fertilizer amounts that were not directly observed.</span>
+                    </p>
+                    <p class="mb-0"><strong>What value does the model predict?</strong><br>
+                        <span class="text-muted">The expected {{ dependent_var_name }} ({{ dependent_var_unit }}) for a given {{ independent_var_name }} ({{ independent_var_unit }}) entered by the user.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
