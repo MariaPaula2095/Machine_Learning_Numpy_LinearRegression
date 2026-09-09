@@ -8,7 +8,7 @@ import LinearRegression
 
 app = Flask(__name__)
 
-
+#ROUTES R1A1
 @app.route("/")
 def home():
     return render_template("hello_world.html")
@@ -41,6 +41,7 @@ def calculate():
                 prediction_result = LinearRegression.calculate_yield(fertilizer_input)
             except ValueError:
                 error_message = "The value must be numeric."
+
 
 # --- START PLOT GENERATION ---
     plt.figure(figsize=(8, 5))
@@ -83,9 +84,24 @@ def calculate():
         independent_var_unit=LinearRegression.INDEPENDENT_VAR_UNIT,
         dependent_var_unit=LinearRegression.DEPENDENT_VAR_UNIT,
         data_source=LinearRegression.DATA_SOURCE,
-        plot_url=plot_url  # <--- ESTO ES LO QUE FALTA
+        plot_url=plot_url  
     )
 
+#routes R1A2
+
+@app.route('/supervised/logistic/concepts')
+def logistic_concepts():
+    return render_template('logistic_concepts.html')
+
+
+@app.route('/supervised/logistic/application', methods=['GET', 'POST'])
+def logistic_application():
+    return render_template('logistic_application.html')
+
+
+@app.route('/supervised/logistic/metrics')
+def logistic_metrics():
+    return render_template('logistic_metrics.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

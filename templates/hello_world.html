@@ -17,34 +17,64 @@
 <body class="home-page d-flex flex-column min-vh-100">
 
     <!-- Top Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
-                <i class="bi bi-graph-up-arrow text-info"></i>
-                <span>Data with Roots</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ url_for('home') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('template') }}">ML Overview</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('types') }}">ML Types</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('calculate') }}">Linear Regression</a>
-                    </li>
-                </ul>
-            </div>
+    <!-- Top Navbar con Menús Desplegables (Sin Errores en Flask) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
+            <i class="bi bi-graph-up-arrow text-info"></i>
+            <span>Data with Roots</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+                
+                <!-- 1. Home -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                </li>
+                
+                <!-- 2. Machine Learning Dropdown (Contenido previo R1A1) -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Machine Learning
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="mlDropdown">
+                        <li><a class="dropdown-item" href="{{ url_for('template') }}"><i class="bi bi-book me-2"></i>ML Overview</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('types') }}"><i class="bi bi-diagram-3 me-2"></i>ML Types</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('calculate') }}"><i class="bi bi-calculator me-2"></i>Linear Regression</a></li>
+                    </ul>
+                </li>
+
+                <!-- 3. Supervised Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Supervised
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="supervisedDropdown">
+                        <!-- Regresión Logística -->
+                        <li class="dropdown-header text-teal fw-bold">LOGISTIC REGRESSION</li>
+                        <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                        <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                        <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                        
+                        <li><hr class="dropdown-divider"></li>
+                        
+                        <!-- Modelo Secundario (Ahora Activo) -->
+                        <li class="dropdown-header text-teal fw-bold">SECONDARY MODEL</li>
+                        <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                        <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                        <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                    </ul>
+                </li>
+
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <!-- Main Hero Banner -->
     <header class="hero-section text-white py-5">
@@ -67,129 +97,146 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
+        <!-- Main Content Container -->
+    <!-- <main class="container my-5 flex-grow-1"> -->
     <main class="container my-5 flex-grow-1">
+        <!-- ==========================================
+             R1A1 (Linear Models)
+            ========================================== -->
+        <div class="card card-custom p-4 mb-5 shadow-sm border-0 bg-light">
+            <!-- Header de la sección R1A1 -->
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-secondary px-3 py-2 fs-6 rounded-pill fw-bold">R1A1</span>
+                    <h3 class="h5 fw-bold mb-0 text-dark">Phase 1: Foundations & Linear Regression</h3>
+                </div>
+                <span class="badge bg-teal-subtle text-teal fw-semibold">Completed</span>
+            </div>
 
-        <!-- Section: Modules Overview -->
-        <section class="home-section mb-5">
-            <div class="mb-4">
-                <h2 class="h4 fw-bold mb-0">Platform Overview</h2>
-                <p class="text-muted small">Structured content aligned with course requirements</p>
+            <!-- Rejilla de Tarjetas R1A1 -->
+            <div class="row g-4 mb-4">
+                <!-- 1. ML Concepts -->
+                <div class="col-md-4">
+                    <div class="card card-custom h-100 p-4 border shadow-sm d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="step-icon-box mb-3 text-teal">
+                                <i class="bi bi-book fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold fs-6">1. ML Concepts</h5>
+                            <p class="text-muted small mb-0">
+                                Learn what Machine Learning is, how models infer patterns from datasets, and why quality data is fundamental.
+                            </p>
+                        </div>
+                        <a href="{{ url_for('template') }}" class="btn btn-teal-outline btn-sm w-100 mt-3 py-2">Access Section</a>
+                    </div>
+                </div>
+
+                <!-- 2. ML Categories -->
+                <div class="col-md-4">
+                    <div class="card card-custom h-100 p-4 border shadow-sm d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="step-icon-box mb-3 text-teal">
+                                <i class="bi bi-diagram-3 fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold fs-6">2. ML Categories</h5>
+                            <p class="text-muted small mb-0">
+                                Explore Supervised, Unsupervised, Semi-Supervised, and Reinforcement Learning paradigms with practical scenarios.
+                            </p>
+                        </div>
+                        <a href="{{ url_for('types') }}" class="btn btn-teal-outline btn-sm w-100 mt-3 py-2">Access Section</a>
+                    </div>
+                </div>
+
+                <!-- 3. Linear Regression -->
+                <div class="col-md-4">
+                    <div class="card card-custom h-100 p-4 border shadow-sm d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="step-icon-box mb-3 text-teal">
+                                <i class="bi bi-calculator fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold fs-6">3. Linear Regression</h5>
+                            <p class="text-muted small mb-0">
+                                Test a trained model predicting crop yield (tons/ha) based on fertilizer application inputs (kg/ha).
+                            </p>
+                        </div>
+                        <a href="{{ url_for('calculate') }}" class="btn btn-teal-outline btn-sm w-100 mt-3 py-2">Access Section</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner  -->
+            <div class="card p-4 text-white border-0 shadow-sm rounded-3 d-flex flex-row align-items-center justify-content-between flex-wrap gap-3" style="background-color: #0d9488;">
+                <div>
+                    <span class="badge bg-white text-dark mb-1 extra-small fw-bold">Trained Dataset</span>
+                    <h4 class="fw-bold mb-1 fs-5">Linear Regression Application</h4>
+                    <p class="mb-0 small text-white">
+                        The application incorporates a dataset with <strong style="color: #facc15 !important;">500+ records</strong> simulating agronomic relationships via <strong style="color: #facc15 !important;">scikit-learn</strong>.
+                    </p>
+                </div>
+                <a href="{{ url_for('calculate') }}" class="btn fw-bold py-2 px-4 shadow-sm" style="background-color: #ffffff !important; color: #0d9488 !important; border: none;">Try Prediction Form</a>
+            </div>
+        </div>
+
+
+        <!-- ==========================================
+             R1A2 (Classification)
+            ========================================== -->
+        <div class="card card-custom p-4 shadow-sm border-0 bg-light">
+            <!-- Header de la sección R1A2 -->
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-info text-dark px-3 py-2 fs-6 rounded-pill fw-bold">R1A2</span>
+                    <h3 class="h5 fw-bold mb-0 text-dark">Phase 2: Classification Models & Metrics</h3>
+                </div>
+                <span class="badge bg-warning text-dark fw-semibold">In Progress</span>
             </div>
 
             <div class="row g-4">
-                <!-- Module 1 -->
-                <div class="col-md-4">
-                    <div class="card card-custom h-100 p-4">
-                        <div class="icon-square mb-3">
-                            <i class="bi bi-book"></i>
+                <!-- Model 1: -->
+                <div class="col-md-6">
+                    <div class="card card-custom h-100 p-4 border border-2 border-teal shadow-sm d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="badge bg-teal text-white">Model 1 (Binary)</span>
+                            </div>
+                            <h5 class="fw-bold mb-2">Logistic Regression</h5>
+                            <p class="text-muted small mb-3">
+                                Classifies user behavior into binary outcomes (Purchase: Yes/No) based on web session duration using a decision threshold of $0.5$.
+                            </p>
                         </div>
-                        <h5 class="fw-bold mb-2">1. ML Concepts</h5>
-                        <p class="text-muted small mb-4">
-                            Learn what Machine Learning is, how models infer patterns from datasets, and why quality data is fundamental.
-                        </p>
-                        <a href="{{ url_for('template') }}" class="btn btn-outline-teal btn-sm mt-auto">Access Section</a>
-                    </div>
-                </div>
-
-                <!-- Module 2 -->
-                <div class="col-md-4">
-                    <div class="card card-custom h-100 p-4">
-                        <div class="icon-square mb-3">
-                            <i class="bi bi-diagram-3"></i>
+                        <div class="d-flex gap-2 mt-2">
+                            <a href="{{ url_for('logistic_concepts') }}" class="btn btn-teal-outline btn-sm flex-fill">Concepts</a>
+                            <a href="{{ url_for('logistic_application') }}" class="btn btn-teal-outline btn-sm flex-fill">App</a>
+                            <a href="{{ url_for('logistic_metrics') }}" class="btn btn-teal-outline btn-sm flex-fill">Metrics</a>
                         </div>
-                        <h5 class="fw-bold mb-2">2. ML Categories</h5>
-                        <p class="text-muted small mb-4">
-                            Explore Supervised, Unsupervised, Semi-Supervised, and Reinforcement Learning paradigms with practical scenarios.
-                        </p>
-                        <a href="{{ url_for('types') }}" class="btn btn-outline-teal btn-sm mt-auto">Access Section</a>
                     </div>
                 </div>
 
-                <!-- Module 3 -->
-                <div class="col-md-4">
-                    <div class="card card-custom h-100 p-4">
-                        <div class="icon-square mb-3">
-                            <i class="bi bi-cpu"></i>
+                <!-- Model 2:  -->
+                <div class="col-md-6">
+                    <div class="card card-custom h-100 p-4 border border-2 border-teal shadow-sm d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="badge bg-teal text-white">Model 2 (Multi-feature)</span>
+                            </div>
+                            <h5 class="fw-bold mb-2">Secondary Classification Model</h5>
+                            <p class="text-muted small mb-3">
+                                Multi-dimensional classification algorithm analyzing complex datasets to evaluate precision, recall, and F1-score comparisons.
+                            </p>
                         </div>
-                        <h5 class="fw-bold mb-2">3. Linear Regression</h5>
-                        <p class="text-muted small mb-4">
-                            Test a trained model predicting crop yield (tons/ha) based on fertilizer application inputs (kg/ha).
-                        </p>
-                        <a href="{{ url_for('calculate') }}" class="btn btn-outline-teal btn-sm mt-auto">Access Section</a>
+                        <div class="d-flex gap-2 mt-2">
+                            <a href="{{ url_for('logistic_concepts') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">Concepts</a>
+                            <a href="{{ url_for('logistic_application') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">App</a>
+                            <a href="{{ url_for('logistic_metrics') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">Metrics</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Section: Model Dataset Highlight -->
-        <section class="dataset-highlight text-white p-4 p-md-5 mb-4 shadow-sm">
-            <div class="row align-items-center">
-                <div class="col-md-8 mb-3 mb-md-0">
-                    <span class="badge bg-white text-dark mb-2">Trained Dataset</span>
-                    <h3 class="fw-bold mb-2">Linear Regression Application</h3>
-                    
-                    <p class="mb-0 opacity-90">
-                        The application incorporates a dataset with <strong class="text-warning">500+ records</strong> simulating agronomic relationships to generate accurate, real-time predictions via <strong class="text-warning">scikit-learn</strong>.
-                    </p>
-                </div>
-                <div class="col-md-4 text-md-end">
-                    <a href="{{ url_for('calculate') }}" class="btn btn-banner px-4 py-2">
-                        Try Prediction Form
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section: Development Team -->
-        <section class="home-section mb-5">
-            <div class="d-flex align-items-center justify-content-between mb-4 border-bottom pb-2">
-                <div>
-                    <h2 class="h4 fw-bold mb-0 text-slate-800">Development Team</h2>
-                    <small class="text-muted">Academic project authors and developers</small>
-                </div>
-                <span class="badge bg-light text-dark border">Group Members</span>
-            </div>
-            
-            <div class="row g-3">
-                <!-- Tania -->
-                <div class="col-6 col-md-3">
-                    <div class="card card-custom h-100 p-3 text-center">
-                        <div class="avatar-box mx-auto mb-2 d-flex align-items-center justify-content-center">TB</div>
-                        <h6 class="fw-bold mb-1">Tania Beltrán</h6>
-                        <span class="text-muted small">Developer</span>
-                    </div>
-                </div>
-                <!-- María Paula -->
-                <div class="col-6 col-md-3">
-                    <div class="card card-custom h-100 p-3 text-center">
-                        <div class="avatar-box mx-auto mb-2 d-flex align-items-center justify-content-center">MP</div>
-                        <h6 class="fw-bold mb-1">María Paula Ramírez</h6>
-                        <span class="text-muted small">Developer</span>
-                    </div>
-                </div>
-                <!-- Fabián -->
-                <div class="col-6 col-md-3">
-                    <div class="card card-custom h-100 p-3 text-center">
-                        <div class="avatar-box mx-auto mb-2 d-flex align-items-center justify-content-center">FM</div>
-                        <h6 class="fw-bold mb-1">Fabián Meléndez</h6>
-                        <span class="text-muted small">Developer</span>
-                    </div>
-                </div>
-                <!-- Sebastián -->
-                <div class="col-6 col-md-3">
-                    <div class="card card-custom h-100 p-3 text-center">
-                        <div class="avatar-box mx-auto mb-2 d-flex align-items-center justify-content-center">SR</div>
-                        <h6 class="fw-bold mb-1">Sebastián Rodríguez</h6>
-                        <span class="text-muted small">Developer</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
 
     </main>
 
-    <!-- Footer Académico Minimalista -->
+    <!-- Footer  -->
     <footer class="custom-footer mt-auto py-4">
         <div class="container text-center">
             <h6 class="footer-title mb-3">Data with Roots</h6>
