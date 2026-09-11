@@ -63,11 +63,11 @@
                         
                         <li><hr class="dropdown-divider"></li>
                         
-                        <!-- Modelo Secundario (Ahora Activo) -->
-                        <li class="dropdown-header text-teal fw-bold">SECONDARY MODEL</li>
-                        <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
-                        <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
-                        <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                        <!-- Modelo Secundario: Naive Bayes -->
+                        <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
+                        <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                        <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                        <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrix') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
                     </ul>
                 </li>
 
@@ -212,22 +212,22 @@
                     </div>
                 </div>
 
-                <!-- Model 2:  -->
+                <!-- Model 2: Naive Bayes -->
                 <div class="col-md-6">
                     <div class="card card-custom h-100 p-4 border border-2 border-teal shadow-sm d-flex flex-column justify-content-between">
                         <div>
                             <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="badge bg-teal text-white">Model 2 (Multi-feature)</span>
+                                <span class="badge bg-teal text-white">Model 2 (Naive Bayes)</span>
                             </div>
-                            <h5 class="fw-bold mb-2">Secondary Classification Model</h5>
+                            <h5 class="fw-bold mb-2">Naive Bayes Classification</h5>
                             <p class="text-muted small mb-3">
-                                Multi-dimensional classification algorithm analyzing complex datasets to evaluate precision, recall, and F1-score comparisons.
+                                Predicts online purchase likelihood based on PageValues, using Bayes' Theorem and a Gaussian probability model.
                             </p>
                         </div>
                         <div class="d-flex gap-2 mt-2">
-                            <a href="{{ url_for('logistic_concepts') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">Concepts</a>
-                            <a href="{{ url_for('logistic_application') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">App</a>
-                            <a href="{{ url_for('logistic_metrics') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">Metrics</a>
+                            <a href="{{ url_for('naive_bayes_concepts') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">Concepts</a>
+                            <a href="{{ url_for('naive_bayes_application') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">App</a>
+                            <a href="{{ url_for('naive_bayes_metrix') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">Metrics</a>
                         </div>
                     </div>
                 </div>
