@@ -5,6 +5,9 @@ matplotlib.use('Agg') # is important to flask
 import matplotlib.pyplot as plt
 from flask import Flask, render_template, request
 import LinearRegression
+import logistic_model
+import NaiveBayes
+
 
 app = Flask(__name__)
 
@@ -96,12 +99,133 @@ def logistic_concepts():
 
 @app.route('/supervised/logistic/application', methods=['GET', 'POST'])
 def logistic_application():
-    return render_template('logistic_application.html')
+    resultado = None
+    error_message = None
+    tiempo_input = None
+
+    if request.method == "POST":
+        raw_value = request.form.get("tiempo", "").strip()
+
+        if raw_value == "":
+            error_message = "Por favor ingresa un valor de tiempo."
+        else:
+            try:
+                tiempo_input = float(raw_value)
+                if tiempo_input < 0:
+                    error_message = "El tiempo no puede ser negativo."
+                else:
+                    resultado = logistic_model.predecir_compra(tiempo_input)
+            except ValueError:
+                error_message = "El valor debe ser numérico."
+
+    # --- Generar la gráfica (igual patrón que Linear Regression) ---
+    plt.figure(figsize=(8, 5))
+
+    colores = logistic_model.y.map({0: "red", 1: "green"})
+    plt.scatter(
+        logistic_model.x["ProductRelated_Duration"],
+        logistic_model.y,
+        c=colores,
+        alpha=0.3,
+        label="Sesiones (rojo=No compró, verde=Sí compró)"
+    )
+
+    if tiempo_input is not None and resultado is not None:
+        plt.scatter(
+            [tiempo_input], [resultado["clase"]],
+            color="blue", s=150, zorder=5,
+            label=f"Predicción ({tiempo_input}s)"
+        )
+
+    plt.title("Regresión Logística: Tiempo en el sitio vs Compra")
+    plt.xlabel(f"{logistic_model.INDEPENDENT_VAR_NAME} ({logistic_model.INDEPENDENT_VAR_UNIT})")
+    plt.ylabel("Compra (0 = No, 1 = Sí)")
+    plt.grid(True, linestyle="--", alpha=0.5)
+    plt.legend()
+
+    img = io.BytesIO()
+    plt.savefig(img, format="png", bbox_inches="tight")
+    img.seek(0)
+    plot_url = base64.b64encode(img.getvalue()).decode("utf8")
+    plt.close()
+    # --- Fin gráfica ---
+
+    return render_template(
+        "logistic_application.html",
+        result=resultado,
+        error=error_message,
+        tiempo_input=tiempo_input,
+        num_records=logistic_model.NUM_RECORDS,
+        independent_var_name=logistic_model.INDEPENDENT_VAR_NAME,
+        target_var_name=logistic_model.TARGET_VAR_NAME,
+        class_0=logistic_model.CLASS_0_MEANING,
+        class_1=logistic_model.CLASS_1_MEANING,
+        data_source=logistic_model.DATA_SOURCE,
+        plot_url=plot_url,
+    )
 
 
 @app.route('/supervised/logistic/metrics')
 def logistic_metrics():
-    return render_template('logistic_metrics.html')
+    return render_template(
+        'logistic_metrics.html',
+        matriz=logistic_model.CONFUSION_MATRIX,
+        accuracy=logistic_model.ACCURACY,
+        precision=logistic_model.PRECISION,
+        recall=logistic_model.RECALL,
+        f1=logistic_model.F1,
+    )
+    
+@app.route("/naive-bayes/concepts")
+def naive_bayes_concepts():
+    return render_template("naive_bayes_concepts.html")
+
+
+@app.route("/naive-bayes/application", methods=["GET", "POST"])
+def naive_bayes_application():
+    prediction_result = None
+    error_message = None
+    page_values_input = None
+
+    if request.method == "POST":
+        raw_value = request.form.get("page_values", "").strip()
+
+        if raw_value == "":
+            error_message = "Please enter a PageValues amount."
+        else:
+            try:
+                page_values_input = float(raw_value)
+                prediction_result = NaiveBayes.predecir_compra(page_values_input)
+            except ValueError:
+                error_message = "The value must be numeric."
+
+    return render_template(
+        "naive_bayes_application.html",
+        result=prediction_result,
+        error=error_message,
+        page_values_input=page_values_input,
+        num_records=NaiveBayes.NUM_RECORDS,
+        independent_var_name=NaiveBayes.INDEPENDENT_VAR_NAME,
+        independent_var_unit=NaiveBayes.INDEPENDENT_VAR_UNIT,
+        target_var_name=NaiveBayes.TARGET_VAR_NAME,
+        class_0=NaiveBayes.CLASS_0_MEANING,
+        class_1=NaiveBayes.CLASS_1_MEANING,
+        data_source=NaiveBayes.DATA_SOURCE,
+    )
+    
+@app.route("/naive-bayes/metrics")
+def naive_bayes_metrix():
+    return render_template(
+        "naive_bayes_metrics.html",
+        matriz=NaiveBayes.CONFUSION_MATRIX,
+        accuracy=NaiveBayes.ACCURACY,
+        precision=NaiveBayes.PRECISION,
+        recall=NaiveBayes.RECALL,
+        f1=NaiveBayes.F1,
+        variable_independiente=NaiveBayes.INDEPENDENT_VAR_NAME,
+        variable_objetivo=NaiveBayes.TARGET_VAR_NAME,
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True)
