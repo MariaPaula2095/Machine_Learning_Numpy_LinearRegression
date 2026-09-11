@@ -18,63 +18,65 @@
 
     <!-- Top Navbar -->
     <!-- Top Navbar con Menús Desplegables (Sin Errores en Flask) -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
-    <div class="container">
-        <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
-            <i class="bi bi-graph-up-arrow text-info"></i>
-            <span>Data with Roots</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="mainNavbar">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
-                
-                <!-- 1. Home -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-                </li>
-                
-                <!-- 2. Machine Learning Dropdown (Contenido previo R1A1) -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Machine Learning
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="mlDropdown">
-                        <li><a class="dropdown-item" href="{{ url_for('template') }}"><i class="bi bi-book me-2"></i>ML Overview</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('types') }}"><i class="bi bi-diagram-3 me-2"></i>ML Types</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ url_for('calculate') }}"><i class="bi bi-calculator me-2"></i>Linear Regression</a></li>
-                    </ul>
-                </li>
+<!-- Top Navbar Unificado -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
+                <i class="bi bi-graph-up-arrow text-info"></i>
+                <span>Data with Roots</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+                    
+                    <!-- 1. Home -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    
+                    <!-- 2. Machine Learning Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Machine Learning
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="mlDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('template') }}"><i class="bi bi-book me-2"></i>ML Overview</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('types') }}"><i class="bi bi-diagram-3 me-2"></i>ML Types</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('calculate') }}"><i class="bi bi-calculator me-2"></i>Linear Regression</a></li>
+                        </ul>
+                    </li>
 
-                <!-- 3. Supervised Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Supervised
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="supervisedDropdown">
-                        <!-- Regresión Logística -->
-                        <li class="dropdown-header text-teal fw-bold">LOGISTIC REGRESSION</li>
-                        <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
-                        <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
-                        <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
-                        
-                        <li><hr class="dropdown-divider"></li>
-                        
-                        <!-- Modelo Secundario: Naive Bayes -->
-                        <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
-                        <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
-                        <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
-                        <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrix') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
-                    </ul>
-                </li>
+                    <!-- 3. Supervised Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Supervised
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="supervisedDropdown">
+                            
+                            <!-- Regresión Logística -->
+                            <li class="dropdown-header text-teal fw-bold">LOGISTIC REGRESSION</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            
+                            <!-- Naive Bayes -->
+                            <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrix') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                        </ul>
+                    </li>
 
-            </ul>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     <!-- Main Hero Banner -->
     <header class="hero-section text-white py-5">
@@ -201,7 +203,7 @@
                             </div>
                             <h5 class="fw-bold mb-2">Logistic Regression</h5>
                             <p class="text-muted small mb-3">
-                                Classifies user behavior into binary outcomes (Purchase: Yes/No) based on web session duration using a decision threshold of $0.5$.
+                               redicts online purchase likelihood based on PageValues,using Logistic Regression model.
                             </p>
                         </div>
                         <div class="d-flex gap-2 mt-2">

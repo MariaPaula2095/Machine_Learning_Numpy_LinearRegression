@@ -25,7 +25,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    <!-- Top Navbar -->
+    <!-- Unified Top Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
         <div class="container">
             <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
@@ -35,14 +35,12 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+            
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
-
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                     </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Machine Learning
@@ -54,7 +52,6 @@
                             <li><a class="dropdown-item" href="{{ url_for('calculate') }}"><i class="bi bi-calculator me-2"></i>Linear Regression</a></li>
                         </ul>
                     </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Supervised
@@ -64,16 +61,13 @@
                             <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
                             <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
                             <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
-
                             <li><hr class="dropdown-divider"></li>
-
-                            <li class="dropdown-header text-teal fw-bold">SECONDARY MODEL</li>
-                            <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
-                            <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
-                            <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                            <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrix') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
                         </ul>
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -83,7 +77,7 @@
     <header class="hero-section text-white py-4">
         <div class="container text-center">
             <h1 class="display-6 fw-bold mb-2">Logistic Regression Application</h1>
-            <p class="lead opacity-75 mb-0 fs-6">Predicting online purchase intention from browsing behavior</p>
+            <p class="lead opacity-75 mb-0 fs-6">Predicting online purchase intention from page value</p>
         </div>
     </header>
 
@@ -92,21 +86,19 @@
 
         <!-- Row 1: Information Cards -->
         <div class="row g-3 mb-4">
-            <!-- 1. Context Card -->
             <div class="col-lg-3 col-md-6">
                 <div class="card card-custom p-4 shadow-sm h-100 d-flex flex-column justify-content-between" style="min-height: 210px;">
                     <div>
                         <h6 class="fw-bold text-teal mb-2"><i class="bi bi-info-circle me-1"></i>Context</h6>
                         <p class="text-muted small mb-0">
-                            Predicts whether an online session ends in a <strong>purchase</strong> based on
-                            <strong>time spent</strong> on product pages.
+                            Predicts whether an online session ends in a <strong>purchase</strong> based on the
+                            <strong>PageValues</strong> score of the pages visited.
                         </p>
                     </div>
                     <span class="text-muted extra-small opacity-50" style="font-size: 0.7rem;">E-commerce Model</span>
                 </div>
             </div>
 
-            <!-- 2. Problem Card -->
             <div class="col-lg-3 col-md-6">
                 <div class="card card-custom p-4 shadow-sm h-100 d-flex flex-column justify-content-between" style="min-height: 210px;">
                     <div>
@@ -121,13 +113,12 @@
                 </div>
             </div>
 
-            <!-- 3. Variables Card -->
             <div class="col-lg-3 col-md-6">
                 <div class="card card-custom p-4 shadow-sm h-100 d-flex flex-column justify-content-between" style="min-height: 210px;">
                     <div>
                         <h6 class="fw-bold text-teal mb-2"><i class="bi bi-calculator me-1"></i>Variables</h6>
                         <ul class="list-unstyled text-muted small mb-0">
-                            <li class="mb-2"><strong>(X):</strong> {{ independent_var_name }} ({{ independent_var_unit }})</li>
+                            <li class="mb-2"><strong>(X):</strong> {{ independent_var_name }}</li>
                             <li class="mb-2"><strong>(y):</strong> {{ target_var_name }}</li>
                             <li><strong>Classes:</strong> 0 = {{ class_0 }} | 1 = {{ class_1 }}</li>
                         </ul>
@@ -135,7 +126,6 @@
                 </div>
             </div>
 
-            <!-- 4. Dataset Card -->
             <div class="col-lg-3 col-md-6">
                 <div class="card card-custom p-4 shadow-sm h-100 d-flex flex-column justify-content-between" style="min-height: 210px;">
                     <div>
@@ -158,7 +148,7 @@
 
                     <div class="mb-3">
                         <div class="d-flex align-items-center gap-2 mb-1">
-                            <div class="bg-teal-subtle text-teal p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background-color: rgba(32, 201, 151, 0.15);">
+                            <div class="bg-teal-subtle text-teal p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
                                 <i class="bi bi-cpu-fill fs-5" style="color: #20c997;"></i>
                             </div>
                             <div>
@@ -169,19 +159,20 @@
                         <hr class="my-3 text-muted opacity-25">
                     </div>
 
+                    <!-- Updated Form for Page Values -->
                     <form method="post" action="#prediction-area" id="logisticForm" class="my-auto py-2">
                         <div class="mb-3">
-                            <label for="tiempo" class="form-label fw-semibold text-secondary small d-flex justify-content-between mb-2">
-                                <span>Time on Site</span>
-                                <span class="fw-bold" style="color: #20c997;">seconds</span>
+                            <label for="page_values_input" class="form-label fw-semibold text-secondary small d-flex justify-content-between mb-2">
+                                <span>Page Values</span>
+                                <span class="fw-bold" style="color: #20c997;">points</span>
                             </label>
                             <div class="input-group input-group-lg">
-                                <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-stopwatch"></i></span>
+                                <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-graph-up"></i></span>
                                 <input required type="number" step="any" min="0"
                                     class="form-control bg-light border-start-0 fw-bold text-dark"
-                                    id="tiempo" name="tiempo"
-                                    value="{{ tiempo_input if tiempo_input is not none else '' }}"
-                                    placeholder="e.g. 1500">
+                                    id="page_values_input" name="page_values_input"
+                                    value="{{ page_values_input if page_values_input is not none else '' }}"
+                                    placeholder="e.g. 15.5">
                             </div>
                         </div>
 
@@ -208,15 +199,15 @@
                                 <div>
                                     <span class="text-uppercase fw-bold d-block" style="font-size: 0.7rem; letter-spacing: 0.5px; color: #1aa179;">Predicted Class</span>
                                     <div class="fs-5 fw-bold text-dark lh-1 mt-1">
-                                        {{ result.mensaje }}
+                                        {{ result.message }}
                                     </div>
-                                    <small class="text-muted">Probability of purchase: {{ result.probabilidad }}%</small>
+                                    <small class="text-muted">Probability of purchase: {{ result.probability }}%</small>
                                 </div>
                             </div>
                         </div>
                         {% else %}
                         <div class="p-3 text-center border rounded-3 bg-light text-muted small">
-                            <i class="bi bi-info-circle me-1"></i> Enter a time value and click predict.
+                            <i class="bi bi-info-circle me-1"></i> Enter a PageValues value and click predict.
                         </div>
                         {% endif %}
                     </div>
@@ -228,7 +219,6 @@
             <div class="col-lg-8">
                 <div class="card card-custom h-100 p-4">
                     <h5 class="fw-bold mb-4">Data Visualization</h5>
-
                     <div class="d-flex justify-content-center align-items-center h-100 rounded bg-light p-2" style="min-height: 350px; border: 1px dashed #ccc;">
                         {% if plot_url %}
                             <img src="data:image/png;base64,{{ plot_url }}" alt="Logistic Regression Plot" class="img-fluid rounded shadow-sm">
@@ -262,7 +252,6 @@
     <div class="modal fade" id="problemModal" tabindex="-1" aria-labelledby="problemModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-
                 <div class="modal-header bg-dark text-white border-bottom border-teal py-3 px-4" style="border-bottom: 3px solid #20c997 !important;">
                     <h5 class="modal-title fw-bold text-teal d-flex align-items-center gap-2" id="problemModalLabel">
                         <i class="bi bi-question-circle-fill" style="color: #20c997;"></i>
@@ -270,10 +259,8 @@
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
                 <div class="modal-body p-4 bg-light">
                     <div class="d-flex flex-column gap-3">
-
                         <div class="card border-0 shadow-sm p-3 rounded-3">
                             <div class="d-flex align-items-center gap-2 mb-1">
                                 <i class="bi bi-exclamation-triangle-fill text-teal"></i>
@@ -281,43 +268,40 @@
                             </div>
                             <p class="text-muted small mb-0 ps-4">
                                 E-commerce sites want to anticipate whether a visitor is likely to buy,
-                                so they can trigger timely offers or support instead of guessing blindly.
+                                using how valuable the pages they visited are, instead of guessing blindly.
                             </p>
                         </div>
-
                         <div class="card border-0 shadow-sm p-3 rounded-3">
                             <div class="d-flex align-items-center gap-2 mb-1">
                                 <i class="bi bi-search text-teal"></i>
                                 <strong class="text-dark">What phenomenon is being analyzed?</strong>
                             </div>
                             <p class="text-muted small mb-0 ps-4">
-                                The relationship between the time a visitor spends browsing product
-                                pages and whether that session ends in a completed purchase.
+                                The relationship between the PageValues score (how strongly a visited page
+                                is associated with purchases) and whether the session ends in a purchase.
                             </p>
                         </div>
-
                         <div class="card border-0 shadow-sm p-3 rounded-3">
                             <div class="d-flex align-items-center gap-2 mb-1">
                                 <i class="bi bi-database-fill text-teal"></i>
                                 <strong class="text-dark">What do the data represent?</strong>
                             </div>
                             <p class="text-muted small mb-0 ps-4">
-                                Each record is one browsing session: the time spent on product pages
-                                ({{ independent_var_unit }}) and whether it ended in a purchase.
+                                Each record is one browsing session: its PageValues score and whether it
+                                ended in a purchase.
                             </p>
                         </div>
-
                         <div class="card border-0 shadow-sm p-3 rounded-3">
                             <div class="d-flex align-items-center gap-2 mb-1">
                                 <i class="bi bi-graph-up-arrow text-teal"></i>
                                 <strong class="text-dark">Why apply logistic regression?</strong>
                             </div>
                             <p class="text-muted small mb-0 ps-4">
-                                Because the outcome is binary (purchase / no purchase), logistic
-                                regression estimates the probability of purchase from historical data.
+                                Because the outcome is binary (purchase / no purchase), logistic regression estimates
+                                the probability of each class from the distribution of PageValues, offering
+                                a smooth probabilistic curve.
                             </p>
                         </div>
-
                         <div class="card border-0 shadow-sm p-3 rounded-3 border-start border-4 border-teal">
                             <div class="d-flex align-items-center gap-2 mb-1">
                                 <i class="bi bi-cpu-fill text-teal"></i>
@@ -328,14 +312,11 @@
                                 will result in <strong>{{ class_1 }}</strong> or <strong>{{ class_0 }}</strong>.
                             </p>
                         </div>
-
                     </div>
                 </div>
-
                 <div class="modal-footer bg-white border-top-0 py-2 px-4">
                     <button type="button" class="btn btn-teal px-4 fw-bold shadow-sm" data-bs-dismiss="modal">Close</button>
                 </div>
-
             </div>
         </div>
     </div>

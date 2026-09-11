@@ -18,19 +18,6 @@
         .hero-section { background-color: #1a202c; border-bottom: 4px solid #20c997; }
         .text-teal { color: #20c997; }
         .card-custom { border: none; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        .confusion-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: center;
-        }
-        .confusion-table th, .confusion-table td {
-            border: 1px solid #e2e8f0;
-            padding: 12px;
-        }
-        .confusion-table thead th {
-            background-color: #1a202c;
-            color: white;
-        }
         .metric-box {
             border-radius: 12px;
             padding: 18px;
@@ -47,7 +34,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    <!-- Top Navbar -->
+    <!-- Unified Top Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
         <div class="container">
             <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
@@ -57,14 +44,12 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+            
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
-
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                     </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Machine Learning
@@ -76,7 +61,6 @@
                             <li><a class="dropdown-item" href="{{ url_for('calculate') }}"><i class="bi bi-calculator me-2"></i>Linear Regression</a></li>
                         </ul>
                     </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Supervised
@@ -86,16 +70,13 @@
                             <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
                             <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
                             <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
-
                             <li><hr class="dropdown-divider"></li>
-
                             <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
                             <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
                             <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
-                            <li><a class="dropdown-item small active" href="{{ url_for('naive_bayes_metrix') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrix') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
                         </ul>
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -112,30 +93,14 @@
     <!-- Main Content -->
     <main class="container my-4 flex-grow-1" style="max-width: 950px;">
 
-        <!-- Confusion Matrix -->
-        <div class="card card-custom p-4 mb-4">
-            <h5 class="fw-bold mb-3"><i class="bi bi-grid-3x3 text-teal me-2"></i>Confusion Matrix</h5>
-            <table class="confusion-table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Predicted: No Purchase</th>
-                        <th>Predicted: Purchase</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class="bg-light">Actual: No Purchase</th>
-                        <td>TN = {{ matriz[0][0] }}</td>
-                        <td>FP = {{ matriz[0][1] }}</td>
-                    </tr>
-                    <tr>
-                        <th class="bg-light">Actual: Purchase</th>
-                        <td>FN = {{ matriz[1][0] }}</td>
-                        <td>TP = {{ matriz[1][1] }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Confusion Matrix Heatmap -->
+        <div class="card card-custom p-4 mb-4 text-center">
+            <h5 class="fw-bold mb-3 text-start"><i class="bi bi-grid-3x3 text-teal me-2"></i>Confusion Matrix Heatmap</h5>
+            {% if plot_url %}
+                <img src="data:image/png;base64,{{ plot_url }}" alt="Confusion Matrix Heatmap" class="img-fluid rounded shadow-sm border" style="max-width: 600px; margin: 0 auto;">
+            {% else %}
+                <div class="p-5 text-muted bg-light rounded border border-dashed">The heatmap is not available.</div>
+            {% endif %}
             <p class="text-muted small mt-3 mb-0">
                 <strong>TP</strong> = True Positives, <strong>TN</strong> = True Negatives,
                 <strong>FP</strong> = False Positives, <strong>FN</strong> = False Negatives.

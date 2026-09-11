@@ -23,6 +23,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
+    <!-- Unified Top Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
         <div class="container">
             <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
@@ -32,17 +33,17 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+            
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Machine Learning
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm">
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="mlDropdown">
                             <li><a class="dropdown-item" href="{{ url_for('template') }}"><i class="bi bi-book me-2"></i>ML Overview</a></li>
                             <li><a class="dropdown-item" href="{{ url_for('types') }}"><i class="bi bi-diagram-3 me-2"></i>ML Types</a></li>
                             <li><hr class="dropdown-divider"></li>
@@ -50,17 +51,19 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Supervised
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm">
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="supervisedDropdown">
                             <li class="dropdown-header text-teal fw-bold">LOGISTIC REGRESSION</li>
                             <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
                             <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
-                            <li><a class="dropdown-item small active" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
-                            <li><a class="dropdown-item small active" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrix') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -68,6 +71,7 @@
         </div>
     </nav>
 
+    <!-- Header / Hero Section -->
     <header class="hero-section text-white py-4">
         <div class="container text-center">
             <h1 class="display-6 fw-bold mb-2">Naive Bayes Application</h1>
@@ -75,8 +79,8 @@
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="container my-4 flex-grow-1">
-
         <div class="row g-3 mb-4">
             <div class="col-lg-3 col-md-6">
                 <div class="card card-custom p-4 shadow-sm h-100 d-flex flex-column justify-content-between" style="min-height: 210px;">
@@ -132,13 +136,11 @@
         </div>
 
         <div class="row g-4" id="prediction-area">
-
             <div class="col-lg-4">
                 <div class="card card-custom h-100 p-4 border-top border-4 border-teal shadow-sm d-flex flex-column justify-content-between">
-
                     <div class="mb-3">
                         <div class="d-flex align-items-center gap-2 mb-1">
-                            <div class="bg-teal-subtle text-teal p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background-color: rgba(32, 201, 151, 0.15);">
+                            <div class="bg-teal-subtle text-teal p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
                                 <i class="bi bi-cpu-fill fs-5" style="color: #20c997;"></i>
                             </div>
                             <div>
@@ -151,7 +153,7 @@
 
                     <form method="post" action="#prediction-area" id="naiveBayesForm" class="my-auto py-2">
                         <div class="mb-3">
-                            <label for="page_values" class="form-label fw-semibold text-secondary small d-flex justify-content-between mb-2">
+                            <label for="page_values_input" class="form-label fw-semibold text-secondary small d-flex justify-content-between mb-2">
                                 <span>Page Values</span>
                                 <span class="fw-bold" style="color: #20c997;">points</span>
                             </label>
@@ -159,7 +161,7 @@
                                 <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-graph-up"></i></span>
                                 <input required type="number" step="any" min="0"
                                     class="form-control bg-light border-start-0 fw-bold text-dark"
-                                    id="page_values" name="page_values"
+                                    id="page_values_input" name="page_values_input"
                                     value="{{ page_values_input if page_values_input is not none else '' }}"
                                     placeholder="e.g. 15.5">
                             </div>
@@ -188,9 +190,9 @@
                                 <div>
                                     <span class="text-uppercase fw-bold d-block" style="font-size: 0.7rem; letter-spacing: 0.5px; color: #1aa179;">Predicted Class</span>
                                     <div class="fs-5 fw-bold text-dark lh-1 mt-1">
-                                        {{ result.mensaje }}
+                                        {{ result.message }}
                                     </div>
-                                    <small class="text-muted">Probability of purchase: {{ result.probabilidad }}%</small>
+                                    <small class="text-muted">Probability of purchase: {{ result.probability }}%</small>
                                 </div>
                             </div>
                         </div>
@@ -200,7 +202,6 @@
                         </div>
                         {% endif %}
                     </div>
-
                 </div>
             </div>
 
@@ -219,7 +220,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
@@ -238,7 +238,6 @@
     <div class="modal fade" id="problemModal" tabindex="-1" aria-labelledby="problemModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-
                 <div class="modal-header bg-dark text-white border-bottom border-teal py-3 px-4" style="border-bottom: 3px solid #20c997 !important;">
                     <h5 class="modal-title fw-bold text-teal d-flex align-items-center gap-2" id="problemModalLabel">
                         <i class="bi bi-question-circle-fill" style="color: #20c997;"></i>
@@ -246,10 +245,8 @@
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
                 <div class="modal-body p-4 bg-light">
                     <div class="d-flex flex-column gap-3">
-
                         <div class="card border-0 shadow-sm p-3 rounded-3">
                             <div class="d-flex align-items-center gap-2 mb-1">
                                 <i class="bi bi-exclamation-triangle-fill text-teal"></i>
@@ -260,7 +257,6 @@
                                 using how valuable the pages they visited are, instead of guessing blindly.
                             </p>
                         </div>
-
                         <div class="card border-0 shadow-sm p-3 rounded-3">
                             <div class="d-flex align-items-center gap-2 mb-1">
                                 <i class="bi bi-search text-teal"></i>
@@ -271,7 +267,6 @@
                                 is associated with purchases) and whether the session ends in a purchase.
                             </p>
                         </div>
-
                         <div class="card border-0 shadow-sm p-3 rounded-3">
                             <div class="d-flex align-items-center gap-2 mb-1">
                                 <i class="bi bi-database-fill text-teal"></i>
@@ -282,7 +277,6 @@
                                 ended in a purchase.
                             </p>
                         </div>
-
                         <div class="card border-0 shadow-sm p-3 rounded-3">
                             <div class="d-flex align-items-center gap-2 mb-1">
                                 <i class="bi bi-graph-up-arrow text-teal"></i>
@@ -294,7 +288,6 @@
                                 a fast, probabilistic alternative to Logistic Regression.
                             </p>
                         </div>
-
                         <div class="card border-0 shadow-sm p-3 rounded-3 border-start border-4 border-teal">
                             <div class="d-flex align-items-center gap-2 mb-1">
                                 <i class="bi bi-cpu-fill text-teal"></i>
@@ -305,14 +298,11 @@
                                 will result in <strong>{{ class_1 }}</strong> or <strong>{{ class_0 }}</strong>.
                             </p>
                         </div>
-
                     </div>
                 </div>
-
                 <div class="modal-footer bg-white border-top-0 py-2 px-4">
                     <button type="button" class="btn btn-teal px-4 fw-bold shadow-sm" data-bs-dismiss="modal">Close</button>
                 </div>
-
             </div>
         </div>
     </div>

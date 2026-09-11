@@ -63,6 +63,7 @@
 <body class="types-page d-flex flex-column min-vh-100">
 
     <!-- Top Navbar -->
+   <!-- Top Navbar Unificado -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
         <div class="container">
             <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
@@ -81,7 +82,7 @@
                         <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                     </li>
                     
-                    <!-- 2. Machine Learning Dropdown (Contenido previo R1A1) -->
+                    <!-- 2. Machine Learning Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Machine Learning
@@ -94,12 +95,13 @@
                         </ul>
                     </li>
 
-                    <!-- 3. Supervised Dropdown (Completamente Activo) -->
+                    <!-- 3. Supervised Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Supervised
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="supervisedDropdown">
+                            
                             <!-- Regresión Logística -->
                             <li class="dropdown-header text-teal fw-bold">LOGISTIC REGRESSION</li>
                             <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
@@ -108,11 +110,11 @@
                             
                             <li><hr class="dropdown-divider"></li>
                             
-                            <!-- Modelo Secundario (Ahora Activo) -->
-                            <li class="dropdown-header text-teal fw-bold">SECONDARY MODEL</li>
-                            <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
-                            <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
-                            <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                            <!-- Naive Bayes -->
+                            <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrix') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
                         </ul>
                     </li>
 
@@ -120,7 +122,6 @@
             </div>
         </div>
     </nav>
-
     <!-- Header Section -->
     <header class="types-hero text-white py-4 shadow-sm">
         <div class="container text-center">
