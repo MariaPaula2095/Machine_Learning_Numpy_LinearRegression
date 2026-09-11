@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linear Regression - Application | Data with Roots</title>
-    
+    <title>Logistic Regression - Application | Data with Roots</title>
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts & Bootstrap Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
+
     <!-- Custom Project CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    
+
     <style>
-        /* Minor specific adjustments for this page */
         body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
         .hero-section { background-color: #1a202c; border-bottom: 4px solid #20c997; }
         .text-teal { color: #20c997; }
@@ -27,8 +25,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    <!-- Top Navbar (Same as Index) -->
-<!-- Top Navbar Unificado -->
+    <!-- Unified Top Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
         <div class="container">
             <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
@@ -41,13 +38,9 @@
             
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
-                    
-                    <!-- 1. Home -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                     </li>
-                    
-                    <!-- 2. Machine Learning Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Machine Learning
@@ -59,30 +52,22 @@
                             <li><a class="dropdown-item" href="{{ url_for('calculate') }}"><i class="bi bi-calculator me-2"></i>Linear Regression</a></li>
                         </ul>
                     </li>
-
-                    <!-- 3. Supervised Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Supervised
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="supervisedDropdown">
-                            
-                            <!-- Regresión Logística -->
                             <li class="dropdown-header text-teal fw-bold">LOGISTIC REGRESSION</li>
                             <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
                             <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
                             <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
-                            
                             <li><hr class="dropdown-divider"></li>
-                            
-                            <!-- Naive Bayes -->
                             <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
                             <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
                             <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
                             <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrix') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
                         </ul>
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -91,37 +76,35 @@
     <!-- Header / Hero Section -->
     <header class="hero-section text-white py-4">
         <div class="container text-center">
-            <h1 class="display-6 fw-bold mb-2">Linear Regression Application</h1>
-            <p class="lead opacity-75 mb-0 fs-6">Interactive model for agricultural yield prediction</p>
+            <h1 class="display-6 fw-bold mb-2">Logistic Regression Application</h1>
+            <p class="lead opacity-75 mb-0 fs-6">Predicting online purchase intention from page value</p>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="container my-4 flex-grow-1">
 
-        <!-- Row 1: Information Cards (Horizontal) -->
-                    
+        <!-- Row 1: Information Cards -->
         <div class="row g-3 mb-4">
-            <!-- 1. Context Card -->
             <div class="col-lg-3 col-md-6">
                 <div class="card card-custom p-4 shadow-sm h-100 d-flex flex-column justify-content-between" style="min-height: 210px;">
                     <div>
                         <h6 class="fw-bold text-teal mb-2"><i class="bi bi-info-circle me-1"></i>Context</h6>
                         <p class="text-muted small mb-0">
-                            Estimates <strong>crop yield</strong> based on <strong>fertilizer applied</strong> using Machine Learning.
+                            Predicts whether an online session ends in a <strong>purchase</strong> based on the
+                            <strong>PageValues</strong> score of the pages visited.
                         </p>
                     </div>
-                    <span class="text-muted extra-small opacity-50" style="font-size: 0.7rem;">Agronomic Model</span>
+                    <span class="text-muted extra-small opacity-50" style="font-size: 0.7rem;">E-commerce Model</span>
                 </div>
             </div>
 
-            <!-- 2. Problem Card -->
             <div class="col-lg-3 col-md-6">
                 <div class="card card-custom p-4 shadow-sm h-100 d-flex flex-column justify-content-between" style="min-height: 210px;">
                     <div>
                         <h6 class="fw-bold text-teal mb-2"><i class="bi bi-question-circle me-1"></i>Problem</h6>
                         <p class="text-muted small mb-3">
-                            Defines the agricultural problem, trends, and target prediction.
+                            Defines the classification problem, the target, and the two possible classes.
                         </p>
                     </div>
                     <button type="button" class="btn btn-teal-outline btn-sm w-100 py-2" data-bs-toggle="modal" data-bs-target="#problemModal">
@@ -130,95 +113,75 @@
                 </div>
             </div>
 
-            <!-- 3. Variables Card -->
             <div class="col-lg-3 col-md-6">
                 <div class="card card-custom p-4 shadow-sm h-100 d-flex flex-column justify-content-between" style="min-height: 210px;">
                     <div>
                         <h6 class="fw-bold text-teal mb-2"><i class="bi bi-calculator me-1"></i>Variables</h6>
                         <ul class="list-unstyled text-muted small mb-0">
-                            <li class="mb-2"><strong>(X):</strong> {{ independent_var_name }} ({{ independent_var_unit }})</li>
-                            <li><strong>(Y):</strong> {{ dependent_var_name }} ({{ dependent_var_unit }})</li>
+                            <li class="mb-2"><strong>(X):</strong> {{ independent_var_name }}</li>
+                            <li class="mb-2"><strong>(y):</strong> {{ target_var_name }}</li>
+                            <li><strong>Classes:</strong> 0 = {{ class_0 }} | 1 = {{ class_1 }}</li>
                         </ul>
                     </div>
-                    
                 </div>
             </div>
 
-            <!-- 4. Dataset Card -->
             <div class="col-lg-3 col-md-6">
                 <div class="card card-custom p-4 shadow-sm h-100 d-flex flex-column justify-content-between" style="min-height: 210px;">
                     <div>
                         <h6 class="fw-bold text-teal mb-2"><i class="bi bi-database me-1"></i>Dataset</h6>
                         <ul class="list-unstyled text-muted small mb-0">
                             <li class="mb-2"><strong>Records:</strong> {{ num_records }}</li>
-                            <li><strong>Source:</strong> Academic Synthetic</li>
+                            <li><strong>Source:</strong> {{ data_source }}</li>
                         </ul>
                     </div>
-                    
                 </div>
             </div>
         </div>
 
         <!-- Row 2: Form on the left, Plot on the right -->
         <div class="row g-4" id="prediction-area">
-            
-            
-           <!-- Left Column: Prediction Form (Balanced Vertical Layout) -->
+
+            <!-- Left Column: Prediction Form -->
             <div class="col-lg-4">
                 <div class="card card-custom h-100 p-4 border-top border-4 border-teal shadow-sm d-flex flex-column justify-content-between">
-                    
-                    <!-- Top Section: Header -->
+
                     <div class="mb-3">
                         <div class="d-flex align-items-center gap-2 mb-1">
-                            <div class="bg-teal-subtle text-teal p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background-color: rgba(32, 201, 151, 0.15);">
-                                <i class="bi bi-calculator-fill fs-5" style="color: #20c997;"></i>
+                            <div class="bg-teal-subtle text-teal p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <i class="bi bi-cpu-fill fs-5" style="color: #20c997;"></i>
                             </div>
                             <div>
-                                <h5 class="fw-bold mb-0">Prediction Form</h5>
-                                <small class="text-muted" style="font-size: 0.78rem;">Estimate crop yield in real time</small>
+                                <h5 class="fw-bold mb-0">Classification Form</h5>
+                                <small class="text-muted" style="font-size: 0.78rem;">Predict purchase likelihood in real time</small>
                             </div>
                         </div>
                         <hr class="my-3 text-muted opacity-25">
                     </div>
 
-                    <!-- Middle Section: Interactive Form -->
-                    <form method="post" action="#prediction-area" id="yieldForm" class="my-auto py-2">
-                        
-                        <!-- Input Field -->
+                    <!-- Updated Form for Page Values -->
+                    <form method="post" action="#prediction-area" id="logisticForm" class="my-auto py-2">
                         <div class="mb-3">
-                            <label for="fertilizer" class="form-label fw-semibold text-secondary small d-flex justify-content-between mb-2">
-                                <span>Fertilizer Dosage</span>
-                                <span class="fw-bold" style="color: #20c997;">{{ independent_var_unit }}</span>
+                            <label for="page_values_input" class="form-label fw-semibold text-secondary small d-flex justify-content-between mb-2">
+                                <span>Page Values</span>
+                                <span class="fw-bold" style="color: #20c997;">points</span>
                             </label>
                             <div class="input-group input-group-lg">
-                                <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-box-seam"></i></span>
-                                <input required type="number" step="any" min="0" max="400" 
-                                    class="form-control bg-light border-start-0 border-end-0 fw-bold text-dark" 
-                                    id="fertilizer" name="fertilizer"
-                                    value="{{ fertilizer_input if fertilizer_input is not none else '150.0' }}" 
-                                    placeholder="0.0">
-                                <span class="input-group-text bg-light text-muted border-start-0 small">kg/ha</span>
+                                <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-graph-up"></i></span>
+                                <input required type="number" step="any" min="0"
+                                    class="form-control bg-light border-start-0 fw-bold text-dark"
+                                    id="page_values_input" name="page_values_input"
+                                    value="{{ page_values_input if page_values_input is not none else '' }}"
+                                    placeholder="e.g. 15.5">
                             </div>
                         </div>
 
-                        <!-- Slider Range -->
-                        <div class="mb-4">
-                            <div class="d-flex justify-content-between text-muted extra-small mb-1" style="font-size: 0.75rem;">
-                                <span>Min: 0 kg</span>
-                                <span>Max: 300 kg</span>
-                            </div>
-                            <input type="range" class="form-range custom-teal-slider" id="fertilizerRange" min="0" max="300" step="0.5" 
-                                value="{{ fertilizer_input if fertilizer_input is not none else '150.0' }}">
-                        </div>
-
-                        <!-- Submit Button -->
                         <button type="submit" class="btn btn-teal w-100 py-2.5 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
                             <i class="bi bi-cpu-fill"></i>
-                            <span>Predict Yield</span>
+                            <span>Predict</span>
                         </button>
                     </form>
 
-                    <!-- Bottom Section: Results / Messages Area -->
                     <div class="mt-auto pt-3">
                         {% if error %}
                         <div class="alert alert-danger d-flex align-items-center border-0 shadow-sm rounded-3 mb-0" role="alert">
@@ -227,25 +190,24 @@
                         </div>
                         {% endif %}
 
-                        {% if result is not none %}
+                        {% if result %}
                         <div class="card border-0 p-3 rounded-3 shadow-sm border-start border-4 mb-0" style="background-color: rgba(32, 201, 151, 0.1); border-color: #20c997 !important;">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px; background-color: #20c997;">
                                     <i class="bi bi-check-lg fs-4"></i>
                                 </div>
                                 <div>
-                                    <span class="text-uppercase fw-bold d-block" style="font-size: 0.7rem; letter-spacing: 0.5px; color: #1aa179;">Predicted Yield</span>
-                                    <div class="fs-4 fw-bold text-dark lh-1 mt-1">
-                                        {{ "%.2f"|format(result) }}
-                                        <small class="fs-6 text-muted fw-normal">{{ dependent_var_unit }}</small>
+                                    <span class="text-uppercase fw-bold d-block" style="font-size: 0.7rem; letter-spacing: 0.5px; color: #1aa179;">Predicted Class</span>
+                                    <div class="fs-5 fw-bold text-dark lh-1 mt-1">
+                                        {{ result.message }}
                                     </div>
+                                    <small class="text-muted">Probability of purchase: {{ result.probability }}%</small>
                                 </div>
                             </div>
                         </div>
                         {% else %}
-                        <!-- Decorative State when no prediction has been made yet -->
                         <div class="p-3 text-center border rounded-3 bg-light text-muted small">
-                            <i class="bi bi-info-circle me-1"></i> Enter a value and click predict to calculate the expected yield.
+                            <i class="bi bi-info-circle me-1"></i> Enter a PageValues value and click predict.
                         </div>
                         {% endif %}
                     </div>
@@ -253,25 +215,13 @@
                 </div>
             </div>
 
-            <!-- Sync Script -->
-            <script>
-                const numInput = document.getElementById('fertilizer');
-                const rangeInput = document.getElementById('fertilizerRange');
-
-                if (numInput && rangeInput) {
-                    rangeInput.addEventListener('input', (e) => { numInput.value = e.target.value; });
-                    numInput.addEventListener('input', (e) => { rangeInput.value = e.target.value; });
-                }
-            </script>
-
             <!-- Right Column: Data Visualization Plot -->
             <div class="col-lg-8">
                 <div class="card card-custom h-100 p-4">
                     <h5 class="fw-bold mb-4">Data Visualization</h5>
-                    
                     <div class="d-flex justify-content-center align-items-center h-100 rounded bg-light p-2" style="min-height: 350px; border: 1px dashed #ccc;">
                         {% if plot_url %}
-                            <img src="data:image/png;base64,{{ plot_url }}" alt="Linear Regression Plot" class="img-fluid rounded shadow-sm">
+                            <img src="data:image/png;base64,{{ plot_url }}" alt="Logistic Regression Plot" class="img-fluid rounded shadow-sm">
                         {% else %}
                             <div class="text-center text-muted">
                                 <i class="bi bi-bar-chart display-4 mb-2 d-block opacity-50"></i>
@@ -281,7 +231,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </main>
 
@@ -298,94 +248,79 @@
         </div>
     </footer>
 
-    <!-- Problem Details Modal (Redesigned & Stylized) -->
-        <div class="modal fade" id="problemModal" tabindex="-1" aria-labelledby="problemModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-                    
-                    <!-- Modal Header -->
-                    <div class="modal-header bg-dark text-white border-bottom border-teal py-3 px-4" style="border-bottom: 3px solid #20c997 !important;">
-                        <h5 class="modal-title fw-bold text-teal d-flex align-items-center gap-2" id="problemModalLabel">
-                            <i class="bi bi-question-circle-fill" style="color: #20c997;"></i>
-                            <span>Problem Context & Q&A</span>
-                        </h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <!-- Modal Body -->
-                    <div class="modal-body p-4 bg-light">
-                        <div class="d-flex flex-column gap-3">
-                            
-                            <!-- Q1 -->
-                            <div class="card border-0 shadow-sm p-3 rounded-3">
-                                <div class="d-flex align-items-center gap-2 mb-1">
-                                    <i class="bi bi-exclamation-triangle-fill text-teal"></i>
-                                    <strong class="text-dark">What is the problem?</strong>
-                                </div>
-                                <p class="text-muted small mb-0 ps-4">
-                                    Farmers need to know, before applying fertilizer, how much it will actually improve their harvest. Without a data-driven estimate, amounts are often chosen by intuition, wasting resources or under-fertilizing.
-                                </p>
+    <!-- Problem Details Modal -->
+    <div class="modal fade" id="problemModal" tabindex="-1" aria-labelledby="problemModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-header bg-dark text-white border-bottom border-teal py-3 px-4" style="border-bottom: 3px solid #20c997 !important;">
+                    <h5 class="modal-title fw-bold text-teal d-flex align-items-center gap-2" id="problemModalLabel">
+                        <i class="bi bi-question-circle-fill" style="color: #20c997;"></i>
+                        <span>Problem Context & Q&A</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    <div class="d-flex flex-column gap-3">
+                        <div class="card border-0 shadow-sm p-3 rounded-3">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <i class="bi bi-exclamation-triangle-fill text-teal"></i>
+                                <strong class="text-dark">What is the problem?</strong>
                             </div>
-
-                            <!-- Q2 -->
-                            <div class="card border-0 shadow-sm p-3 rounded-3">
-                                <div class="d-flex align-items-center gap-2 mb-1">
-                                    <i class="bi bi-search text-teal"></i>
-                                    <strong class="text-dark">What phenomenon is being analyzed?</strong>
-                                </div>
-                                <p class="text-muted small mb-0 ps-4">
-                                    The relationship between the amount of fertilizer applied to a crop and the resulting crop yield, assuming a linear trend between the two.
-                                </p>
+                            <p class="text-muted small mb-0 ps-4">
+                                E-commerce sites want to anticipate whether a visitor is likely to buy,
+                                using how valuable the pages they visited are, instead of guessing blindly.
+                            </p>
+                        </div>
+                        <div class="card border-0 shadow-sm p-3 rounded-3">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <i class="bi bi-search text-teal"></i>
+                                <strong class="text-dark">What phenomenon is being analyzed?</strong>
                             </div>
-
-                            <!-- Q3 -->
-                            <div class="card border-0 shadow-sm p-3 rounded-3">
-                                <div class="d-flex align-items-center gap-2 mb-1">
-                                    <i class="bi bi-database-fill text-teal"></i>
-                                    <strong class="text-dark">What do the data represent?</strong>
-                                </div>
-                                <p class="text-muted small mb-0 ps-4">
-                                    Each record represents one crop/field observation: the fertilizer amount applied ({{ independent_var_unit }}) and the yield obtained ({{ dependent_var_unit }}) for that observation.
-                                </p>
+                            <p class="text-muted small mb-0 ps-4">
+                                The relationship between the PageValues score (how strongly a visited page
+                                is associated with purchases) and whether the session ends in a purchase.
+                            </p>
+                        </div>
+                        <div class="card border-0 shadow-sm p-3 rounded-3">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <i class="bi bi-database-fill text-teal"></i>
+                                <strong class="text-dark">What do the data represent?</strong>
                             </div>
-
-                            <!-- Q4 -->
-                            <div class="card border-0 shadow-sm p-3 rounded-3">
-                                <div class="d-flex align-items-center gap-2 mb-1">
-                                    <i class="bi bi-graph-up-arrow text-teal"></i>
-                                    <strong class="text-dark">Why apply linear regression?</strong>
-                                </div>
-                                <p class="text-muted small mb-0 ps-4">
-                                    To model the trend between fertilizer and yield from historical data, so it can be used to estimate yield for fertilizer amounts that were not directly observed.
-                                </p>
+                            <p class="text-muted small mb-0 ps-4">
+                                Each record is one browsing session: its PageValues score and whether it
+                                ended in a purchase.
+                            </p>
+                        </div>
+                        <div class="card border-0 shadow-sm p-3 rounded-3">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <i class="bi bi-graph-up-arrow text-teal"></i>
+                                <strong class="text-dark">Why apply logistic regression?</strong>
                             </div>
-
-                            <!-- Q5 -->
-                            <div class="card border-0 shadow-sm p-3 rounded-3 border-start border-4 border-teal">
-                                <div class="d-flex align-items-center gap-2 mb-1">
-                                    <i class="bi bi-cpu-fill text-teal"></i>
-                                    <strong class="text-dark">What value does the model predict?</strong>
-                                </div>
-                                <p class="text-muted small mb-0 ps-4">
-                                    The expected <strong>{{ dependent_var_name }} ({{ dependent_var_unit }})</strong> for a given <strong>{{ independent_var_name }} ({{ independent_var_unit }})</strong> entered by the user.
-                                </p>
+                            <p class="text-muted small mb-0 ps-4">
+                                Because the outcome is binary (purchase / no purchase), logistic regression estimates
+                                the probability of each class from the distribution of PageValues, offering
+                                a smooth probabilistic curve.
+                            </p>
+                        </div>
+                        <div class="card border-0 shadow-sm p-3 rounded-3 border-start border-4 border-teal">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <i class="bi bi-cpu-fill text-teal"></i>
+                                <strong class="text-dark">What does the model predict?</strong>
                             </div>
-
+                            <p class="text-muted small mb-0 ps-4">
+                                Whether a session with a given <strong>{{ independent_var_name }}</strong>
+                                will result in <strong>{{ class_1 }}</strong> or <strong>{{ class_0 }}</strong>.
+                            </p>
                         </div>
                     </div>
-
-                    <!-- Modal Footer -->
-                    <div class="modal-footer bg-white border-top-0 py-2 px-4">
-                        <button type="button" class="btn btn-teal px-4 fw-bold shadow-sm" data-bs-dismiss="modal">Close</button>
-                    </div>
-
+                </div>
+                <div class="modal-footer bg-white border-top-0 py-2 px-4">
+                    <button type="button" class="btn btn-teal px-4 fw-bold shadow-sm" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
+    </div>
 
-    
-
-    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

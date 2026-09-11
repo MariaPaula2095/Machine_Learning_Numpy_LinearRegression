@@ -1,28 +1,257 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machine Learning - Portada</title>
+    <title>Data with Roots - Machine Learning Platform</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts & Bootstrap Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Custom Project CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <div class="portada">
-        <p class="materia">Machine Learning</p>
-        <h1>Hello World</h1>
-        <p class="universidad">University of Cundinamarca </p>
+<body class="home-page d-flex flex-column min-vh-100">
 
-        <hr>
+    <!-- Top Navbar -->
+    <!-- Top Navbar con Menús Desplegables (Sin Errores en Flask) -->
+<!-- Top Navbar Unificado -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
+                <i class="bi bi-graph-up-arrow text-info"></i>
+                <span>Data with Roots</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+                    
+                    <!-- 1. Home -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    
+                    <!-- 2. Machine Learning Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Machine Learning
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="mlDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('template') }}"><i class="bi bi-book me-2"></i>ML Overview</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('types') }}"><i class="bi bi-diagram-3 me-2"></i>ML Types</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('calculate') }}"><i class="bi bi-calculator me-2"></i>Linear Regression</a></li>
+                        </ul>
+                    </li>
 
-        <h3>Members of the group</h3>
-        <ul>
-            <li>Tania Beltran</li>
-            <li>María Paula Ramírez</li>
-            <li>Guillermo Melendez</li>
-            <li>Sebastian Rodriguez</li>
-        </ul>
+                    <!-- 3. Supervised Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Supervised
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="supervisedDropdown">
+                            
+                            <!-- Regresión Logística -->
+                            <li class="dropdown-header text-teal fw-bold">LOGISTIC REGRESSION</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            
+                            <!-- Naive Bayes -->
+                            <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrix') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                        </ul>
+                    </li>
 
-        <a href="{{ url_for('template') }}" class="btn">Next &rarr;</a>
-    </div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Hero Banner -->
+    <header class="hero-section text-white py-5">
+        <div class="container py-4">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <span class="badge badge-academic px-3 py-2 rounded-pill text-uppercase mb-3">
+                        University of Cundinamarca &bull; Machine Learning
+                    </span>
+                    <h1 class="display-4 fw-bold mb-3">Data with Roots</h1>
+                    <p class="lead text-light opacity-75 mb-4">
+                        An interactive academic platform designed to explore core Machine Learning principles and analyze crop yield optimization using predictive linear regression models.
+                    </p>
+                    
+                        
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+        <!-- Main Content Container -->
+    <!-- <main class="container my-5 flex-grow-1"> -->
+    <main class="container my-5 flex-grow-1">
+        <!-- ==========================================
+             R1A1 (Linear Models)
+            ========================================== -->
+        <div class="card card-custom p-4 mb-5 shadow-sm border-0 bg-light">
+            <!-- Header de la sección R1A1 -->
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-secondary px-3 py-2 fs-6 rounded-pill fw-bold">R1A1</span>
+                    <h3 class="h5 fw-bold mb-0 text-dark">Phase 1: Foundations & Linear Regression</h3>
+                </div>
+                <span class="badge bg-teal-subtle text-teal fw-semibold">Completed</span>
+            </div>
+
+            <!-- Rejilla de Tarjetas R1A1 -->
+            <div class="row g-4 mb-4">
+                <!-- 1. ML Concepts -->
+                <div class="col-md-4">
+                    <div class="card card-custom h-100 p-4 border shadow-sm d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="step-icon-box mb-3 text-teal">
+                                <i class="bi bi-book fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold fs-6">1. ML Concepts</h5>
+                            <p class="text-muted small mb-0">
+                                Learn what Machine Learning is, how models infer patterns from datasets, and why quality data is fundamental.
+                            </p>
+                        </div>
+                        <a href="{{ url_for('template') }}" class="btn btn-teal-outline btn-sm w-100 mt-3 py-2">Access Section</a>
+                    </div>
+                </div>
+
+                <!-- 2. ML Categories -->
+                <div class="col-md-4">
+                    <div class="card card-custom h-100 p-4 border shadow-sm d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="step-icon-box mb-3 text-teal">
+                                <i class="bi bi-diagram-3 fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold fs-6">2. ML Categories</h5>
+                            <p class="text-muted small mb-0">
+                                Explore Supervised, Unsupervised, Semi-Supervised, and Reinforcement Learning paradigms with practical scenarios.
+                            </p>
+                        </div>
+                        <a href="{{ url_for('types') }}" class="btn btn-teal-outline btn-sm w-100 mt-3 py-2">Access Section</a>
+                    </div>
+                </div>
+
+                <!-- 3. Linear Regression -->
+                <div class="col-md-4">
+                    <div class="card card-custom h-100 p-4 border shadow-sm d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="step-icon-box mb-3 text-teal">
+                                <i class="bi bi-calculator fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold fs-6">3. Linear Regression</h5>
+                            <p class="text-muted small mb-0">
+                                Test a trained model predicting crop yield (tons/ha) based on fertilizer application inputs (kg/ha).
+                            </p>
+                        </div>
+                        <a href="{{ url_for('calculate') }}" class="btn btn-teal-outline btn-sm w-100 mt-3 py-2">Access Section</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner  -->
+            <div class="card p-4 text-white border-0 shadow-sm rounded-3 d-flex flex-row align-items-center justify-content-between flex-wrap gap-3" style="background-color: #0d9488;">
+                <div>
+                    <span class="badge bg-white text-dark mb-1 extra-small fw-bold">Trained Dataset</span>
+                    <h4 class="fw-bold mb-1 fs-5">Linear Regression Application</h4>
+                    <p class="mb-0 small text-white">
+                        The application incorporates a dataset with <strong style="color: #facc15 !important;">500+ records</strong> simulating agronomic relationships via <strong style="color: #facc15 !important;">scikit-learn</strong>.
+                    </p>
+                </div>
+                <a href="{{ url_for('calculate') }}" class="btn fw-bold py-2 px-4 shadow-sm" style="background-color: #ffffff !important; color: #0d9488 !important; border: none;">Try Prediction Form</a>
+            </div>
+        </div>
+
+
+        <!-- ==========================================
+             R1A2 (Classification)
+            ========================================== -->
+        <div class="card card-custom p-4 shadow-sm border-0 bg-light">
+            <!-- Header de la sección R1A2 -->
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-info text-dark px-3 py-2 fs-6 rounded-pill fw-bold">R1A2</span>
+                    <h3 class="h5 fw-bold mb-0 text-dark">Phase 2: Classification Models & Metrics</h3>
+                </div>
+                <span class="badge bg-warning text-dark fw-semibold">In Progress</span>
+            </div>
+
+            <div class="row g-4">
+                <!-- Model 1: -->
+                <div class="col-md-6">
+                    <div class="card card-custom h-100 p-4 border border-2 border-teal shadow-sm d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="badge bg-teal text-white">Model 1 (Binary)</span>
+                            </div>
+                            <h5 class="fw-bold mb-2">Logistic Regression</h5>
+                            <p class="text-muted small mb-3">
+                               redicts online purchase likelihood based on PageValues,using Logistic Regression model.
+                            </p>
+                        </div>
+                        <div class="d-flex gap-2 mt-2">
+                            <a href="{{ url_for('logistic_concepts') }}" class="btn btn-teal-outline btn-sm flex-fill">Concepts</a>
+                            <a href="{{ url_for('logistic_application') }}" class="btn btn-teal-outline btn-sm flex-fill">App</a>
+                            <a href="{{ url_for('logistic_metrics') }}" class="btn btn-teal-outline btn-sm flex-fill">Metrics</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model 2: Naive Bayes -->
+                <div class="col-md-6">
+                    <div class="card card-custom h-100 p-4 border border-2 border-teal shadow-sm d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="badge bg-teal text-white">Model 2 (Naive Bayes)</span>
+                            </div>
+                            <h5 class="fw-bold mb-2">Naive Bayes Classification</h5>
+                            <p class="text-muted small mb-3">
+                                Predicts online purchase likelihood based on PageValues, using Bayes' Theorem and a Gaussian probability model.
+                            </p>
+                        </div>
+                        <div class="d-flex gap-2 mt-2">
+                            <a href="{{ url_for('naive_bayes_concepts') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">Concepts</a>
+                            <a href="{{ url_for('naive_bayes_application') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">App</a>
+                            <a href="{{ url_for('naive_bayes_metrix') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">Metrics</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer  -->
+    <footer class="custom-footer mt-auto py-4">
+        <div class="container text-center">
+            <h6 class="footer-title mb-3">Data with Roots</h6>
+            <div class="footer-info d-flex flex-column gap-1">
+                <span>University of Cundinamarca</span>
+                <span>Systems and Computer Engineering</span>
+                <span>Machine Learning Group</span>
+                <span class="footer-year">2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
