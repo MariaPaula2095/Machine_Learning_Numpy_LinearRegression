@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naive Bayes - Evaluation Metrics | Data with Roots</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Custom Project CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+        .hero-section { background-color: #1a202c; border-bottom: 4px solid #20c997; }
+        .text-teal { color: #20c997; }
+        .card-custom { border: none; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .confusion-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        .confusion-table th, .confusion-table td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+        }
+        .confusion-table thead th {
+            background-color: #1a202c;
+            color: white;
+        }
+        .metric-box {
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06);
+        }
+        .metric-box .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #20c997;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
+                <i class="bi bi-graph-up-arrow text-info"></i>
+                <span>Data with Roots</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Machine Learning
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="mlDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('template') }}"><i class="bi bi-book me-2"></i>ML Overview</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('types') }}"><i class="bi bi-diagram-3 me-2"></i>ML Types</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('calculate') }}"><i class="bi bi-calculator me-2"></i>Linear Regression</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Supervised
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="supervisedDropdown">
+                            <li class="dropdown-header text-teal fw-bold">LOGISTIC REGRESSION</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small active" href="{{ url_for('naive_bayes_metrix') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header / Hero Section -->
+    <header class="hero-section text-white py-4">
+        <div class="container text-center">
+            <h1 class="display-6 fw-bold mb-2">Naive Bayes — Evaluation Metrics</h1>
+            <p class="lead opacity-75 mb-0 fs-6">Measuring model performance on the 20% test set</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container my-4 flex-grow-1" style="max-width: 950px;">
+
+        <!-- Confusion Matrix -->
+        <div class="card card-custom p-4 mb-4">
+            <h5 class="fw-bold mb-3"><i class="bi bi-grid-3x3 text-teal me-2"></i>Confusion Matrix</h5>
+            <table class="confusion-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Predicted: No Purchase</th>
+                        <th>Predicted: Purchase</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="bg-light">Actual: No Purchase</th>
+                        <td>TN = {{ matriz[0][0] }}</td>
+                        <td>FP = {{ matriz[0][1] }}</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">Actual: Purchase</th>
+                        <td>FN = {{ matriz[1][0] }}</td>
+                        <td>TP = {{ matriz[1][1] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-muted small mt-3 mb-0">
+                <strong>TP</strong> = True Positives, <strong>TN</strong> = True Negatives,
+                <strong>FP</strong> = False Positives, <strong>FN</strong> = False Negatives.
+            </p>
+        </div>
+
+        <!-- Metrics -->
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3">
+                <div class="metric-box">
+                    <div class="text-muted small">Accuracy</div>
+                    <div class="value">{{ accuracy }}</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="metric-box">
+                    <div class="text-muted small">Precision</div>
+                    <div class="value">{{ precision }}</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="metric-box">
+                    <div class="text-muted small">Recall</div>
+                    <div class="value">{{ recall }}</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="metric-box">
+                    <div class="text-muted small">F1-score</div>
+                    <div class="value">{{ f1 }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interpretation -->
+        <div class="card card-custom p-4">
+            <h5 class="fw-bold mb-2"><i class="bi bi-lightbulb text-teal me-2"></i>Interpretation</h5>
+            <p class="text-muted mb-0">
+                Naive Bayes was trained using only {{ variable_independiente }} as a predictor
+                of {{ variable_objetivo }}. As with the logistic regression model, accuracy is
+                pulled upward by the class imbalance in the dataset (most sessions do not end
+                in a purchase). Precision and recall together give a clearer picture of how well
+                the model actually distinguishes sessions that result in a purchase from those
+                that don't.
+            </p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="custom-footer mt-auto py-4">
+        <div class="container text-center">
+            <h6 class="footer-title mb-3">Data with Roots</h6>
+            <div class="footer-info d-flex flex-column gap-1">
+                <span>University of Cundinamarca</span>
+                <span>Systems and Computer Engineering</span>
+                <span>Machine Learning Group</span>
+                <span class="footer-year">2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
