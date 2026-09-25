@@ -131,7 +131,7 @@
             <div class="row g-4">
                 <!-- Tarjeta K-Means Clustering -->
                 <div class="col-md-12">
-                    <div class="card card-custom p-4 border border-2 border-teal shadow-sm d-flex flex-row align-items-center justify-content-between flex-wrap gap-3">
+                    <div class="card card-custom p-4 border border-2 border-teal shadow-sm d-flex flex-column flex-md-row align-items-md-center justify-content-between flex-wrap gap-3">
                         <div style="max-width: 750px;">
                             <div class="d-flex align-items-center gap-2 mb-2">
                                 <span class="badge bg-teal text-white">Clustering Algorithm</span>
@@ -142,9 +142,15 @@
                                 Explore step-by-step centroid convergence, plot iterations (0 to 3), and analyze intra-cluster variance reduction across training iterations.
                             </p>
                         </div>
-                        <div>
-                            <a href="{{ url_for('kmeans_simulation_route') }}" class="btn btn-teal fw-bold py-2 px-4 shadow-sm">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="{{ url_for('kmeans_concepts') }}" class="btn btn-teal-outline btn-sm">
+                                <i class="bi bi-file-text me-1"></i> Concepts
+                            </a>
+                            <a href="{{ url_for('kmeans_simulation_route') }}" class="btn btn-teal fw-bold px-3 shadow-sm">
                                 <i class="bi bi-play-circle me-1"></i> Launch Simulation
+                            </a>
+                            <a href="{{ url_for('kmeans_application') }}" class="btn btn-teal-outline btn-sm">
+                                <i class="bi bi-cpu me-1"></i> Application
                             </a>
                         </div>
                     </div>

@@ -24,6 +24,7 @@
         .btn-teal:hover { background-color: #1aa179; color: #ffffff !important; }
         .plot-img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #cbd5e1; }
         .table-responsive-custom { max-height: 380px; overflow-y: auto; }
+        .cluster-profile-card { border-radius: 10px; padding: 1.1rem; height: 100%; }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -79,7 +80,7 @@
                         <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="unsupervisedDropdown">
                             <li class="dropdown-header text-teal fw-bold">K-MEANS CLUSTERING</li>
                             <li><a class="dropdown-item small" href="{{ url_for('kmeans_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
-                            <li><a class="dropdown-item small" href="{{ url_for('kmeans_simulation_route') }}"><i class="bi bi-pie-chart me-2"></i>Simulation & Iterations</a></li>
+                            <li><a class="dropdown-item small active" href="{{ url_for('kmeans_simulation_route') }}"><i class="bi bi-pie-chart me-2"></i>Simulation & Iterations</a></li>
                             <li><a class="dropdown-item small" href="{{ url_for('kmeans_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
                         </ul>
                     </li>
@@ -145,39 +146,115 @@
             </div>
         </div>
 
-        <!-- 3. Tables Section (Muestra de distancias y asignaciones) -->
+        <!-- 3. Tables Section (Representative sample per iteration) -->
         <div class="card card-custom p-4 mb-4 shadow-sm">
             <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-list-columns-reverse me-2 text-teal"></i>3. Iteration Calculations & Cluster Assignment</h5>
             <p class="text-muted small mb-3">
-                Below is a representative sample of the 100 tracks evaluated across the manual iterations. For each track, Euclidean distances to $C_1$, $C_2$, and $C_3$ were computed using $d = \sqrt{(x - c_x)^2 + (y - c_y)^2}$.
+                For each track, the Euclidean distance to each of the 3 centroids was computed as
+                $d = \sqrt{(x - c_x)^2 + (y - c_y)^2}$, and the track was assigned to the nearest one. The
+                tables below show a representative sample (5 tracks per cluster) for each iteration; the full
+                100-record calculations for all 3 iterations are included in the technical report and in
+                <code>data/kmeans_iterations.csv</code> in the repository.
             </p>
 
-            <div class="table-responsive table-responsive-custom border rounded">
-                <table class="table table-hover table-striped align-middle small mb-0">
-                    <thead class="table-dark sticky-top">
-                        <tr>
-                            <th>Track ID</th>
-                            <th>Danceability ($X$)</th>
-                            <th>Energy ($Y$)</th>
-                            <th>Dist to $C_1$</th>
-                            <th>Dist to $C_2$</th>
-                            <th>Dist to $C_3$</th>
-                            <th>Assigned Cluster</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Muestra representativa de los primeros registros -->
-                        <tr><td>Track_001</td><td>0.3397</td><td>0.2284</td><td>0.2718</td><td>0.3150</td><td>0.8718</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
-                        <tr><td>Track_002</td><td>0.2889</td><td>0.2390</td><td>0.2348</td><td>0.3341</td><td>0.8988</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
-                        <tr><td>Track_003</td><td>0.3518</td><td>0.2974</td><td>0.3197</td><td>0.2512</td><td>0.7497</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
-                        <tr><td>Track_031</td><td>0.7202</td><td>0.4357</td><td>0.7055</td><td>0.2294</td><td>0.4981</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
-                        <tr><td>Track_032</td><td>0.7431</td><td>0.4190</td><td>0.7183</td><td>0.2562</td><td>0.5156</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
-                        <tr><td>Track_066</td><td>0.6728</td><td>0.8242</td><td>0.9238</td><td>0.3662</td><td>0.2404</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
-                        <tr><td>Track_067</td><td>0.6276</td><td>0.7818</td><td>0.8580</td><td>0.3093</td><td>0.2965</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
-                    </tbody>
-                </table>
+            <ul class="nav nav-tabs" id="iterationTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tab1-btn" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab">Iteration 1</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab2-btn" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab">Iteration 2</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab3-btn" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab">Iteration 3</button>
+                </li>
+            </ul>
+
+            <div class="tab-content border border-top-0 rounded-bottom p-2" id="iterationTabsContent">
+                <div class="tab-pane fade show active" id="tab1" role="tabpanel">
+                    <p class="small text-muted mt-2 mb-2">Centroids used: C&#8321;(0.10,0.10) &middot; C&#8322;(0.50,0.50) &middot; C&#8323;(0.90,0.90)</p>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped align-middle small mb-0">
+                            <thead class="table-dark">
+                                <tr><th>Track ID</th><th>Danceability</th><th>Energy</th><th>Dist to C&#8321;</th><th>Dist to C&#8322;</th><th>Dist to C&#8323;</th><th>Assigned Cluster</th></tr>
+                            </thead>
+                            <tbody>
+                        <tr><td>Track_001</td><td>0.3397</td><td>0.1368</td><td>0.2425</td><td>0.3970</td><td>0.9468</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_002</td><td>0.2889</td><td>0.2163</td><td>0.2218</td><td>0.3536</td><td>0.9170</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_003</td><td>0.3518</td><td>0.2226</td><td>0.2801</td><td>0.3145</td><td>0.8714</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_005</td><td>0.2813</td><td>0.2371</td><td>0.2273</td><td>0.3420</td><td>0.9068</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_006</td><td>0.2813</td><td>0.2823</td><td>0.2571</td><td>0.3086</td><td>0.8743</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_004</td><td>0.4218</td><td>0.1858</td><td>0.3330</td><td>0.3238</td><td>0.8595</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_007</td><td>0.4263</td><td>0.4009</td><td>0.4439</td><td>0.1235</td><td>0.6881</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_008</td><td>0.3614</td><td>0.2640</td><td>0.3086</td><td>0.2737</td><td>0.8334</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_021</td><td>0.4173</td><td>0.3133</td><td>0.3823</td><td>0.2042</td><td>0.7597</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_023</td><td>0.3054</td><td>0.3622</td><td>0.3331</td><td>0.2384</td><td>0.8017</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_066</td><td>0.7585</td><td>0.8489</td><td>0.9972</td><td>0.4342</td><td>0.1504</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                        <tr><td>Track_067</td><td>0.6442</td><td>0.8775</td><td>0.9490</td><td>0.4041</td><td>0.2568</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                        <tr><td>Track_068</td><td>0.7303</td><td>0.9500</td><td>1.0582</td><td>0.5055</td><td>0.1769</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                        <tr><td>Track_069</td><td>0.6789</td><td>0.8028</td><td>0.9105</td><td>0.3517</td><td>0.2415</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                        <tr><td>Track_071</td><td>0.6789</td><td>0.7577</td><td>0.8762</td><td>0.3137</td><td>0.2629</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <small class="text-muted mt-2 d-block">New centroids after Iteration 1: C&#8321;=(0.2628, 0.2365) &middot; C&#8322;=(0.6677, 0.4817) &middot; C&#8323;=(0.6719, 0.8305) &mdash; sizes: 24 / 48 / 28 tracks.</small>
+                </div>
+                <div class="tab-pane fade" id="tab2" role="tabpanel">
+                    <p class="small text-muted mt-2 mb-2">Centroids used: C&#8321;(0.2628,0.2365) &middot; C&#8322;(0.6677,0.4817) &middot; C&#8323;(0.6719,0.8305)</p>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped align-middle small mb-0">
+                            <thead class="table-dark">
+                                <tr><th>Track ID</th><th>Danceability</th><th>Energy</th><th>Dist to C&#8321;</th><th>Dist to C&#8322;</th><th>Dist to C&#8323;</th><th>Assigned Cluster</th></tr>
+                            </thead>
+                            <tbody>
+                        <tr><td>Track_001</td><td>0.3397</td><td>0.1368</td><td>0.1259</td><td>0.4760</td><td>0.7691</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_002</td><td>0.2889</td><td>0.2163</td><td>0.0330</td><td>0.4625</td><td>0.7238</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_003</td><td>0.3518</td><td>0.2226</td><td>0.0901</td><td>0.4086</td><td>0.6870</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_004</td><td>0.4218</td><td>0.1858</td><td>0.1669</td><td>0.3847</td><td>0.6915</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_005</td><td>0.2813</td><td>0.2371</td><td>0.0185</td><td>0.4573</td><td>0.7104</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_031</td><td>0.7019</td><td>0.3259</td><td>0.4481</td><td>0.1595</td><td>0.5055</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_032</td><td>0.8982</td><td>0.4555</td><td>0.6721</td><td>0.2320</td><td>0.4380</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_033</td><td>0.7489</td><td>0.3650</td><td>0.5028</td><td>0.1422</td><td>0.4718</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_034</td><td>0.6654</td><td>0.4879</td><td>0.4746</td><td>0.0066</td><td>0.3427</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_035</td><td>0.8158</td><td>0.3764</td><td>0.5704</td><td>0.1817</td><td>0.4764</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_066</td><td>0.7585</td><td>0.8489</td><td>0.7879</td><td>0.3783</td><td>0.0885</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                        <tr><td>Track_067</td><td>0.6442</td><td>0.8775</td><td>0.7459</td><td>0.3965</td><td>0.0546</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                        <tr><td>Track_068</td><td>0.7303</td><td>0.9500</td><td>0.8530</td><td>0.4725</td><td>0.1330</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                        <tr><td>Track_069</td><td>0.6789</td><td>0.8028</td><td>0.7027</td><td>0.3213</td><td>0.0286</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                        <tr><td>Track_070</td><td>0.5984</td><td>0.7672</td><td>0.6279</td><td>0.2938</td><td>0.0970</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <small class="text-muted mt-2 d-block">New centroids after Iteration 2: C&#8321;=(0.2849, 0.2542) &middot; C&#8322;=(0.7368, 0.4479) &middot; C&#8323;=(0.6524, 0.8213) &mdash; sizes: 30 / 35 / 35 tracks.</small>
+                </div>
+                <div class="tab-pane fade" id="tab3" role="tabpanel">
+                    <p class="small text-muted mt-2 mb-2">Centroids used: C&#8321;(0.2849,0.2542) &middot; C&#8322;(0.7368,0.4479) &middot; C&#8323;(0.6524,0.8213)</p>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped align-middle small mb-0">
+                            <thead class="table-dark">
+                                <tr><th>Track ID</th><th>Danceability</th><th>Energy</th><th>Dist to C&#8321;</th><th>Dist to C&#8322;</th><th>Dist to C&#8323;</th><th>Assigned Cluster</th></tr>
+                            </thead>
+                            <tbody>
+                        <tr><td>Track_001</td><td>0.3397</td><td>0.1368</td><td>0.1296</td><td>0.5045</td><td>0.7525</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_002</td><td>0.2889</td><td>0.2163</td><td>0.0381</td><td>0.5042</td><td>0.7058</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_003</td><td>0.3518</td><td>0.2226</td><td>0.0740</td><td>0.4461</td><td>0.6699</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_004</td><td>0.4218</td><td>0.1858</td><td>0.1530</td><td>0.4098</td><td>0.6760</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_005</td><td>0.2813</td><td>0.2371</td><td>0.0175</td><td>0.5019</td><td>0.6921</td><td><span class="badge bg-danger">Cluster 1</span></td></tr>
+                        <tr><td>Track_031</td><td>0.7019</td><td>0.3259</td><td>0.4231</td><td>0.1269</td><td>0.4979</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_032</td><td>0.8982</td><td>0.4555</td><td>0.6455</td><td>0.1616</td><td>0.4407</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_033</td><td>0.7489</td><td>0.3650</td><td>0.4770</td><td>0.0838</td><td>0.4664</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_034</td><td>0.6654</td><td>0.4879</td><td>0.4465</td><td>0.0818</td><td>0.3337</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_035</td><td>0.8158</td><td>0.3764</td><td>0.5448</td><td>0.1066</td><td>0.4740</td><td><span class="badge bg-primary">Cluster 2</span></td></tr>
+                        <tr><td>Track_066</td><td>0.7585</td><td>0.8489</td><td>0.7602</td><td>0.4016</td><td>0.1096</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                        <tr><td>Track_067</td><td>0.6442</td><td>0.8775</td><td>0.7194</td><td>0.4395</td><td>0.0568</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                        <tr><td>Track_068</td><td>0.7303</td><td>0.9500</td><td>0.8261</td><td>0.5021</td><td>0.1504</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                        <tr><td>Track_069</td><td>0.6789</td><td>0.8028</td><td>0.6754</td><td>0.3596</td><td>0.0323</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                        <tr><td>Track_070</td><td>0.5984</td><td>0.7672</td><td>0.6012</td><td>0.3480</td><td>0.0764</td><td><span class="badge bg-success">Cluster 3</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <small class="text-muted mt-2 d-block">Centroids after Iteration 3: unchanged from Iteration 2 (converged) &mdash; sizes: 30 / 35 / 35 tracks.</small>
+                </div>
             </div>
-            <small class="text-muted mt-2 d-block">* Note: Full 100-record iteration tables are stored as CSV files inside the <code>data/</code> folder.</small>
         </div>
 
         <!-- 4. Within-Cluster Variance Analysis -->
@@ -199,16 +276,75 @@
                             <li><strong>Iteration 3:</strong> $WCSS = 1.0300$ (Convergence stability)</li>
                         </ul>
                         <p class="text-muted small mb-0">
-                            The stabilization from Iteration 2 to 3 confirms that centroids reached equilibrium and cluster membership stopped changing.
+                            The sharp drop between Iteration 1 and 2 shows the centroids moving away from their
+                            arbitrary starting points toward the real density of the data. The stabilization from
+                            Iteration 2 to 3 confirms that centroids reached equilibrium and cluster membership
+                            stopped changing &mdash; i.e., the algorithm had already converged by Iteration 2.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- 5. Final Results & Cluster Interpretation -->
+        <div class="card card-custom p-4 mb-4 shadow-sm border-start border-4 border-teal">
+            <h5 class="fw-bold text-teal mb-3"><i class="bi bi-lightbulb me-2"></i>5. Final Results & Cluster Interpretation</h5>
+            <p class="text-muted small mb-4">
+                After 3 iterations the algorithm converged: cluster assignments stopped changing and the
+                within-cluster variance stabilized at <strong>1.03</strong>. The table below summarizes each
+                final cluster and what it represents in terms of track mood.
+            </p>
+
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="cluster-profile-card border border-danger-subtle bg-danger-subtle bg-opacity-10">
+                        <span class="badge bg-danger mb-2">Cluster 1 &middot; 30 tracks</span>
+                        <h6 class="fw-bold mb-1">Low Energy, Low Danceability</h6>
+                        <p class="small text-muted mb-2">Final centroid: (0.2849, 0.2542)</p>
+                        <p class="small mb-0">
+                            Calm, low-tempo tracks with little rhythmic drive &mdash; the kind of songs
+                            suited to relaxing, focusing, or winding down rather than dancing.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="cluster-profile-card border border-primary-subtle bg-primary-subtle bg-opacity-10">
+                        <span class="badge bg-primary mb-2">Cluster 2 &middot; 35 tracks</span>
+                        <h6 class="fw-bold mb-1">High Danceability, Moderate Energy</h6>
+                        <p class="small text-muted mb-2">Final centroid: (0.7368, 0.4479)</p>
+                        <p class="small mb-0">
+                            Groove-driven tracks that are easy to dance to without being intense &mdash;
+                            think mid-tempo pop or R&amp;B, well suited for casual listening or background
+                            playlists with a beat.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="cluster-profile-card border border-success-subtle bg-success-subtle bg-opacity-10">
+                        <span class="badge bg-success mb-2">Cluster 3 &middot; 35 tracks</span>
+                        <h6 class="fw-bold mb-1">High Energy, High Danceability</h6>
+                        <p class="small text-muted mb-2">Final centroid: (0.6524, 0.8213)</p>
+                        <p class="small mb-0">
+                            The most intense and upbeat group &mdash; high-energy, danceable tracks typical
+                            of party playlists, workout mixes, or high-tempo electronic/pop music.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-light border mt-4 mb-0 small">
+                <strong>Overall interpretation:</strong> the manual K-Means run separated the 100 tracks into
+                three musically meaningful mood groups &mdash; calm (Cluster 1), moderately danceable (Cluster 2),
+                and high-energy/party (Cluster 3) &mdash; without ever being told what "mood" means. This is
+                exactly the value of unsupervised clustering: it found structure directly from the numerical
+                relationship between danceability and energy.
+            </div>
+        </div>
+
         <!-- Navigation Buttons -->
         <div class="d-flex justify-content-between align-items-center">
-            <a href="{{ url_for('home') }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Back to Home</a>
+            <a href="{{ url_for('kmeans_concepts') }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Back to Concepts</a>
+            <a href="{{ url_for('home') }}" class="btn btn-teal btn-sm">Back to Home <i class="bi bi-house ms-1"></i></a>
         </div>
 
     </main>
