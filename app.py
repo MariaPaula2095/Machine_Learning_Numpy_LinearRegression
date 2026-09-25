@@ -274,7 +274,7 @@ def naive_bayes_application():
     )
     
 @app.route("/naive-bayes/metrics")
-def naive_bayes_metrix():
+def naive_bayes_metrics():
     plot_url = generate_confusion_matrix_plot(
         NaiveBayes.CONFUSION_MATRIX, 
         "Naive Bayes: Confusion Matrix"
@@ -289,6 +289,21 @@ def naive_bayes_metrix():
         variable_objetivo=NaiveBayes.TARGET_VAR_NAME,
         plot_url=plot_url
     )
+
+
+# --- ROUTES R2A2: K-MEANS CONCEPTS & APPLICATION 
+
+@app.route('/unsupervised/kmeans')
+def kmeans_simulation_route():
+    return render_template('kmeans_view.html') 
+
+@app.route('/unsupervised/kmeans/concepts')
+def kmeans_concepts():
+    return render_template('kmeans_concepts.html')
+
+@app.route('/unsupervised/kmeans/application', methods=['GET', 'POST'])
+def kmeans_application():
+    return render_template('kmeans_application.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

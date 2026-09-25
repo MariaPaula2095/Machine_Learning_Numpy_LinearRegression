@@ -68,10 +68,23 @@
                             <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
                             <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
                             <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
-                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrix') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
                         </ul>
                     </li>
 
+                    <!-- 4. Unsupervised Dropdown -->
+                    <!-- 4. Unsupervised (K-Means) -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="unsupervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Unsupervised
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="unsupervisedDropdown">
+                            <li class="dropdown-header text-teal fw-bold">K-MEANS CLUSTERING</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('kmeans_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('kmeans_simulation_route') }}"><i class="bi bi-pie-chart me-2"></i>Simulation & Iterations</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('kmeans_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -101,6 +114,100 @@
         <!-- Main Content Container -->
     <!-- <main class="container my-5 flex-grow-1"> -->
     <main class="container my-5 flex-grow-1">
+        
+
+        <!-- ==========================================
+            CONTENEDOR 3: ACTIVIDAD R2A2 (Unsupervised)
+            ========================================== -->
+        <div class="card card-custom p-4 shadow-sm border-0 bg-white mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-success text-white px-3 py-2 fs-6 rounded-pill fw-bold">R2A2</span>
+                    <h3 class="h5 fw-bold mb-0 text-dark">Phase 3: Unsupervised Learning & Clustering</h3>
+                </div>
+                <span class="badge bg-teal-subtle text-teal fw-semibold">New Topic</span>
+            </div>
+
+            <div class="row g-4">
+                <!-- Tarjeta K-Means Clustering -->
+                <div class="col-md-12">
+                    <div class="card card-custom p-4 border border-2 border-teal shadow-sm d-flex flex-row align-items-center justify-content-between flex-wrap gap-3">
+                        <div style="max-width: 750px;">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge bg-teal text-white">Clustering Algorithm</span>
+                                <small class="text-muted fw-bold">Iteration Analysis & Variance Trend</small>
+                            </div>
+                            <h5 class="fw-bold mb-1">K-Means Clustering Simulation</h5>
+                            <p class="text-muted small mb-0">
+                                Explore step-by-step centroid convergence, plot iterations (0 to 3), and analyze intra-cluster variance reduction across training iterations.
+                            </p>
+                        </div>
+                        <div>
+                            <a href="{{ url_for('kmeans_simulation_route') }}" class="btn btn-teal fw-bold py-2 px-4 shadow-sm">
+                                <i class="bi bi-play-circle me-1"></i> Launch Simulation
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             R1A2 (Classification)
+            ========================================== -->
+        <div class="card card-custom p-4 shadow-sm border-0 bg-light">
+            <!-- Header de la sección R1A2 -->
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-info text-dark px-3 py-2 fs-6 rounded-pill fw-bold">R1A2</span>
+                    <h3 class="h5 fw-bold mb-0 text-dark">Phase 2: Classification Models & Metrics</h3>
+                </div>
+                <span class="badge bg-teal-subtle text-teal fw-semibold">Completed</span>
+            </div>
+
+            <div class="row g-4">
+                <!-- Model 1: -->
+                <div class="col-md-6">
+                    <div class="card card-custom h-100 p-4 border border-2 border-teal shadow-sm d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="badge bg-teal text-white">Model 1 (Binary)</span>
+                            </div>
+                            <h5 class="fw-bold mb-2">Logistic Regression</h5>
+                            <p class="text-muted small mb-3">
+                               redicts online purchase likelihood based on PageValues,using Logistic Regression model.
+                            </p>
+                        </div>
+                        <div class="d-flex gap-2 mt-2">
+                            <a href="{{ url_for('logistic_concepts') }}" class="btn btn-teal-outline btn-sm flex-fill">Concepts</a>
+                            <a href="{{ url_for('logistic_application') }}" class="btn btn-teal-outline btn-sm flex-fill">App</a>
+                            <a href="{{ url_for('logistic_metrics') }}" class="btn btn-teal-outline btn-sm flex-fill">Metrics</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model 2: Naive Bayes -->
+                <div class="col-md-6">
+                    <div class="card card-custom h-100 p-4 border border-2 border-teal shadow-sm d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="badge bg-teal text-white">Model 2 (Naive Bayes)</span>
+                            </div>
+                            <h5 class="fw-bold mb-2">Naive Bayes Classification</h5>
+                            <p class="text-muted small mb-3">
+                                Predicts online purchase likelihood based on PageValues, using Bayes' Theorem and a Gaussian probability model.
+                            </p>
+                        </div>
+                        <div class="d-flex gap-2 mt-2">
+                            <a href="{{ url_for('naive_bayes_concepts') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">Concepts</a>
+                            <a href="{{ url_for('naive_bayes_application') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">App</a>
+                            <a href="{{ url_for('naive_bayes_metrics') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">Metrics</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ==========================================
              R1A1 (Linear Models)
             ========================================== -->
@@ -175,63 +282,6 @@
                     </p>
                 </div>
                 <a href="{{ url_for('calculate') }}" class="btn fw-bold py-2 px-4 shadow-sm" style="background-color: #ffffff !important; color: #0d9488 !important; border: none;">Try Prediction Form</a>
-            </div>
-        </div>
-
-
-        <!-- ==========================================
-             R1A2 (Classification)
-            ========================================== -->
-        <div class="card card-custom p-4 shadow-sm border-0 bg-light">
-            <!-- Header de la sección R1A2 -->
-            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
-                <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-info text-dark px-3 py-2 fs-6 rounded-pill fw-bold">R1A2</span>
-                    <h3 class="h5 fw-bold mb-0 text-dark">Phase 2: Classification Models & Metrics</h3>
-                </div>
-                <span class="badge bg-teal-subtle text-teal fw-semibold">Completed</span>
-            </div>
-
-            <div class="row g-4">
-                <!-- Model 1: -->
-                <div class="col-md-6">
-                    <div class="card card-custom h-100 p-4 border border-2 border-teal shadow-sm d-flex flex-column justify-content-between">
-                        <div>
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="badge bg-teal text-white">Model 1 (Binary)</span>
-                            </div>
-                            <h5 class="fw-bold mb-2">Logistic Regression</h5>
-                            <p class="text-muted small mb-3">
-                               redicts online purchase likelihood based on PageValues,using Logistic Regression model.
-                            </p>
-                        </div>
-                        <div class="d-flex gap-2 mt-2">
-                            <a href="{{ url_for('logistic_concepts') }}" class="btn btn-teal-outline btn-sm flex-fill">Concepts</a>
-                            <a href="{{ url_for('logistic_application') }}" class="btn btn-teal-outline btn-sm flex-fill">App</a>
-                            <a href="{{ url_for('logistic_metrics') }}" class="btn btn-teal-outline btn-sm flex-fill">Metrics</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Model 2: Naive Bayes -->
-                <div class="col-md-6">
-                    <div class="card card-custom h-100 p-4 border border-2 border-teal shadow-sm d-flex flex-column justify-content-between">
-                        <div>
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="badge bg-teal text-white">Model 2 (Naive Bayes)</span>
-                            </div>
-                            <h5 class="fw-bold mb-2">Naive Bayes Classification</h5>
-                            <p class="text-muted small mb-3">
-                                Predicts online purchase likelihood based on PageValues, using Bayes' Theorem and a Gaussian probability model.
-                            </p>
-                        </div>
-                        <div class="d-flex gap-2 mt-2">
-                            <a href="{{ url_for('naive_bayes_concepts') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">Concepts</a>
-                            <a href="{{ url_for('naive_bayes_application') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">App</a>
-                            <a href="{{ url_for('naive_bayes_metrix') }}" class="btn btn-teal-outline btn-sm flex-fill text-center">Metrics</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
