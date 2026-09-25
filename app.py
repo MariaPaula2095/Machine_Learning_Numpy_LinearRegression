@@ -1,5 +1,7 @@
 import io
 import base64
+import math        
+import pandas as pd
 import matplotlib 
 matplotlib.use('Agg') # Required for Flask to render plots in the background
 import matplotlib.pyplot as plt
@@ -303,7 +305,105 @@ def kmeans_concepts():
 
 @app.route('/unsupervised/kmeans/application', methods=['GET', 'POST'])
 def kmeans_application():
-    return render_template('kmeans_application.html')
+    prediction_result = None
+    error_message = None
+    dance_input = None
+    energy_input = None
+    plot_url = None
 
+    # Final centroids based on your kmeans_simulation.py output for Iteration 3
+    # Cluster 1: [0.2849, 0.2542] (red)
+    # Cluster 2: [0.7368, 0.4479] (blue)
+    # Cluster 3: [0.6524, 0.8213] (green)
+    centroids = {
+        "Cluster 1 (Low Energy, Low Danceability)": {"x": 0.2849, "y": 0.2542, "color": "red"},
+        "Cluster 2 (High Danceability, Moderate Energy)": {"x": 0.7368, "y": 0.4479, "color": "blue"},
+        "Cluster 3 (High Energy, High Danceability)": {"x": 0.6524, "y": 0.8213, "color": "green"}
+    }
+
+    if request.method == "POST":
+        raw_dance = request.form.get("dance_input", "").strip()
+        raw_energy = request.form.get("energy_input", "").strip()
+
+        if raw_dance == "" or raw_energy == "":
+            error_message = "Please enter both Danceability and Energy values."
+        else:
+            try:
+                dance_input = float(raw_dance)
+                energy_input = float(raw_energy)
+
+                if not (0.0 <= dance_input <= 1.0) or not (0.0 <= energy_input <= 1.0):
+                    error_message = "Values must be between 0.0 and 1.0."
+                else:
+                    # Find nearest centroid using Euclidean distance
+                    min_dist = float('inf')
+                    best_cluster = None
+                    best_color = None
+
+                    for name, data in centroids.items():
+                        # Calculate Euclidean distance
+                        dist = math.dist((dance_input, energy_input), (data["x"], data["y"]))
+                        if dist < min_dist:
+                            min_dist = dist
+                            best_cluster = name
+                            best_color = data["color"]
+
+                    prediction_result = {
+                        "cluster_name": best_cluster,
+                        "color": best_color
+                    }
+            except ValueError:
+                error_message = "Values must be numeric."
+
+    # --- Generate the plot ---
+    plt.figure(figsize=(8, 5))
+
+    # Plot original dataset points in the background
+    try:
+        # Usando la ruta generada por tu simulador
+        df = pd.read_csv("data/spotify_100_tracks.csv")
+        plt.scatter(df['Danceability'], df['Energy'], color='gray', alpha=0.2, label="Dataset Tracks")
+    except Exception as e:
+        print(f"Error reading CSV: {e}") # Ayuda para depurar si no encuentra el archivo
+        pass
+
+    # Plot final centroids
+    for name, data in centroids.items():
+        plt.scatter([data["x"]], [data["y"]], color=data["color"], marker='X', s=200, edgecolor='black', label=f"Centroid: {name.split(' ')[1]}")
+
+    # Plot user input if prediction exists
+    if prediction_result and dance_input is not None and energy_input is not None:
+        plt.scatter(
+            [dance_input], [energy_input], 
+            color="orange", marker='*', s=400, edgecolor='black', zorder=10, 
+            label="Your Track"
+        )
+
+    plt.title("K-Means: Track Profiling")
+    plt.xlabel("Danceability (0.0 - 1.0)")
+    plt.ylabel("Energy (0.0 - 1.0)")
+    plt.xlim(0, 1) # Asegurar límites del gráfico consistentes con la simulación
+    plt.ylim(0, 1)
+    plt.grid(True, linestyle="--", alpha=0.5)
+    
+    # Place legend outside plot to avoid hiding data
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.tight_layout()
+
+    img = io.BytesIO()
+    plt.savefig(img, format="png")
+    img.seek(0)
+    plot_url = base64.b64encode(img.getvalue()).decode("utf8")
+    plt.close()
+    # --- End Plot ---
+
+    return render_template(
+        'kmeans_application.html',
+        result=prediction_result,
+        error=error_message,
+        dance_input=dance_input,
+        energy_input=energy_input,
+        plot_url=plot_url
+    )
 if __name__ == "__main__":
     app.run(debug=True)
