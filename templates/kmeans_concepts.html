@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-Means Concepts | Data with Roots</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Custom Project CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .hero-section { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-bottom: 4px solid #20c997; }
+        .text-teal { color: #20c997; }
+        .bg-teal { background-color: #20c997; }
+        .bg-teal-subtle { background-color: rgba(32, 201, 151, 0.12); }
+        .btn-teal { background-color: #20c997; color: #ffffff !important; font-weight: 600; border: none; }
+        .btn-teal:hover { background-color: #1aa179; color: #ffffff !important; }
+        .card-custom { border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff; }
+        .step-number {
+            width: 34px; height: 34px; border-radius: 50%;
+            background-color: rgba(32, 201, 151, 0.12); color: #20c997;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; flex-shrink: 0;
+        }
+        .formula-box {
+            background-color: #0f172a; color: #e2e8f0; border-radius: 8px;
+            padding: 0.9rem 1.2rem; font-family: 'Courier New', monospace; font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
+                <i class="bi bi-graph-up-arrow text-info"></i>
+                <span>Data with Roots</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Machine Learning
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm">
+                            <li><a class="dropdown-item" href="{{ url_for('template') }}"><i class="bi bi-book me-2"></i>ML Overview</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('types') }}"><i class="bi bi-diagram-3 me-2"></i>ML Types</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('calculate') }}"><i class="bi bi-calculator me-2"></i>Linear Regression</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Supervised
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm">
+                            <li class="dropdown-header text-teal fw-bold">LOGISTIC REGRESSION</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                        </ul>
+                    </li>
+                    <!-- Unsupervised (K-Means) -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="unsupervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Unsupervised
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="unsupervisedDropdown">
+                            <li class="dropdown-header text-teal fw-bold">K-MEANS CLUSTERING</li>
+                            <li><a class="dropdown-item small active" href="{{ url_for('kmeans_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('kmeans_simulation_route') }}"><i class="bi bi-pie-chart me-2"></i>Simulation & Iterations</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('kmeans_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="hero-section text-white py-4 shadow-sm text-center">
+        <div class="container-fluid px-4 px-lg-5">
+            <span class="badge bg-teal-subtle text-teal mb-2 px-3 py-1 rounded-pill fw-semibold">Unsupervised Machine Learning</span>
+            <h1 class="display-6 fw-bold mb-2">K-Means Clustering: Concepts</h1>
+            <p class="lead opacity-75 mb-0 fs-6 mx-auto" style="max-width: 750px;">
+                Understanding unsupervised learning, clustering, and how the K-Means algorithm
+                groups music tracks by mood using audio features.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container-fluid px-2 px-md-3 my-4 flex-grow-1" style="max-width: 1200px;">
+
+        <!-- 1. Unsupervised Learning -->
+        <div class="card card-custom p-4 mb-4 shadow-sm border-start border-4 border-teal">
+            <h5 class="fw-bold text-teal mb-2"><i class="bi bi-eye me-2"></i>1. What is Unsupervised Learning?</h5>
+            <p class="text-muted small mb-0">
+                Unsupervised learning is a branch of machine learning in which the model learns
+                patterns directly from data that has <strong>no predefined labels or target values</strong>.
+                Unlike supervised learning, where the algorithm is trained to predict a known outcome
+                (for example, Logistic Regression predicting whether a session ends in a purchase),
+                unsupervised algorithms explore the data to discover hidden structure on their own,
+                without being told in advance what the "correct" groups are.
+            </p>
+        </div>
+
+        <!-- 2. Clustering -->
+        <div class="card card-custom p-4 mb-4 shadow-sm border-start border-4 border-teal">
+            <h5 class="fw-bold text-teal mb-2"><i class="bi bi-bounding-box-circles me-2"></i>2. What is Clustering?</h5>
+            <p class="text-muted small mb-0">
+                Clustering is one of the most common unsupervised learning tasks. Its goal is to
+                group a set of records into <strong>clusters</strong>, such that records within the
+                same cluster are more similar to each other than to records in other clusters,
+                according to a distance measure. In this project, clustering is applied to
+                <strong>music tracks</strong> described by two numerical audio features,
+                <strong>Danceability</strong> and <strong>Energy</strong>. Instead of manually
+                labeling each track's mood, the algorithm groups tracks with similar audio
+                characteristics automatically &mdash; which can later be interpreted as mood or
+                listening-context categories, such as high-energy party tracks versus calm,
+                low-energy tracks.
+            </p>
+        </div>
+
+        <!-- 3. How K-Means works -->
+        <div class="card card-custom p-4 mb-4 shadow-sm">
+            <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-diagram-3 me-2 text-teal"></i>3. How K-Means Works</h5>
+            <p class="text-muted small mb-4">
+                K-Means is one of the most widely used clustering algorithms because it is simple,
+                efficient, and easy to interpret. Given a number of clusters <em>k</em> chosen in
+                advance, it partitions the dataset into <em>k</em> groups by iteratively refining
+                the position of <em>k</em> cluster centers, called <strong>centroids</strong>.
+            </p>
+
+            <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-start gap-3">
+                    <div class="step-number">1</div>
+                    <div>
+                        <strong class="text-dark d-block">Initialization</strong>
+                        <span class="text-muted small">Choose <em>k</em> initial centroids, either randomly or by manually selecting starting coordinates.</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start gap-3">
+                    <div class="step-number">2</div>
+                    <div>
+                        <strong class="text-dark d-block">Assignment step</strong>
+                        <span class="text-muted small">For every record, compute its Euclidean distance to each centroid and assign it to the nearest one.</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start gap-3">
+                    <div class="step-number">3</div>
+                    <div>
+                        <strong class="text-dark d-block">Update step</strong>
+                        <span class="text-muted small">Recalculate each centroid as the mean coordinates of all records currently assigned to its cluster.</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start gap-3">
+                    <div class="step-number">4</div>
+                    <div>
+                        <strong class="text-dark d-block">Repeat</strong>
+                        <span class="text-muted small">Steps 2 and 3 are repeated for a fixed number of iterations, or until the centroids stop changing (convergence).</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-box mt-4 text-center">
+                d(x, c) = &radic;[(x&#8321; - c&#8321;)&sup2; + (x&#8322; - c&#8322;)&sup2;]
+            </div>
+            <small class="text-muted d-block text-center mt-2">Euclidean distance between a record x and a centroid c</small>
+        </div>
+
+        <!-- 4 & 5. Role of centroids / iterations -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="card card-custom p-4 shadow-sm h-100 border-start border-4 border-teal">
+                    <h6 class="fw-bold text-teal mb-2"><i class="bi bi-bullseye me-2"></i>4. The Role of Centroids</h6>
+                    <p class="text-muted small mb-0">
+                        Centroids represent the "center" of each cluster in the feature space. They are
+                        not necessarily real tracks in the dataset &mdash; they are calculated points that
+                        summarize the average position of every record assigned to that cluster.
+                        Well-separated, stable centroids indicate clear, well-defined clusters, while
+                        overlapping centroids may indicate that the chosen number of clusters does not
+                        capture distinct groups well.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-custom p-4 shadow-sm h-100 border-start border-4 border-teal">
+                    <h6 class="fw-bold text-teal mb-2"><i class="bi bi-arrow-repeat me-2"></i>5. The Role of Iterations</h6>
+                    <p class="text-muted small mb-0">
+                        A single pass of assignment and update is rarely enough, because moving the
+                        centroids changes which records are closest to each one. K-Means repeats these
+                        steps over multiple iterations; with each pass, the centroids typically move less
+                        and assignments stabilize, reflected in a decreasing (or stable) within-cluster
+                        variance. The algorithm <strong>converges</strong> once an additional iteration no
+                        longer changes cluster membership.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Limitations -->
+        <div class="card card-custom p-4 mb-4 shadow-sm border-start border-4 border-warning">
+            <h5 class="fw-bold mb-2"><i class="bi bi-exclamation-triangle me-2 text-warning"></i>6. Limitations of K-Means</h5>
+            <ul class="text-muted small mb-0 ps-3">
+                <li>The number of clusters <em>k</em> must be chosen in advance.</li>
+                <li>Results can depend on the initial position of the centroids.</li>
+                <li>It assumes clusters are roughly spherical and similar in size.</li>
+                <li>It is sensitive to the scale of the variables, so numerical features with very different ranges usually need to be standardized before clustering.</li>
+            </ul>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="{{ url_for('home') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i>Back to Home
+            </a>
+            <a href="{{ url_for('kmeans_simulation_route') }}" class="btn btn-teal btn-sm">
+                Next: Simulation & Iterations <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="custom-footer mt-auto py-4">
+        <div class="container text-center">
+            <h6 class="footer-title mb-3">Data with Roots</h6>
+            <div class="footer-info d-flex flex-column gap-1">
+                <span>University of Cundinamarca</span>
+                <span>Systems and Computer Engineering</span>
+                <span>Machine Learning Group</span>
+                <span class="footer-year">2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
