@@ -295,6 +295,7 @@ def naive_bayes_metrics():
 
 # --- ROUTES R2A2: K-MEANS CONCEPTS & APPLICATION 
 
+
 @app.route('/unsupervised/kmeans')
 def kmeans_simulation_route():
     return render_template('kmeans_view.html') 
@@ -302,6 +303,17 @@ def kmeans_simulation_route():
 @app.route('/unsupervised/kmeans/concepts')
 def kmeans_concepts():
     return render_template('kmeans_concepts.html')
+
+# ==========================================
+# REINFORCEMENT LEARNING R2A2-2
+# ==========================================
+@app.route('/reinforcement/concepts')
+def rl_concepts():
+    return render_template('rl_concepts.html')
+
+@app.route('/reinforcement/application')
+def rl_application():
+    return render_template('rl_application.html')
 
 @app.route('/unsupervised/kmeans/application', methods=['GET', 'POST'])
 def kmeans_application():
