@@ -11,6 +11,8 @@ from flask import Flask, render_template, request
 import LinearRegression
 import NaiveBayes
 import LogisticRegressionModel as logistic_model 
+from rl_environment import GridWorld10x10
+from rl_agent import QLearningAgent
 
 app = Flask(__name__)
 
@@ -304,16 +306,8 @@ def kmeans_simulation_route():
 def kmeans_concepts():
     return render_template('kmeans_concepts.html')
 
-# ==========================================
-# REINFORCEMENT LEARNING R2A2-2
-# ==========================================
-@app.route('/reinforcement/concepts')
-def rl_concepts():
-    return render_template('rl_concepts.html')
 
-@app.route('/reinforcement/application')
-def rl_application():
-    return render_template('rl_application.html')
+
 
 @app.route('/unsupervised/kmeans/application', methods=['GET', 'POST'])
 def kmeans_application():
@@ -417,5 +411,69 @@ def kmeans_application():
         energy_input=energy_input,
         plot_url=plot_url
     )
+# ==========================================
+# REINFORCEMENT LEARNING R2A2-2
+# ==========================================
+@app.route('/reinforcement/concepts')
+def rl_concepts():
+    return render_template('rl_concepts.html')
+
+
+@app.route('/reinforcement-learning/application', methods=['GET', 'POST'])
+def rl_application():
+    env = GridWorld10x10()
+    grid_raw = env.grid.tolist()
+
+    # Default hyperparameters
+    params = {
+        'episodes': 300,
+        'alpha': 0.1,
+        'gamma': 0.95,
+        'epsilon': 1.0,
+        'epsilon_min': 0.05,
+        'epsilon_decay': 0.99
+    }
+
+    results = None
+    evaluation = None
+    q_table_data = None
+    learned_path = []
+
+    if request.method == 'POST':
+        params['episodes'] = int(request.form.get('episodes', 300))
+        params['alpha'] = float(request.form.get('alpha', 0.1))
+        params['gamma'] = float(request.form.get('gamma', 0.95))
+        params['epsilon'] = float(request.form.get('epsilon', 1.0))
+        params['epsilon_min'] = float(request.form.get('epsilon_min', 0.05))
+        params['epsilon_decay'] = float(request.form.get('epsilon_decay', 0.99))
+
+        agent = QLearningAgent(
+            env=env,
+            alpha=params['alpha'],
+            gamma=params['gamma'],
+            epsilon=params['epsilon'],
+            epsilon_min=params['epsilon_min'],
+            epsilon_decay=params['epsilon_decay']
+        )
+
+        # 1. Train agent
+        results = agent.train(episodes=params['episodes'])
+        # 2. Evaluate optimal policy
+        evaluation = agent.evaluate()
+        learned_path = evaluation['path']
+        # 3. Extract Q-Values
+        q_table_data = agent.get_q_table_records()
+
+    return render_template(
+        'rl_application.html',
+        grid=grid_raw,
+        params=params,
+        results=results,
+        evaluation=evaluation,
+        q_table=q_table_data,
+        learned_path=learned_path
+    )
+
+
 if __name__ == "__main__":
     app.run(debug=True)
