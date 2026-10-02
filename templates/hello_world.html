@@ -85,6 +85,17 @@
                             <li><a class="dropdown-item small" href="{{ url_for('kmeans_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
                         </ul>
                     </li>
+                    <!-- 5. Reinforcement Learning (Q-Learning) -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="reinforcementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Reinforcement
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="reinforcementDropdown">
+                            <li class="dropdown-header text-teal fw-bold">REINFORCEMENT LEARNING</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('rl_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('rl_application') }}"><i class="bi bi-robot me-2"></i>Train Agent</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -114,6 +125,45 @@
         <!-- Main Content Container -->
     <!-- <main class="container my-5 flex-grow-1"> -->
     <main class="container my-5 flex-grow-1">
+
+        <!-- ==========================================
+            CONTENEDOR 4: ACTIVIDAD R3A3 (Reinforcement Learning)
+            ========================================== -->
+        <div class="card card-custom p-4 shadow-sm border-0 bg-white mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-success text-white px-3 py-2 fs-6 rounded-pill fw-bold">R2A2</span>
+                    <h3 class="h5 fw-bold mb-0 text-dark">Phase 4: Reinforcement Learning & Q-Learning</h3>
+                </div>
+                <span class="badge bg-teal-subtle text-teal fw-semibold">In Progress</span>
+            </div>
+
+            <div class="row g-4">
+                <!-- Tarjeta Reinforcement Learning -->
+                <div class="col-md-12">
+                    <div class="card card-custom p-4 border border-2 border-teal shadow-sm d-flex flex-column flex-md-row align-items-md-center justify-content-between flex-wrap gap-3">
+                        <div style="max-width: 750px;">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge bg-teal text-white">Q-Learning Agent</span>
+                                <small class="text-muted fw-bold">Agent, Environment & Reward</small>
+                            </div>
+                            <h5 class="fw-bold mb-1">Reinforcement Learning: Grid Navigation</h5>
+                            <p class="text-muted small mb-0">
+                                Learn how an agent explores a 10 &times; 10 grid with Epsilon-Greedy, receives rewards and penalties, and updates its Q-values to find the best path to the target.
+                            </p>
+                        </div>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="{{ url_for('rl_concepts') }}" class="btn btn-teal-outline btn-sm rounded-pill px-3">
+                                <i class="bi bi-lightbulb me-1"></i> Learn Concepts
+                            </a>
+                            <a href="{{ url_for('rl_application') }}" class="btn btn-teal fw-bold px-3 rounded-pill shadow-sm">
+                                <i class="bi bi-robot me-1"></i> Train Agent
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
 
         <!-- ==========================================
@@ -125,7 +175,7 @@
                     <span class="badge bg-success text-white px-3 py-2 fs-6 rounded-pill fw-bold">R2A2</span>
                     <h3 class="h5 fw-bold mb-0 text-dark">Phase 3: Unsupervised Learning & Clustering</h3>
                 </div>
-                <span class="badge bg-teal-subtle text-teal fw-semibold">New Topic</span>
+                <span class="badge bg-teal-subtle text-teal fw-semibold">Completed</span>
             </div>
 
             <div class="row g-4">

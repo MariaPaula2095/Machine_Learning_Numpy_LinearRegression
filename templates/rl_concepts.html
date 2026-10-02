@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reinforcement Learning Concepts | Data with Roots</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Custom Project CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .hero-section { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-bottom: 4px solid #20c997; }
+        .text-teal { color: #20c997; }
+        .bg-teal { background-color: #20c997; }
+        .bg-teal-subtle { background-color: rgba(32, 201, 151, 0.12); }
+        .btn-teal { background-color: #20c997; color: #ffffff !important; font-weight: 600; border: none; }
+        .btn-teal:hover { background-color: #1aa179; color: #ffffff !important; }
+        .card-custom { border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff; }
+        .icon-circle {
+            width: 42px; height: 42px; border-radius: 50%;
+            background-color: rgba(32, 201, 151, 0.12); color: #20c997;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; flex-shrink: 0;
+        }
+        .formula-box {
+            background-color: #0f172a; color: #e2e8f0; border-radius: 8px;
+            padding: 0.9rem 1.2rem; font-family: 'Courier New', monospace; font-size: 0.95rem;
+        }
+        .flow-box {
+            border: 2px solid #20c997; border-radius: 12px; background: #ffffff;
+            padding: 1rem 1.5rem; text-align: center; min-width: 170px;
+        }
+        .flow-label {
+            background-color: rgba(32, 201, 151, 0.12); color: #0f766e;
+            border-radius: 20px; padding: 0.25rem 0.8rem; font-size: 0.8rem; font-weight: 600;
+        }
+        .exercise-note {
+            background-color: rgba(32, 201, 151, 0.1); border-left: 3px solid #20c997;
+            border-radius: 6px; padding: 0.5rem 0.8rem; margin-top: 0.6rem;
+            font-size: 0.85rem; color: #0f172a;
+        }
+        .cell-chip {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 30px; height: 30px; border-radius: 6px; font-weight: 700; color: #fff;
+        }
+        .accordion-button:not(.collapsed) { background-color: rgba(32, 201, 151, 0.12); color: #0f172a; box-shadow: none; }
+        .accordion-button:focus { box-shadow: 0 0 0 0.2rem rgba(32, 201, 151, 0.25); }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
+                <i class="bi bi-graph-up-arrow text-info"></i>
+                <span>Data with Roots</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="mlDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Machine Learning
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm">
+                            <li><a class="dropdown-item" href="{{ url_for('template') }}"><i class="bi bi-book me-2"></i>ML Overview</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('types') }}"><i class="bi bi-diagram-3 me-2"></i>ML Types</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('calculate') }}"><i class="bi bi-calculator me-2"></i>Linear Regression</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="supervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Supervised
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm">
+                            <li class="dropdown-header text-teal fw-bold">LOGISTIC REGRESSION</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('logistic_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="dropdown-header text-teal fw-bold">NAIVE BAYES</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('naive_bayes_metrics') }}"><i class="bi bi-bar-chart me-2"></i>Evaluation Metrics</a></li>
+                        </ul>
+                    </li>
+                    <!-- Unsupervised (K-Means) -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="unsupervisedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Unsupervised
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="unsupervisedDropdown">
+                            <li class="dropdown-header text-teal fw-bold">K-MEANS CLUSTERING</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('kmeans_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('kmeans_simulation_route') }}"><i class="bi bi-pie-chart me-2"></i>Simulation & Iterations</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('kmeans_application') }}"><i class="bi bi-cpu me-2"></i>Application</a></li>
+                        </ul>
+                    </li>
+                    <!-- Reinforcement Learning -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="reinforcementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Reinforcement
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="reinforcementDropdown">
+                            <li class="dropdown-header text-teal fw-bold">REINFORCEMENT LEARNING</li>
+                            <li><a class="dropdown-item small active" href="{{ url_for('rl_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small" href="{{ url_for('rl_application') }}"><i class="bi bi-robot me-2"></i>Train Agent</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="hero-section text-white py-4 shadow-sm text-center">
+        <div class="container-fluid px-4 px-lg-5">
+            <span class="badge bg-teal-subtle text-teal mb-2 px-3 py-1 rounded-pill fw-semibold">Reinforcement Learning</span>
+            <h1 class="display-6 fw-bold mb-2">Reinforcement Learning: Concepts</h1>
+            <p class="lead opacity-75 mb-0 fs-6 mx-auto" style="max-width: 750px;">
+                How an agent learns by trial and error: from rewards and policies to Epsilon-Greedy
+                and Q-Learning, applied to a 10 &times; 10 grid navigation exercise.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container-fluid px-2 px-md-3 my-4 flex-grow-1" style="max-width: 1200px;">
+
+        <!-- 1. What is RL -->
+        <div class="card card-custom p-4 mb-4 shadow-sm border-start border-4 border-teal">
+            <h5 class="fw-bold text-teal mb-2"><i class="bi bi-controller me-2"></i>1. What is Reinforcement Learning?</h5>
+            <p class="text-muted small mb-3">
+                Reinforcement Learning (RL) is a branch of machine learning in which an
+                <strong>agent</strong> learns to make decisions by <strong>interacting with an environment</strong>.
+                There is no labeled dataset: the agent tries actions, receives <strong>rewards or penalties</strong>
+                as feedback, and gradually learns which behavior maximizes the <strong>cumulative reward</strong>.
+            </p>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="border rounded-3 p-3 h-100">
+                        <span class="badge bg-secondary mb-2">Supervised</span>
+                        <p class="small text-muted mb-0">Learns from labeled examples (input &rarr; known answer).</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="border rounded-3 p-3 h-100">
+                        <span class="badge bg-info text-dark mb-2">Unsupervised</span>
+                        <p class="small text-muted mb-0">Finds hidden structure in unlabeled data.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="border border-2 border-teal rounded-3 p-3 h-100">
+                        <span class="badge bg-teal text-white mb-2">Reinforcement</span>
+                        <p class="small text-muted mb-0">Learns from rewards obtained by acting in an environment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Agent-Environment loop (diagram) -->
+        <div class="card card-custom p-4 mb-4 shadow-sm">
+            <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-arrow-repeat me-2 text-teal"></i>2. The Agent&ndash;Environment Loop</h5>
+            <p class="text-muted small mb-4">
+                Learning happens through a continuous cycle: the agent observes the current state,
+                chooses an action, and the environment answers with a new state and a reward.
+            </p>
+
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
+                <div class="flow-box">
+                    <i class="bi bi-robot fs-1 text-teal"></i>
+                    <div class="fw-bold">Agent</div>
+                    <small class="text-muted">Chooses actions</small>
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                    <span class="flow-label">Action a<sub>t</sub></span>
+                    <i class="bi bi-arrow-right fs-3 text-teal d-none d-md-block"></i>
+                    <i class="bi bi-arrow-down fs-3 text-teal d-md-none"></i>
+                </div>
+                <div class="flow-box">
+                    <i class="bi bi-grid-3x3-gap fs-1 text-teal"></i>
+                    <div class="fw-bold">Environment</div>
+                    <small class="text-muted">10 &times; 10 grid</small>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center mt-3">
+                <i class="bi bi-arrow-up fs-3 text-teal d-md-none"></i>
+                <span class="flow-label"><i class="bi bi-arrow-return-left me-1"></i>New state s<sub>t+1</sub> + Reward r<sub>t+1</sub></span>
+                <small class="text-muted mt-2">...and the cycle repeats until the episode ends.</small>
+            </div>
+        </div>
+
+        <!-- 3. Core elements -->
+        <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-puzzle me-2 text-teal"></i>3. Core Elements</h5>
+        <div class="row g-3 mb-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-custom p-3 shadow-sm h-100">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <div class="icon-circle"><i class="bi bi-robot"></i></div>
+                        <h6 class="fw-bold mb-0">Agent</h6>
+                    </div>
+                    <p class="text-muted small mb-0">The learner and decision maker that observes the state and selects actions.</p>
+                    <div class="exercise-note"><strong>In the exercise:</strong> the piece that starts at cell <strong>A</strong> and moves through the grid.</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-custom p-3 shadow-sm h-100">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <div class="icon-circle"><i class="bi bi-grid-3x3-gap"></i></div>
+                        <h6 class="fw-bold mb-0">Environment</h6>
+                    </div>
+                    <p class="text-muted small mb-0">Everything the agent interacts with. It applies the rules and returns feedback.</p>
+                    <div class="exercise-note"><strong>In the exercise:</strong> the 10 &times; 10 grid with walls, danger zones and a target.</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-custom p-3 shadow-sm h-100">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <div class="icon-circle"><i class="bi bi-geo-alt"></i></div>
+                        <h6 class="fw-bold mb-0">State (s)</h6>
+                    </div>
+                    <p class="text-muted small mb-0">A description of the current situation of the agent in the environment.</p>
+                    <div class="exercise-note"><strong>In the exercise:</strong> the agent's current cell (row, column).</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-custom p-3 shadow-sm h-100">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <div class="icon-circle"><i class="bi bi-arrows-move"></i></div>
+                        <h6 class="fw-bold mb-0">Action (a)</h6>
+                    </div>
+                    <p class="text-muted small mb-0">A move the agent can choose in a given state.</p>
+                    <div class="exercise-note"><strong>In the exercise:</strong> Up, Down, Left or Right.</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-custom p-3 shadow-sm h-100">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <div class="icon-circle"><i class="bi bi-trophy"></i></div>
+                        <h6 class="fw-bold mb-0">Reward (r)</h6>
+                    </div>
+                    <p class="text-muted small mb-0">A numeric signal that tells the agent how good its last action was.</p>
+                    <div class="exercise-note"><strong>In the exercise:</strong> a positive value for reaching <strong>T</strong>.</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-custom p-3 shadow-sm h-100">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <div class="icon-circle"><i class="bi bi-exclamation-octagon"></i></div>
+                        <h6 class="fw-bold mb-0">Penalty</h6>
+                    </div>
+                    <p class="text-muted small mb-0">A negative reward that discourages undesirable behavior.</p>
+                    <div class="exercise-note"><strong>In the exercise:</strong> entering a danger zone <strong>D</strong> (and, depending on the design, wasting steps).</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Environment legend table -->
+        <div class="card card-custom p-4 mb-4 shadow-sm">
+            <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-map me-2 text-teal"></i>4. The Exercise Environment (10 &times; 10)</h5>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle small mb-3">
+                    <thead class="table-light">
+                        <tr><th>Cell</th><th>Meaning</th><th class="text-center">Quantity</th><th>Behavior</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><span class="cell-chip" style="background:#0d6efd;">A</span></td><td>Agent start</td><td class="text-center">1</td><td>Where every episode begins.</td></tr>
+                        <tr><td><span class="cell-chip" style="background:#198754;">T</span></td><td>Target</td><td class="text-center">1</td><td>Reaching it ends the episode with the highest reward.</td></tr>
+                        <tr><td><span class="cell-chip" style="background:#94a3b8;">o</span></td><td>Normal path</td><td class="text-center">68</td><td>Free cell the agent can walk on.</td></tr>
+                        <tr><td><span class="cell-chip" style="background:#334155;">#</span></td><td>Wall</td><td class="text-center">20</td><td>Cannot be crossed.</td></tr>
+                        <tr><td><span class="cell-chip" style="background:#dc3545;">D</span></td><td>Danger zone</td><td class="text-center">10</td><td>Can be entered, but applies a penalty.</td></tr>
+                    </tbody>
+                    <tfoot class="table-light">
+                        <tr><th colspan="2">Total cells</th><th class="text-center">100</th><th></th></tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="alert alert-info small mb-0">
+                <i class="bi bi-info-circle me-1"></i>
+                Since the 20 walls cannot be entered, the agent can actually visit <strong>80 states</strong>.
+                The exact reward and penalty values used by our team are defined in the Application page.
+            </div>
+        </div>
+
+        <!-- 5. Learning concepts accordion -->
+        <div class="card card-custom p-4 mb-4 shadow-sm">
+            <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-lightbulb me-2 text-teal"></i>5. How the Agent Learns</h5>
+            <div class="accordion" id="conceptsAccordion">
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1">
+                            <i class="bi bi-signpost-split me-2 text-teal"></i>Policy (&pi;)
+                        </button>
+                    </h2>
+                    <div id="c1" class="accordion-collapse collapse show" data-bs-parent="#conceptsAccordion">
+                        <div class="accordion-body small text-muted">
+                            The strategy of the agent: a rule that maps each state to the action to take.
+                            Learning means improving the policy until it leads to the highest cumulative reward.
+                            <div class="exercise-note"><strong>In the exercise:</strong> the final policy picks, for every cell, the direction with the best Q-value, which produces the learned path from A to T.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">
+                            <i class="bi bi-1-circle me-2 text-teal"></i>Step
+                        </button>
+                    </h2>
+                    <div id="c2" class="accordion-collapse collapse" data-bs-parent="#conceptsAccordion">
+                        <div class="accordion-body small text-muted">
+                            One interaction cycle: the agent observes a state, takes an action, and receives the next state and a reward.
+                            <div class="exercise-note"><strong>In the exercise:</strong> each move to a neighboring cell is one step.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3">
+                            <i class="bi bi-flag me-2 text-teal"></i>Episode
+                        </button>
+                    </h2>
+                    <div id="c3" class="accordion-collapse collapse" data-bs-parent="#conceptsAccordion">
+                        <div class="accordion-body small text-muted">
+                            A complete sequence of steps from a start state until a terminal condition is reached.
+                            <div class="exercise-note"><strong>In the exercise:</strong> an episode starts at A and ends when the agent reaches T or the maximum number of steps is exhausted.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c4">
+                            <i class="bi bi-journal-text me-2 text-teal"></i>Experience
+                        </button>
+                    </h2>
+                    <div id="c4" class="accordion-collapse collapse" data-bs-parent="#conceptsAccordion">
+                        <div class="accordion-body small text-muted">
+                            The information collected in each step, usually stored as a tuple
+                            <strong>(s, a, r, s')</strong>: state, action, reward and next state. The agent learns from these transitions.
+                            <div class="exercise-note"><strong>In the exercise:</strong> (current cell, direction, reward, next cell).</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c5">
+                            <i class="bi bi-compass me-2 text-teal"></i>Exploration vs. Exploitation
+                        </button>
+                    </h2>
+                    <div id="c5" class="accordion-collapse collapse" data-bs-parent="#conceptsAccordion">
+                        <div class="accordion-body small text-muted">
+                            <strong>Exploration</strong> means trying random or less-known actions to discover new information.
+                            <strong>Exploitation</strong> means choosing the action that currently looks best.
+                            Too much exploration wastes time; too much exploitation can trap the agent in a mediocre route.
+                            <div class="exercise-note"><strong>In the exercise:</strong> early on the agent wanders and may hit danger zones; later it mostly follows the best-known route.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c6">
+                            <i class="bi bi-percent me-2 text-teal"></i>Epsilon-Greedy (&epsilon;)
+                        </button>
+                    </h2>
+                    <div id="c6" class="accordion-collapse collapse" data-bs-parent="#conceptsAccordion">
+                        <div class="accordion-body small text-muted">
+                            A strategy to balance exploration and exploitation: with probability <strong>&epsilon;</strong> the agent
+                            picks a random action, and with probability <strong>1 &minus; &epsilon;</strong> it picks the action with the highest Q-value.
+                            &epsilon; starts high and <strong>decays</strong> after each episode down to a minimum value.
+                            <div class="formula-box mt-2 text-center">&epsilon; &larr; max(&epsilon;<sub>min</sub>, &epsilon; &times; decay)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c7">
+                            <i class="bi bi-lightning me-2 text-teal"></i>Immediate Reward
+                        </button>
+                    </h2>
+                    <div id="c7" class="accordion-collapse collapse" data-bs-parent="#conceptsAccordion">
+                        <div class="accordion-body small text-muted">
+                            The reward <strong>r</strong> received right after taking an action. It only measures the short-term outcome of that single step.
+                            <div class="exercise-note"><strong>In the exercise:</strong> the value obtained when moving into an o, D or T cell.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c8">
+                            <i class="bi bi-cash-stack me-2 text-teal"></i>Return (G)
+                        </button>
+                    </h2>
+                    <div id="c8" class="accordion-collapse collapse" data-bs-parent="#conceptsAccordion">
+                        <div class="accordion-body small text-muted">
+                            The total (discounted) reward accumulated from a given step until the end of the episode. The agent aims to maximize the return, not just the immediate reward.
+                            <div class="formula-box mt-2 text-center">G<sub>t</sub> = r<sub>t+1</sub> + &gamma;r<sub>t+2</sub> + &gamma;&sup2;r<sub>t+3</sub> + ...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c9">
+                            <i class="bi bi-hourglass-split me-2 text-teal"></i>Discount Factor (&gamma;)
+                        </button>
+                    </h2>
+                    <div id="c9" class="accordion-collapse collapse" data-bs-parent="#conceptsAccordion">
+                        <div class="accordion-body small text-muted">
+                            A number between 0 and 1 that controls how much future rewards matter.
+                            Close to 0, the agent is short-sighted; close to 1, it values long-term rewards almost as much as immediate ones.
+                            <div class="exercise-note"><strong>In the exercise:</strong> a high &gamma; lets the reward at T "travel back" to the cells far from the target.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c10">
+                            <i class="bi bi-bar-chart-steps me-2 text-teal"></i>State Value V(s)
+                        </button>
+                    </h2>
+                    <div id="c10" class="accordion-collapse collapse" data-bs-parent="#conceptsAccordion">
+                        <div class="accordion-body small text-muted">
+                            The expected return when starting from state <strong>s</strong> and following the policy afterwards. It answers: "how good is it to be here?"
+                            <div class="exercise-note"><strong>In the exercise:</strong> cells close to T have a high V(s); cells next to danger zones have a lower one.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c11">
+                            <i class="bi bi-table me-2 text-teal"></i>Action Value Q(s, a)
+                        </button>
+                    </h2>
+                    <div id="c11" class="accordion-collapse collapse" data-bs-parent="#conceptsAccordion">
+                        <div class="accordion-body small text-muted">
+                            The expected return of taking action <strong>a</strong> in state <strong>s</strong> and then following the policy.
+                            It answers: "how good is this move from this cell?" The best action in a state is the one with the highest Q-value.
+                            <div class="exercise-note"><strong>In the exercise:</strong> each valid cell has four Q-values, one for Up, Down, Left and Right.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c12">
+                            <i class="bi bi-cpu me-2 text-teal"></i>Q-Learning
+                        </button>
+                    </h2>
+                    <div id="c12" class="accordion-collapse collapse" data-bs-parent="#conceptsAccordion">
+                        <div class="accordion-body small text-muted">
+                            A model-free algorithm that learns Q(s, a) from experience. After each step it moves its estimate toward a target built from the
+                            immediate reward plus the best discounted Q-value of the next state.
+                            <div class="formula-box mt-2 text-center">target = r + &gamma; &middot; max<sub>a'</sub> Q(s', a')</div>
+                            <div class="formula-box mt-2 text-center">Q(s,a) &larr; Q(s,a) + &alpha; [ target &minus; Q(s,a) ]</div>
+                            <div class="exercise-note"><strong>In the exercise:</strong> Q-values are updated incrementally after every transition, so the route to T is learned, not programmed manually.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 6. Training parameters table -->
+        <div class="card card-custom p-4 mb-4 shadow-sm">
+            <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-sliders me-2 text-teal"></i>6. Training Parameters</h5>
+            <div class="table-responsive">
+                <table class="table table-striped align-middle small mb-0">
+                    <thead class="table-light">
+                        <tr><th>Parameter</th><th>Symbol</th><th>What it controls</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Initial epsilon</td><td>&epsilon;</td><td>How much the agent explores at the beginning of training.</td></tr>
+                        <tr><td>Minimum epsilon</td><td>&epsilon;<sub>min</sub></td><td>The lowest exploration rate the agent will reach.</td></tr>
+                        <tr><td>Epsilon decay</td><td>decay</td><td>How fast exploration is reduced after each episode.</td></tr>
+                        <tr><td>Discount factor</td><td>&gamma;</td><td>The weight given to future rewards.</td></tr>
+                        <tr><td>Episodes</td><td>N</td><td>How many times the agent repeats the task to learn.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 7. Illustrative Q-table -->
+        <div class="card card-custom p-4 mb-4 shadow-sm">
+            <h5 class="fw-bold mb-2 text-dark"><i class="bi bi-table me-2 text-teal"></i>7. What Q-values Look Like</h5>
+            <p class="text-muted small mb-3">
+                After training, each state has one Q-value per action. The highest value (in green) is the move the policy will choose.
+            </p>
+            <div class="table-responsive">
+                <table class="table table-bordered text-center align-middle small mb-3">
+                    <thead class="table-light">
+                        <tr><th>State (row, col)</th><th>Up</th><th>Down</th><th>Left</th><th>Right</th><th>Best action</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>(0, 0)</td><td>0.12</td><td class="fw-bold text-success">0.45</td><td>0.10</td><td>0.31</td><td>Down</td></tr>
+                        <tr><td>(1, 0)</td><td>0.20</td><td>0.38</td><td>0.15</td><td class="fw-bold text-success">0.62</td><td>Right</td></tr>
+                        <tr><td>(1, 1)</td><td>0.18</td><td>-0.40</td><td>0.25</td><td class="fw-bold text-success">0.81</td><td>Right</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="alert alert-warning small mb-0">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                These numbers are only an <strong>illustration</strong>. The real Q-values are generated by training the agent in the Application page.
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="{{ url_for('home') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i>Back to Home
+            </a>
+            <a href="{{ url_for('rl_application') }}" class="btn btn-teal btn-sm">
+                Next: Train Agent <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="custom-footer mt-auto py-4">
+        <div class="container text-center">
+            <h6 class="footer-title mb-3">Data with Roots</h6>
+            <div class="footer-info d-flex flex-column gap-1">
+                <span>University of Cundinamarca</span>
+                <span>Systems and Computer Engineering</span>
+                <span>Machine Learning Group</span>
+                <span class="footer-year">2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q-Learning Application - Data with Roots</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts & Bootstrap Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Custom Project CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        :root {
+            --app-teal: #0d9488;
+            --app-teal-hover: #0f766e;
+        }
+        .btn-teal {
+            background-color: var(--app-teal);
+            color: #ffffff;
+            border: none;
+        }
+        .btn-teal:hover {
+            background-color: var(--app-teal-hover);
+            color: #ffffff;
+        }
+        .text-teal {
+            color: var(--app-teal) !important;
+        }
+        .border-teal {
+            border-color: var(--app-teal) !important;
+        }
+        .bg-teal-subtle {
+            background-color: rgba(13, 148, 136, 0.12) !important;
+        }
+        /* Grid Board styling */
+        .grid-board {
+            display: grid;
+            grid-template-columns: repeat(10, 42px);
+            grid-gap: 5px;
+            margin: 0 auto;
+            width: fit-content;
+        }
+        .grid-cell {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            transition: all 0.2s ease-in-out;
+        }
+        .cell-A { background-color: #0284c7; color: #ffffff; } /* Start */
+        .cell-T { background-color: #10b981; color: #ffffff; } /* Target */
+        .cell-wall { background-color: #1f2937; color: #ffffff; } /* Obstacle # */
+        .cell-danger { background-color: #ef4444; color: #ffffff; } /* Danger D */
+        .cell-o { background-color: #f9fafb; color: #9ca3af; } /* Path o */
+        .cell-path {
+            border: 3px solid #f59e0b !important;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
+            transform: scale(1.05);
+            z-index: 2;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="{{ url_for('home') }}">
+                <i class="bi bi-graph-up-arrow text-info"></i>
+                <span>Data with Roots</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-info fw-bold" href="#" id="reinforcementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Reinforcement
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-sm" aria-labelledby="reinforcementDropdown">
+                            <li class="dropdown-header text-teal fw-bold">REINFORCEMENT LEARNING</li>
+                            <li><a class="dropdown-item small" href="{{ url_for('rl_concepts') }}"><i class="bi bi-file-text me-2"></i>Concepts</a></li>
+                            <li><a class="dropdown-item small active" href="{{ url_for('rl_application') }}"><i class="bi bi-robot me-2"></i>Train Agent</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container my-5 flex-grow-1">
+
+        <!-- Header Card -->
+        <div class="card p-4 shadow-sm border-0 bg-white mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-teal text-white px-3 py-2 fs-6 rounded-pill fw-bold">Phase 4</span>
+                    <h3 class="h5 fw-bold mb-0 text-dark">Q-Learning Agent Application</h3>
+                </div>
+                <span class="badge bg-teal-subtle text-teal fw-semibold">10 &times; 10 Grid World</span>
+            </div>
+            <p class="text-muted small mb-0">
+                Train a reinforcement learning agent using tabular Q-Learning with an Epsilon-Greedy exploration policy to navigate from the start cell <code>A</code> to the goal <code>T</code> while avoiding hazards and obstacles.
+            </p>
+        </div>
+
+        <!-- Training Form & Environment Grid -->
+        <div class="row g-4 mb-4">
+            <!-- Training Controls Column -->
+            <div class="col-lg-5">
+                <div class="card p-4 border border-2 border-teal shadow-sm h-100 bg-white">
+                    <h5 class="fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-sliders text-teal"></i> Hyperparameters
+                    </h5>
+                    <form method="POST">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label class="form-label small fw-semibold">Episodes</label>
+                                <input type="number" name="episodes" class="form-control form-control-sm" value="{{ params.episodes }}" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-semibold">Learning Rate (&alpha;)</label>
+                                <input type="number" step="0.01" name="alpha" class="form-control form-control-sm" value="{{ params.alpha }}" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-semibold">Discount Factor (&gamma;)</label>
+                                <input type="number" step="0.01" name="gamma" class="form-control form-control-sm" value="{{ params.gamma }}" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-semibold">Initial Epsilon (&epsilon;)</label>
+                                <input type="number" step="0.01" name="epsilon" class="form-control form-control-sm" value="{{ params.epsilon }}" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-semibold">Min Epsilon (&epsilon; min)</label>
+                                <input type="number" step="0.01" name="epsilon_min" class="form-control form-control-sm" value="{{ params.epsilon_min }}" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-semibold">Epsilon Decay</label>
+                                <input type="number" step="0.001" name="epsilon_decay" class="form-control form-control-sm" value="{{ params.epsilon_decay }}" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-teal fw-bold w-100 mt-4 py-2 rounded-pill shadow-sm">
+                            <i class="bi bi-robot me-1"></i> Train Agent
+                        </button>
+                    </form>
+
+                    <!-- Legend -->
+                    <div class="mt-4 pt-3 border-top">
+                        <h6 class="fw-bold small text-muted text-uppercase mb-2">Environment Legend (100 Cells)</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-primary">A: Start (1)</span>
+                            <span class="badge bg-success">T: Target (1)</span>
+                            <span class="badge bg-dark">#: Wall / Obstacle (20)</span>
+                            <span class="badge bg-danger">D: Danger Zone (10)</span>
+                            <span class="badge bg-secondary">o: Open Path (68)</span>
+                            <span class="badge bg-warning text-dark border">Yellow Border: Learned Route</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Grid Representation -->
+            <div class="col-lg-7">
+                <div class="card p-4 shadow-sm border-0 bg-white h-100 d-flex flex-column justify-content-center">
+                    <h5 class="fw-bold mb-3 text-center">Visual Environment Map</h5>
+                    <div class="grid-board">
+                        {% for r in range(10) %}
+                            {% for c in range(10) %}
+                                {% set cell_idx = r * 10 + c %}
+                                {% set val = grid[r][c] %}
+                                {% set is_path = cell_idx in learned_path %}
+                                <div class="grid-cell 
+                                    {% if val == 'A' %}cell-A
+                                    {% elif val == 'T' %}cell-T
+                                    {% elif val == '#' %}cell-wall
+                                    {% elif val == 'D' %}cell-danger
+                                    {% else %}cell-o{% endif %}
+                                    {% if is_path %}cell-path{% endif %}"
+                                    title="Cell {{ cell_idx }} (Row: {{ r }}, Col: {{ c }})">
+                                    {{ val }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if results and evaluation %}
+        <!-- Metrics Section -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="card p-4 shadow-sm border-0 bg-white h-100">
+                    <h5 class="fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-graph-up text-teal"></i> Training Summary
+                    </h5>
+                    <ul class="list-group list-group-flush small">
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Total Episodes:</span> <strong>{{ results.total_episodes }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Successful Episodes:</span> <strong>{{ results.successful_episodes }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Success Rate:</span> <strong class="text-teal">{{ results.success_rate }}%</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Average Reward:</span> <strong>{{ results.avg_reward }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Final Epsilon (&epsilon;):</span> <strong>{{ results.final_epsilon }}</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card p-4 shadow-sm border-0 bg-white h-100">
+                    <h5 class="fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-check2-circle text-success"></i> Policy Evaluation (Greedy)
+                    </h5>
+                    <ul class="list-group list-group-flush small">
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Target Reached:</span>
+                            {% if evaluation.target_reached %}
+                                <span class="badge bg-success">YES</span>
+                            {% else %}
+                                <span class="badge bg-danger">NO</span>
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Steps in Learned Path:</span> <strong>{{ evaluation.total_moves }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Total Cumulative Reward:</span> <strong>{{ evaluation.total_reward }}</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step-by-Step Path History Table -->
+        <div class="card shadow-sm border-0 bg-white mb-4">
+            <div class="card-header bg-dark text-white py-3">
+                <h6 class="mb-0 fw-bold"><i class="bi bi-list-ol me-2"></i>Step-by-Step Route Evaluation</h6>
+            </div>
+            <div class="card-body p-0 table-responsive" style="max-height: 380px;">
+                <table class="table table-sm table-striped table-hover text-center align-middle mb-0">
+                    <thead class="table-light sticky-top">
+                        <tr>
+                            <th>Step</th>
+                            <th>Current State</th>
+                            <th>Action Taken</th>
+                            <th>Next State</th>
+                            <th>Cell Type</th>
+                            <th>Reward</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in evaluation.step_history %}
+                        <tr>
+                            <td>{{ s.step }}</td>
+                            <td>{{ s.state }}</td>
+                            <td><span class="badge bg-primary">{{ s.action }}</span></td>
+                            <td>{{ s.next_state }}</td>
+                            <td><code>{{ s.cell_type }}</code></td>
+                            <td>{{ s.reward }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Q-Values Table -->
+        <div class="card shadow-sm border-0 bg-white">
+            <div class="card-header bg-dark text-white py-3">
+                <h6 class="mb-0 fw-bold"><i class="bi bi-table me-2"></i>Q-Values Table by State</h6>
+            </div>
+            <div class="card-body p-0 table-responsive" style="max-height: 420px;">
+                <table class="table table-sm table-bordered table-hover text-center align-middle mb-0">
+                    <thead class="table-light sticky-top">
+                        <tr>
+                            <th>State</th>
+                            <th>Coords (Row, Col)</th>
+                            <th>Type</th>
+                            <th>Q(Up)</th>
+                            <th>Q(Down)</th>
+                            <th>Q(Left)</th>
+                            <th>Q(Right)</th>
+                            <th>Best Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for q in q_table %}
+                        <tr>
+                            <td>{{ q.state }}</td>
+                            <td>({{ q.row }}, {{ q.col }})</td>
+                            <td><code>{{ q.cell_type }}</code></td>
+                            <td>{{ q.up }}</td>
+                            <td>{{ q.down }}</td>
+                            <td>{{ q.left }}</td>
+                            <td>{{ q.right }}</td>
+                            <td><span class="badge bg-success">{{ q.best_action }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="custom-footer mt-auto py-4 bg-dark text-white border-top border-secondary">
+        <div class="container text-center">
+            <h6 class="footer-title mb-2 text-teal fw-bold">Data with Roots</h6>
+            <div class="footer-info d-flex flex-column gap-1 small text-light opacity-75">
+                <span>University of Cundinamarca</span>
+                <span>Systems and Computer Engineering</span>
+                <span>Machine Learning Group</span>
+                <span class="footer-year">2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
