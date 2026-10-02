@@ -7,7 +7,7 @@ policy evaluation, step-by-step path recording, and Q-value formatting.
 
 import numpy as np
 import random
-from rl_environment import GridWorld10x10
+from environment import MazeEnvironment10x10
 
 class QLearningAgent:
     def __init__(self, env, alpha=0.1, gamma=0.95, epsilon=1.0, epsilon_min=0.01, epsilon_decay=0.995):

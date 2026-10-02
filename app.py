@@ -11,7 +11,7 @@ from flask import Flask, render_template, request
 import LinearRegression
 import NaiveBayes
 import LogisticRegressionModel as logistic_model 
-from rl_environment import GridWorld10x10
+from environment import MazeEnvironment10x10
 from rl_agent import QLearningAgent
 
 app = Flask(__name__)
@@ -421,7 +421,7 @@ def rl_concepts():
 
 @app.route('/reinforcement-learning/application', methods=['GET', 'POST'])
 def rl_application():
-    env = GridWorld10x10()
+    env = MazeEnvironment10x10()
     grid_raw = env.grid.tolist()
 
     # Default hyperparameters
